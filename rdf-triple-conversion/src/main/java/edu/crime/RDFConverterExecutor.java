@@ -13,13 +13,13 @@ public class RDFConverterExecutor {
 
         //CSV File converter
         try {
-            /*
-            String csvFile = "C:\\Users\\Jeilones\\Google Drive\\Crime Project\\Yearly Data (Crime)\\2014_2.csv";
-            rdfConverter.readFiles("C:\\Users\\Jeilones\\Google Drive\\Crime Project\\Yearly Data (Crime)\\");
-            */
-            String csvFile = "C:\\Users\\Jeilones\\Google Drive\\Crime Project\\Yearly Data (Crime)\\ttl autogenaration temp\\2014.csv";
-            rdfConverter.readFiles("C:\\Users\\Jeilones\\Google Drive\\Crime Project\\Yearly Data (Crime)\\ttl autogenaration temp\\");
 
+            String csvFile = "C:\\Users\\Jeilones\\Google Drive\\Crime Project\\Processed Data By Year\\Test Folder\\2014.csv";
+            rdfConverter.readFiles("C:\\Users\\Jeilones\\Google Drive\\Crime Project\\Processed Data By Year\\Test Folder\\");
+
+            /*String csvFile = "C:\\Users\\Jeilones\\Google Drive\\Crime Project\\Processed Data By Year\\ttl autogenaration temp\\2014.csv";
+            rdfConverter.readFiles("C:\\Users\\Jeilones\\Google Drive\\Crime Project\\Processed Data By Year\\ttl autogenaration temp\\");
+*/
             rdfConverter.convertCVSToTTL(new File(csvFile), 1);
         } catch (RDFConverterException e) {
             e.printStackTrace();
@@ -28,7 +28,7 @@ public class RDFConverterExecutor {
         /*
         //CSV Folder converter
         try {
-            String csvFolder = "C:\\Users\\Jeilones\\Google Drive\\Crime Project\\Yearly Data (Crime)\\";
+            String csvFolder = "C:\\Users\\Jeilones\\Google Drive\\Crime Project\\Processed Data By Year\\";
             rdfConverter.convertCVSToTTL(csvFolder);
         } catch (RDFConverterException e) {
             e.printStackTrace();

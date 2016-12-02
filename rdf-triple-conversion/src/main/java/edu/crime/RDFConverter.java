@@ -46,7 +46,7 @@ public class RDFConverter {
         TURTLES_SYNTAXIS.put("Month","time:month \"(MONTH)\"^^xsd:integer;\n\ttime:year \"(YEAR)\"^^xsd:integer;");
         TURTLES_SYNTAXIS.put("ReportedBy","rdfs:comment");
         //TURTLES_SYNTAXIS.put("FallsWithin","NOT_DEFINED");
-        TURTLES_SYNTAXIS.put("Longitude","geo:lon");
+        TURTLES_SYNTAXIS.put("Longitude","geo:long");
         TURTLES_SYNTAXIS.put("Latitude","geo:lat");
         //TURTLES_SYNTAXIS.put("Location","NOT_DEFINED");
         TURTLES_SYNTAXIS.put("LSOACode","admingeo:hasAreaCode");
@@ -246,14 +246,14 @@ public class RDFConverter {
 
     public String createTTLHeader() {
         StringBuffer ttlHeader = new StringBuffer();
-        ttlHeader.append("PREFIX crime: <http://www.google.com/#>\n");
-        ttlHeader.append("PREFIX time: <http://www.w3.org/2006/time#>\n");
-        ttlHeader.append("PREFIX gn: <http://www.geonames.org/ontology#>\n");
-        ttlHeader.append("PREFIX xsd: <http://www.w3.org/2001/XMLSchema#>\n");
-        ttlHeader.append("PREFIX rdfs: <http://www.w3.org/2000/01/rdf-schema#>\n");
-        ttlHeader.append("PREFIX geo: <http://www.w3.org/2003/01/geo/wgs84_pos#>\n");
-        ttlHeader.append("PREFIX rdf: <http://www.w3.org/1999/02/22-rdf-syntax-ns#>\n");
-        ttlHeader.append("PREFIX admingeo: <http://data.ordnancesurvey.co.uk/ontology/admingeo#>\n");
+        ttlHeader.append("@prefix crime: <http://www.google.com/#>.\n");
+        ttlHeader.append("@prefix time: <http://www.w3.org/2006/time#>.\n");
+        ttlHeader.append("@prefix gn: <http://www.geonames.org/ontology#>.\n");
+        ttlHeader.append("@prefix xsd: <http://www.w3.org/2001/XMLSchema#>.\n");
+        ttlHeader.append("@prefix rdfs: <http://www.w3.org/2000/01/rdf-schema#>.\n");
+        ttlHeader.append("@prefix geo: <http://www.w3.org/2003/01/geo/wgs84_pos#>.\n");
+        ttlHeader.append("@prefix rdf: <http://www.w3.org/1999/02/22-rdf-syntax-ns#>.\n");
+        ttlHeader.append("@prefix admingeo: <http://data.ordnancesurvey.co.uk/ontology/admingeo#>.\n");
         ttlHeader.append("\n\n");
         return ttlHeader.toString();
     }

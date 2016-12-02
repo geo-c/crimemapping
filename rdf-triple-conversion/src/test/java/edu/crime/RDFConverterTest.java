@@ -21,7 +21,7 @@ public class RDFConverterTest {
 
 
     private final RDFConverter rdfConverter = new RDFConverter();
-    private final String folderLocation = "C:\\Users\\Jeilones\\Google Drive\\Crime Project\\Yearly Data (Crime)\\";
+    private final String folderLocation = "C:\\Users\\Jeilones\\Google Drive\\Crime Project\\Processed Data By Year\\";
 
     @Before
     public void readFile(){
@@ -111,7 +111,7 @@ public class RDFConverterTest {
         dataHashMap.put("Longitude","-0.111497");
 
         for(Map.Entry dataEntry:dataHashMap.entrySet()){
-            assertEquals("geo:lon \"-0.111497\";",rdfConverter.createTurtle(dataEntry));
+            assertEquals("geo:long \"-0.111497\";",rdfConverter.createTurtle(dataEntry));
         }
     }
 
@@ -156,7 +156,7 @@ public class RDFConverterTest {
         turtleHashMap.put("Month","time:month \"1\"^^xsd:integer;\n\ttime:year \"2014\"^^xsd:integer;");
         turtleHashMap.put("ReportedBy","rdfs:comment \"City of London Police\";");
         turtleHashMap.put("FallsWithin","NOT_DEFINE");
-        turtleHashMap.put("Longitude","geo:lon \"-0.113767\";");
+        turtleHashMap.put("Longitude","geo:long \"-0.113767\";");
         turtleHashMap.put("Latitude","geo:lat \"51.517372\";");
         turtleHashMap.put("Location","NOT_DEFINE");
         turtleHashMap.put("LSOACode","admingeo:hasAreaCode \"E01000914\";");
@@ -184,7 +184,7 @@ public class RDFConverterTest {
 
         StringBuffer turtleExpected = new StringBuffer();
         turtleExpected.append("crime:c945b7b6d42fa86b2c9012c59e63bda8902dc6eb6a5ca0e0199b50f983bb19e5\n");
-        turtleExpected.append("\tgeo:lon \"-0.113767\";\n");
+        turtleExpected.append("\tgeo:long \"-0.113767\";\n");
         turtleExpected.append("\tgeo:lat \"51.517372\";\n");
         turtleExpected.append("\ttime:month \"1\"^^xsd:integer;\n");
         turtleExpected.append("\ttime:year \"2014\"^^xsd:integer;\n");
@@ -203,14 +203,14 @@ public class RDFConverterTest {
     @Test
     public void createTTLHeader(){
         StringBuffer headerExpected = new StringBuffer();
-        headerExpected.append("PREFIX crime: <http://www.google.com/#>\n");
-        headerExpected.append("PREFIX time: <http://www.w3.org/2006/time#>\n");
-        headerExpected.append("PREFIX gn: <http://www.geonames.org/ontology#>\n");
-        headerExpected.append("PREFIX xsd: <http://www.w3.org/2001/XMLSchema#>\n");
-        headerExpected.append("PREFIX rdfs: <http://www.w3.org/2000/01/rdf-schema#>\n");
-        headerExpected.append("PREFIX geo: <http://www.w3.org/2003/01/geo/wgs84_pos#>\n");
-        headerExpected.append("PREFIX rdf: <http://www.w3.org/1999/02/22-rdf-syntax-ns#>\n");
-        headerExpected.append("PREFIX admingeo: <http://data.ordnancesurvey.co.uk/ontology/admingeo#>\n");
+        headerExpected.append("@prefix crime: <http://www.google.com/#>.\n");
+        headerExpected.append("@prefix time: <http://www.w3.org/2006/time#>.\n");
+        headerExpected.append("@prefix gn: <http://www.geonames.org/ontology#>.\n");
+        headerExpected.append("@prefix xsd: <http://www.w3.org/2001/XMLSchema#>.\n");
+        headerExpected.append("@prefix rdfs: <http://www.w3.org/2000/01/rdf-schema#>.\n");
+        headerExpected.append("@prefix geo: <http://www.w3.org/2003/01/geo/wgs84_pos#>.\n");
+        headerExpected.append("@prefix rdf: <http://www.w3.org/1999/02/22-rdf-syntax-ns#>.\n");
+        headerExpected.append("@prefix admingeo: <http://data.ordnancesurvey.co.uk/ontology/admingeo#>.\n");
         headerExpected.append("\n\n");
 
         assertEquals(headerExpected.toString(),rdfConverter.createTTLHeader());
@@ -220,8 +220,8 @@ public class RDFConverterTest {
     public void createTTLFile() throws RDFConverterException {
         final RDFConverter rdfConverter = new RDFConverter();
 
-        String csvFile = "C:\\Users\\Jeilones\\Google Drive\\Crime Project\\Yearly Data (Crime)\\ttl autogenaration temp\\2014.csv";
-        rdfConverter.readFiles("C:\\Users\\Jeilones\\Google Drive\\Crime Project\\Yearly Data (Crime)\\ttl autogenaration temp\\");
+        String csvFile = "C:\\Users\\Jeilones\\Google Drive\\Crime Project\\Processed Data By Year\\ttl autogenaration temp\\2014.csv";
+        rdfConverter.readFiles("C:\\Users\\Jeilones\\Google Drive\\Crime Project\\Processed Data By Year\\ttl autogenaration temp\\");
         rdfConverter.convertCVSToTTL(new File(csvFile), 1);
     }
 }
