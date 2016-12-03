@@ -1,0 +1,504 @@
+{
+  "head": {
+    "vars": [ "crime" , "lat" , "lon" ]
+  } ,
+  "results": {
+    "bindings": [
+      {
+        "crime": { "type": "uri" , "value": "http://www.google.com/#GL01201499" } ,
+        "lat": { "type": "literal" , "value": "51.511322" } ,
+        "lon": { "type": "literal" , "value": "-0.097213" }
+      } ,
+      {
+        "crime": { "type": "uri" , "value": "http://www.google.com/#GL01201498" } ,
+        "lat": { "type": "literal" , "value": "51.511322" } ,
+        "lon": { "type": "literal" , "value": "-0.097213" }
+      } ,
+      {
+        "crime": { "type": "uri" , "value": "http://www.google.com/#GL01201497" } ,
+        "lat": { "type": "literal" , "value": "51.517923" } ,
+        "lon": { "type": "literal" , "value": "-0.078488" }
+      } ,
+      {
+        "crime": { "type": "uri" , "value": "http://www.google.com/#GL01201496" } ,
+        "lat": { "type": "literal" , "value": "51.512678" } ,
+        "lon": { "type": "literal" , "value": "-0.079444" }
+      } ,
+      {
+        "crime": { "type": "uri" , "value": "http://www.google.com/#GL01201495" } ,
+        "lat": { "type": "literal" , "value": "51.511495" } ,
+        "lon": { "type": "literal" , "value": "-0.089582" }
+      } ,
+      {
+        "crime": { "type": "uri" , "value": "http://www.google.com/#GL01201494" } ,
+        "lat": { "type": "literal" , "value": "51.511625" } ,
+        "lon": { "type": "literal" , "value": "-0.081549" }
+      } ,
+      {
+        "crime": { "type": "uri" , "value": "http://www.google.com/#GL01201493" } ,
+        "lat": { "type": "literal" , "value": "51.514158" } ,
+        "lon": { "type": "literal" , "value": "-0.100179" }
+      } ,
+      {
+        "crime": { "type": "uri" , "value": "http://www.google.com/#GL01201492" } ,
+        "lat": { "type": "literal" , "value": "51.515142" } ,
+        "lon": { "type": "literal" , "value": "-0.097645" }
+      } ,
+      {
+        "crime": { "type": "uri" , "value": "http://www.google.com/#GL01201491" } ,
+        "lat": { "type": "literal" , "value": "51.515621" } ,
+        "lon": { "type": "literal" , "value": "-0.085086" }
+      } ,
+      {
+        "crime": { "type": "uri" , "value": "http://www.google.com/#GL01201490" } ,
+        "lat": { "type": "literal" , "value": "51.151282" } ,
+        "lon": { "type": "literal" , "value": "-0.080389" }
+      } ,
+      {
+        "crime": { "type": "uri" , "value": "http://www.google.com/#GL01201489" } ,
+        "lat": { "type": "literal" , "value": "51.517576" } ,
+        "lon": { "type": "literal" , "value": "-0.079786" }
+      } ,
+      {
+        "crime": { "type": "uri" , "value": "http://www.google.com/#GL01201488" } ,
+        "lat": { "type": "literal" , "value": "51.511021" } ,
+        "lon": { "type": "literal" , "value": "-0.079283" }
+      } ,
+      {
+        "crime": { "type": "uri" , "value": "http://www.google.com/#GL01201487" } ,
+        "lat": { "type": "literal" , "value": "51.510182" } ,
+        "lon": { "type": "literal" , "value": "-0.092865" }
+      } ,
+      {
+        "crime": { "type": "uri" , "value": "http://www.google.com/#GL01201486" } ,
+        "lat": { "type": "literal" , "value": "51.151265" } ,
+        "lon": { "type": "literal" , "value": "-0.101452" }
+      } ,
+      {
+        "crime": { "type": "uri" , "value": "http://www.google.com/#GL01201485" } ,
+        "lat": { "type": "literal" , "value": "51.510598" } ,
+        "lon": { "type": "literal" , "value": "-0.08312" }
+      } ,
+      {
+        "crime": { "type": "uri" , "value": "http://www.google.com/#GL01201484" } ,
+        "lat": { "type": "literal" , "value": "51.511165" } ,
+        "lon": { "type": "literal" , "value": "-0.100822" }
+      } ,
+      {
+        "crime": { "type": "uri" , "value": "http://www.google.com/#GL01201483" } ,
+        "lat": { "type": "literal" , "value": "51.513132" } ,
+        "lon": { "type": "literal" , "value": "-0.09071" }
+      } ,
+      {
+        "crime": { "type": "uri" , "value": "http://www.google.com/#GL01201482" } ,
+        "lat": { "type": "literal" , "value": "51.151118" } ,
+        "lon": { "type": "literal" , "value": "-0.073065" }
+      } ,
+      {
+        "crime": { "type": "uri" , "value": "http://www.google.com/#GL01201481" } ,
+        "lat": { "type": "literal" , "value": "51.511775" } ,
+        "lon": { "type": "literal" , "value": "-0.075389" }
+      } ,
+      {
+        "crime": { "type": "uri" , "value": "http://www.google.com/#GL01201480" } ,
+        "lat": { "type": "literal" , "value": "51.512856" } ,
+        "lon": { "type": "literal" , "value": "-0.073254" }
+      } ,
+      {
+        "crime": { "type": "uri" , "value": "http://www.google.com/#GL01201479" } ,
+        "lat": { "type": "literal" , "value": "51.514763" } ,
+        "lon": { "type": "literal" , "value": "-0.075508" }
+      } ,
+      {
+        "crime": { "type": "uri" , "value": "http://www.google.com/#GL01201478" } ,
+        "lat": { "type": "literal" , "value": "51.516193" } ,
+        "lon": { "type": "literal" , "value": "-0.078806" }
+      } ,
+      {
+        "crime": { "type": "uri" , "value": "http://www.google.com/#GL01201477" } ,
+        "lat": { "type": "literal" , "value": "51.151265" } ,
+        "lon": { "type": "literal" , "value": "-0.076044" }
+      } ,
+      {
+        "crime": { "type": "uri" , "value": "http://www.google.com/#GL01201476" } ,
+        "lat": { "type": "literal" , "value": "51.513647" } ,
+        "lon": { "type": "literal" , "value": "-0.07433" }
+      } ,
+      {
+        "crime": { "type": "uri" , "value": "http://www.google.com/#GL01201475" } ,
+        "lat": { "type": "literal" , "value": "51.515504" } ,
+        "lon": { "type": "literal" , "value": "-0.07627" }
+      } ,
+      {
+        "crime": { "type": "uri" , "value": "http://www.google.com/#GL01201474" } ,
+        "lat": { "type": "literal" , "value": "51.514763" } ,
+        "lon": { "type": "literal" , "value": "-0.075508" }
+      } ,
+      {
+        "crime": { "type": "uri" , "value": "http://www.google.com/#GL01201473" } ,
+        "lat": { "type": "literal" , "value": "51.514763" } ,
+        "lon": { "type": "literal" , "value": "-0.075508" }
+      } ,
+      {
+        "crime": { "type": "uri" , "value": "http://www.google.com/#GL01201472" } ,
+        "lat": { "type": "literal" , "value": "51.514763" } ,
+        "lon": { "type": "literal" , "value": "-0.075508" }
+      } ,
+      {
+        "crime": { "type": "uri" , "value": "http://www.google.com/#GL01201471" } ,
+        "lat": { "type": "literal" , "value": "51.515523" } ,
+        "lon": { "type": "literal" , "value": "-0.077451" }
+      } ,
+      {
+        "crime": { "type": "uri" , "value": "http://www.google.com/#GL01201470" } ,
+        "lat": { "type": "literal" , "value": "51.515728" } ,
+        "lon": { "type": "literal" , "value": "-0.078393" }
+      } ,
+      {
+        "crime": { "type": "uri" , "value": "http://www.google.com/#GL01201469" } ,
+        "lat": { "type": "literal" , "value": "51.516122" } ,
+        "lon": { "type": "literal" , "value": "-0.077224" }
+      } ,
+      {
+        "crime": { "type": "uri" , "value": "http://www.google.com/#GL01201468" } ,
+        "lat": { "type": "literal" , "value": "51.511775" } ,
+        "lon": { "type": "literal" , "value": "-0.075389" }
+      } ,
+      {
+        "crime": { "type": "uri" , "value": "http://www.google.com/#GL01201467" } ,
+        "lat": { "type": "literal" , "value": "51.151206" } ,
+        "lon": { "type": "literal" , "value": "-0.074613" }
+      } ,
+      {
+        "crime": { "type": "uri" , "value": "http://www.google.com/#GL01201466" } ,
+        "lat": { "type": "literal" , "value": "51.514763" } ,
+        "lon": { "type": "literal" , "value": "-0.075508" }
+      } ,
+      {
+        "crime": { "type": "uri" , "value": "http://www.google.com/#GL01201465" } ,
+        "lat": { "type": "literal" , "value": "51.514763" } ,
+        "lon": { "type": "literal" , "value": "-0.075508" }
+      } ,
+      {
+        "crime": { "type": "uri" , "value": "http://www.google.com/#GL01201464" } ,
+        "lat": { "type": "literal" , "value": "51.151265" } ,
+        "lon": { "type": "literal" , "value": "-0.076044" }
+      } ,
+      {
+        "crime": { "type": "uri" , "value": "http://www.google.com/#GL01201463" } ,
+        "lat": { "type": "literal" , "value": "51.511775" } ,
+        "lon": { "type": "literal" , "value": "-0.075389" }
+      } ,
+      {
+        "crime": { "type": "uri" , "value": "http://www.google.com/#GL01201462" } ,
+        "lat": { "type": "literal" , "value": "51.510414" } ,
+        "lon": { "type": "literal" , "value": "-0.073515" }
+      } ,
+      {
+        "crime": { "type": "uri" , "value": "http://www.google.com/#GL01201461" } ,
+        "lat": { "type": "literal" , "value": "51.513647" } ,
+        "lon": { "type": "literal" , "value": "-0.07433" }
+      } ,
+      {
+        "crime": { "type": "uri" , "value": "http://www.google.com/#GL01201460" } ,
+        "lat": { "type": "literal" , "value": "51.513647" } ,
+        "lon": { "type": "literal" , "value": "-0.07433" }
+      } ,
+      {
+        "crime": { "type": "uri" , "value": "http://www.google.com/#GL01201459" } ,
+        "lat": { "type": "literal" , "value": "51.516122" } ,
+        "lon": { "type": "literal" , "value": "-0.077224" }
+      } ,
+      {
+        "crime": { "type": "uri" , "value": "http://www.google.com/#GL01201458" } ,
+        "lat": { "type": "literal" , "value": "51.515523" } ,
+        "lon": { "type": "literal" , "value": "-0.077451" }
+      } ,
+      {
+        "crime": { "type": "uri" , "value": "http://www.google.com/#GL01201457" } ,
+        "lat": { "type": "literal" , "value": "51.514763" } ,
+        "lon": { "type": "literal" , "value": "-0.075508" }
+      } ,
+      {
+        "crime": { "type": "uri" , "value": "http://www.google.com/#GL01201456" } ,
+        "lat": { "type": "literal" , "value": "51.514763" } ,
+        "lon": { "type": "literal" , "value": "-0.075508" }
+      } ,
+      {
+        "crime": { "type": "uri" , "value": "http://www.google.com/#GL01201455" } ,
+        "lat": { "type": "literal" , "value": "51.151206" } ,
+        "lon": { "type": "literal" , "value": "-0.074613" }
+      } ,
+      {
+        "crime": { "type": "uri" , "value": "http://www.google.com/#GL01201454" } ,
+        "lat": { "type": "literal" , "value": "51.512856" } ,
+        "lon": { "type": "literal" , "value": "-0.073254" }
+      } ,
+      {
+        "crime": { "type": "uri" , "value": "http://www.google.com/#GL01201453" } ,
+        "lat": { "type": "literal" , "value": "51.515504" } ,
+        "lon": { "type": "literal" , "value": "-0.07627" }
+      } ,
+      {
+        "crime": { "type": "uri" , "value": "http://www.google.com/#GL01201452" } ,
+        "lat": { "type": "literal" , "value": "51.514763" } ,
+        "lon": { "type": "literal" , "value": "-0.075508" }
+      } ,
+      {
+        "crime": { "type": "uri" , "value": "http://www.google.com/#GL01201451" } ,
+        "lat": { "type": "literal" , "value": "51.520875" } ,
+        "lon": { "type": "literal" , "value": "-0.094033" }
+      } ,
+      {
+        "crime": { "type": "uri" , "value": "http://www.google.com/#GL01201450" } ,
+        "lat": { "type": "literal" , "value": "51.520789" } ,
+        "lon": { "type": "literal" , "value": "-0.095377" }
+      } ,
+      {
+        "crime": { "type": "uri" , "value": "http://www.google.com/#GL01201449" } ,
+        "lat": { "type": "literal" , "value": "51.520789" } ,
+        "lon": { "type": "literal" , "value": "-0.095377" }
+      } ,
+      {
+        "crime": { "type": "uri" , "value": "http://www.google.com/#GL01201448" } ,
+        "lat": { "type": "literal" , "value": "51.520747" } ,
+        "lon": { "type": "literal" , "value": "-0.096114" }
+      } ,
+      {
+        "crime": { "type": "uri" , "value": "http://www.google.com/#GL01201447" } ,
+        "lat": { "type": "literal" , "value": "51.521853" } ,
+        "lon": { "type": "literal" , "value": "-0.094468" }
+      } ,
+      {
+        "crime": { "type": "uri" , "value": "http://www.google.com/#GL01201446" } ,
+        "lat": { "type": "literal" , "value": "51.520747" } ,
+        "lon": { "type": "literal" , "value": "-0.096114" }
+      } ,
+      {
+        "crime": { "type": "uri" , "value": "http://www.google.com/#GL01201445" } ,
+        "lat": { "type": "literal" , "value": "51.516922" } ,
+        "lon": { "type": "literal" , "value": "-0.092093" }
+      } ,
+      {
+        "crime": { "type": "uri" , "value": "http://www.google.com/#GL01201444" } ,
+        "lat": { "type": "literal" , "value": "51.151792" } ,
+        "lon": { "type": "literal" , "value": "-0.092628" }
+      } ,
+      {
+        "crime": { "type": "uri" , "value": "http://www.google.com/#GL01201443" } ,
+        "lat": { "type": "literal" , "value": "51.52085" } ,
+        "lon": { "type": "literal" , "value": "-0.093057" }
+      } ,
+      {
+        "crime": { "type": "uri" , "value": "http://www.google.com/#GL01201442" } ,
+        "lat": { "type": "literal" , "value": "51.518619" } ,
+        "lon": { "type": "literal" , "value": "-0.088621" }
+      } ,
+      {
+        "crime": { "type": "uri" , "value": "http://www.google.com/#GL01201441" } ,
+        "lat": { "type": "literal" , "value": "51.519358" } ,
+        "lon": { "type": "literal" , "value": "-0.090348" }
+      } ,
+      {
+        "crime": { "type": "uri" , "value": "http://www.google.com/#GL01201440" } ,
+        "lat": { "type": "literal" , "value": "51.518619" } ,
+        "lon": { "type": "literal" , "value": "-0.088621" }
+      } ,
+      {
+        "crime": { "type": "uri" , "value": "http://www.google.com/#GL01201439" } ,
+        "lat": { "type": "literal" , "value": "51.518619" } ,
+        "lon": { "type": "literal" , "value": "-0.088621" }
+      } ,
+      {
+        "crime": { "type": "uri" , "value": "http://www.google.com/#GL01201438" } ,
+        "lat": { "type": "literal" , "value": "51.5193" } ,
+        "lon": { "type": "literal" , "value": "-0.093969" }
+      } ,
+      {
+        "crime": { "type": "uri" , "value": "http://www.google.com/#GL01201437" } ,
+        "lat": { "type": "literal" , "value": "51.519358" } ,
+        "lon": { "type": "literal" , "value": "-0.090348" }
+      } ,
+      {
+        "crime": { "type": "uri" , "value": "http://www.google.com/#GL01201436" } ,
+        "lat": { "type": "literal" , "value": "51.518619" } ,
+        "lon": { "type": "literal" , "value": "-0.088621" }
+      } ,
+      {
+        "crime": { "type": "uri" , "value": "http://www.google.com/#GL01201435" } ,
+        "lat": { "type": "literal" , "value": "51.519358" } ,
+        "lon": { "type": "literal" , "value": "-0.090348" }
+      } ,
+      {
+        "crime": { "type": "uri" , "value": "http://www.google.com/#GL01201434" } ,
+        "lat": { "type": "literal" , "value": "51.515005" } ,
+        "lon": { "type": "literal" , "value": "-0.093629" }
+      } ,
+      {
+        "crime": { "type": "uri" , "value": "http://www.google.com/#GL01201433" } ,
+        "lat": { "type": "literal" , "value": "51.518743" } ,
+        "lon": { "type": "literal" , "value": "-0.089596" }
+      } ,
+      {
+        "crime": { "type": "uri" , "value": "http://www.google.com/#GL01201432" } ,
+        "lat": { "type": "literal" , "value": "51.151792" } ,
+        "lon": { "type": "literal" , "value": "-0.092628" }
+      } ,
+      {
+        "crime": { "type": "uri" , "value": "http://www.google.com/#GL01201431" } ,
+        "lat": { "type": "literal" , "value": "51.520085" } ,
+        "lon": { "type": "literal" , "value": "-0.093057" }
+      } ,
+      {
+        "crime": { "type": "uri" , "value": "http://www.google.com/#GL01201430" } ,
+        "lat": { "type": "literal" , "value": "51.519812" } ,
+        "lon": { "type": "literal" , "value": "-0.093919" }
+      } ,
+      {
+        "crime": { "type": "uri" , "value": "http://www.google.com/#GL01201429" } ,
+        "lat": { "type": "literal" , "value": "51.518743" } ,
+        "lon": { "type": "literal" , "value": "-0.089596" }
+      } ,
+      {
+        "crime": { "type": "uri" , "value": "http://www.google.com/#GL01201428" } ,
+        "lat": { "type": "literal" , "value": "51.518743" } ,
+        "lon": { "type": "literal" , "value": "-0.089596" }
+      } ,
+      {
+        "crime": { "type": "uri" , "value": "http://www.google.com/#GL01201427" } ,
+        "lat": { "type": "literal" , "value": "51.518743" } ,
+        "lon": { "type": "literal" , "value": "-0.089596" }
+      } ,
+      {
+        "crime": { "type": "uri" , "value": "http://www.google.com/#GL01201426" } ,
+        "lat": { "type": "literal" , "value": "51.515606" } ,
+        "lon": { "type": "literal" , "value": "-0.094094" }
+      } ,
+      {
+        "crime": { "type": "uri" , "value": "http://www.google.com/#GL01201425" } ,
+        "lat": { "type": "literal" , "value": "51.520085" } ,
+        "lon": { "type": "literal" , "value": "-0.093057" }
+      } ,
+      {
+        "crime": { "type": "uri" , "value": "http://www.google.com/#GL01201424" } ,
+        "lat": { "type": "literal" , "value": "51.518077" } ,
+        "lon": { "type": "literal" , "value": "-0.093948" }
+      } ,
+      {
+        "crime": { "type": "uri" , "value": "http://www.google.com/#GL01201423" } ,
+        "lat": { "type": "literal" , "value": "51.518743" } ,
+        "lon": { "type": "literal" , "value": "-0.089596" }
+      } ,
+      {
+        "crime": { "type": "uri" , "value": "http://www.google.com/#GL01201422" } ,
+        "lat": { "type": "literal" , "value": "51.518743" } ,
+        "lon": { "type": "literal" , "value": "-0.089596" }
+      } ,
+      {
+        "crime": { "type": "uri" , "value": "http://www.google.com/#GL01201421" } ,
+        "lat": { "type": "literal" , "value": "51.518077" } ,
+        "lon": { "type": "literal" , "value": "-0.093948" }
+      } ,
+      {
+        "crime": { "type": "uri" , "value": "http://www.google.com/#GL01201420" } ,
+        "lat": { "type": "literal" , "value": "51.518743" } ,
+        "lon": { "type": "literal" , "value": "-0.089596" }
+      } ,
+      {
+        "crime": { "type": "uri" , "value": "http://www.google.com/#GL01201419" } ,
+        "lat": { "type": "literal" , "value": "51.518743" } ,
+        "lon": { "type": "literal" , "value": "-0.089596" }
+      } ,
+      {
+        "crime": { "type": "uri" , "value": "http://www.google.com/#GL01201418" } ,
+        "lat": { "type": "literal" , "value": "51.518077" } ,
+        "lon": { "type": "literal" , "value": "-0.093948" }
+      } ,
+      {
+        "crime": { "type": "uri" , "value": "http://www.google.com/#GL01201417" } ,
+        "lat": { "type": "literal" , "value": "51.520206" } ,
+        "lon": { "type": "literal" , "value": "-0.097736" }
+      } ,
+      {
+        "crime": { "type": "uri" , "value": "http://www.google.com/#GL01201416" } ,
+        "lat": { "type": "literal" , "value": "51.518864" } ,
+        "lon": { "type": "literal" , "value": "-0.097562" }
+      } ,
+      {
+        "crime": { "type": "uri" , "value": "http://www.google.com/#GL01201415" } ,
+        "lat": { "type": "literal" , "value": "51.518262" } ,
+        "lon": { "type": "literal" , "value": "-0.097053" }
+      } ,
+      {
+        "crime": { "type": "uri" , "value": "http://www.google.com/#GL01201414" } ,
+        "lat": { "type": "literal" , "value": "51.518262" } ,
+        "lon": { "type": "literal" , "value": "-0.097053" }
+      } ,
+      {
+        "crime": { "type": "uri" , "value": "http://www.google.com/#GL01201413" } ,
+        "lat": { "type": "literal" , "value": "51.516767" } ,
+        "lon": { "type": "literal" , "value": "-0.098572" }
+      } ,
+      {
+        "crime": { "type": "uri" , "value": "http://www.google.com/#GL01201412" } ,
+        "lat": { "type": "literal" , "value": "51.515225" } ,
+        "lon": { "type": "literal" , "value": "-0.097223" }
+      } ,
+      {
+        "crime": { "type": "uri" , "value": "http://www.google.com/#GL01201411" } ,
+        "lat": { "type": "literal" , "value": "51.52006" } ,
+        "lon": { "type": "literal" , "value": "-0.097736" }
+      } ,
+      {
+        "crime": { "type": "uri" , "value": "http://www.google.com/#GL01201410" } ,
+        "lat": { "type": "literal" , "value": "51.518864" } ,
+        "lon": { "type": "literal" , "value": "-0.097562" }
+      } ,
+      {
+        "crime": { "type": "uri" , "value": "http://www.google.com/#GL0120149" } ,
+        "lat": { "type": "literal" , "value": "51.520206" } ,
+        "lon": { "type": "literal" , "value": "-0.097736" }
+      } ,
+      {
+        "crime": { "type": "uri" , "value": "http://www.google.com/#GL0120148" } ,
+        "lat": { "type": "literal" , "value": "51.518864" } ,
+        "lon": { "type": "literal" , "value": "-0.097562" }
+      } ,
+      {
+        "crime": { "type": "uri" , "value": "http://www.google.com/#GL0120147" } ,
+        "lat": { "type": "literal" , "value": "51.518864" } ,
+        "lon": { "type": "literal" , "value": "-0.097562" }
+      } ,
+      {
+        "crime": { "type": "uri" , "value": "http://www.google.com/#GL0120146" } ,
+        "lat": { "type": "literal" , "value": "51.521567" } ,
+        "lon": { "type": "literal" , "value": "-0.097334" }
+      } ,
+      {
+        "crime": { "type": "uri" , "value": "http://www.google.com/#GL0120145" } ,
+        "lat": { "type": "literal" , "value": "51.515472" } ,
+        "lon": { "type": "literal" , "value": "-0.096348" }
+      } ,
+      {
+        "crime": { "type": "uri" , "value": "http://www.google.com/#GL0120144" } ,
+        "lat": { "type": "literal" , "value": "51.515307" } ,
+        "lon": { "type": "literal" , "value": "-0.097277" }
+      } ,
+      {
+        "crime": { "type": "uri" , "value": "http://www.google.com/#GL0120143" } ,
+        "lat": { "type": "literal" , "value": "51.520699" } ,
+        "lon": { "type": "literal" , "value": "-0.097601" }
+      } ,
+      {
+        "crime": { "type": "uri" , "value": "http://www.google.com/#GL0120142" } ,
+        "lat": { "type": "literal" , "value": "51.517372" } ,
+        "lon": { "type": "literal" , "value": "-0.113767" }
+      } ,
+      {
+        "crime": { "type": "uri" , "value": "http://www.google.com/#GL0120141" } ,
+        "lat": { "type": "literal" , "value": "51.517372" } ,
+        "lon": { "type": "literal" , "value": "-0.113767" }
+      }
+    ]
+  }
+}
