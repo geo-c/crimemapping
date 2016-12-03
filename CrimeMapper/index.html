@@ -2,7 +2,7 @@
 <html lang="de">
 <head>
     <meta charset="utf-8" />
-	<title>Crime GIS - Ifgi Course Project</title>
+	<title>CrimeMapper</title>
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <link rel="stylesheet" href="http://code.jquery.com/ui/1.11.4/themes/smoothness/jquery-ui.css">
     <link rel="stylesheet" href="http://cdn.leafletjs.com/leaflet/v1.0.0-beta.2/leaflet.css" />
@@ -15,52 +15,55 @@
     <script src="http://cdn.leafletjs.com/leaflet/v1.0.0-beta.2/leaflet.js"></script>
 	<script src="data/sparql.json"></script>
 	<script src="js/leaflet-heat.js"></script>
-	<script src="js/functionallity.js" type="text/javascript"></script>	
+	<script src="js/map.js" type="text/javascript"></script>
 	
 	<script type="text/javascript">
-$(document).ready(function(){
-	$("#Diagram").click(function(){
-	$("#map").hide();
-});
+        $(document).ready(function(){
+            $("#Diagram").click(function(){
+                $("#map").hide();
+            });
 
-$("#Mapped").click(function(){
-	$("#map").show();
-});
-});
+            $("#Mapped").click(function(){
+                $("#map").show();
+            });
+        });
 	</script>
 </head>
+
+
 <body>
 
-<div class="topTitle">
-   <p>Crime GIS<p>
-</div>
- <nav>
-  <ul>
-    <li><a class="active" id="Mapped">Map</a></li>
-    <li><a id="Diagram">Diagram</a></li>
-	<footer>
-	Data courtesy of London Police ...
-	</footer>
-  </ul>
-</nav>
+    <div class="topTitle">
+       <p>Crime GIS<p>
+    </div>
+     <nav>
+      <ul>
+        <li><a class="active" id="Mapped">Map</a></li>
+        <li><a id="Diagram">Diagram</a></li>
+        <footer>
+        Data courtesy of London Police ...
+        </footer>
+      </ul>
+    </nav>
 
-<header>
-<div class="informal">
- <button type="button" class="button" a href="javascript:void(0)" onclick="document.getElementById('show').style.display='block';document.getElementById('close').style.display='block'">About</a></button> 
-  <button type="button"class="button">Imprint</button> 
-  </div>
-</header>
+    <header>
+    <div class="informal">
+     <button type="button" class="button" a href="javascript:void(0)" onclick="document.getElementById('show').style.display='block';document.getElementById('close').style.display='block'">About</a></button>
+      <button type="button"class="button">Imprint</button>
+      </div>
+    </header>
 
 
-<section id="chartContainer" ></section>
+    <section id="chartContainer" ></section>
 
- <section id="map" >
-        <script src="js/functionallity.js"></script>
-</section>
+    <section id="map" ></section>
 
-  <div id="show" class="about_content">About. <a href="javascript:void(0)" onclick="document.getElementById('show').style.display='none';document.getElementById('close').style.display='none'">Close</a>
-  </div>
-  <div id="close" class="invisible_overlay"></div>
+    <div id="show" class="about_content">About. <a href="javascript:void(0)" onclick="document.getElementById('show').style.display='none';document.getElementById('close').style.display='none'">Close</a></div>
+    <div id="close" class="invisible_overlay"></div>
 
 </body>
+
+<script src="js/map.js"></script>
+<script src="js/diagram.js"></script>
+
 </html>
