@@ -1,3 +1,8 @@
+html, body {
+    overflow-y:hidden;
+    height:100%;
+}
+
 #map {
     width: 90%;
     height: 90%;
@@ -35,7 +40,7 @@ ul {
     width: 10vw;
     background-color: #f1f1f1;
     height: 100%; 
-    position: fixed; 
+    position: absolute;
     overflow: auto; 
 	border: 1px solid #555;
 }
