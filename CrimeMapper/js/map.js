@@ -1,3 +1,45 @@
+/*vars for parliament query*/
+var sparqlUrl = "http://giv-lodumdata.uni-muenster.de:8282/parliament/sparql?output=JSON&query=";
+/*Libraries*/
+var sqlPrefixes = "\
+PREFIX crime: <http://course.geoinfo2016.org/G3/>\n\
+PREFIX geo: <http://www.w3.org/2003/01/geo/wgs84_pos#>\n";
+
+
+function buildCrimeLocQuery(){
+	var query = sqlPrefixes + "\
+		SELECT ?crime ?lat ?lon\n\
+		WHERE { GRAPH <http://course.geoinfo2016.org/G3> {\n\
+		?crime geo:lat ?lat.\n\
+		?crime geo:long ?lon.\n\
+	}}";
+	console.log(query)
+	return query;
+}
+
+function askForCrimeLoc(query) {
+	var url = sparqlUrl + encodeURIComponent(query); // encodeURI is not enough as it doesn't enocde # for example.
+	 $.ajax({
+		dataType: "jsonp",
+		url: url,
+		success: function(data){
+		var JSONtext = data.responseJSON;
+		console.log(data.results.bindings)
+		},
+		error: function (ajaxContext) {
+        alert(ajaxContext.responseText)
+    }
+	});
+}
+
+  $(document).ready(function(){
+    $('#clickMe').click(function(){
+    askForCrimeLoc(buildCrimeLocQuery());
+    });
+  });
+
+/*vars for heatMap*/
+/**
 var CrimeLatLon = [];
 var CrimeHeat = [];
 
@@ -11,15 +53,11 @@ var jqxhr = $.getJSON( url, function() {
 	}).done(function() {
 		console.log("second success");
 		var JSONtext = jqxhr.responseJSON;
-		/*var CrimeLocation= JSON.parse(JSONtext);*/
 		console.log(JSONtext)
 		
 		for (var key in JSONtext){
-		CrimeLatLon.push(new coordinate(JSONtext[key].lon.value,JSONtext[key].lat.value));
+		CrimeLatLon.push(new coordinate(JSONtext[key].lat.value,JSONtext[key].lon.value));
 		}
-		/*for (var key in CrimeLocation.results.bindings){
-		CrimeLatLon.push(new coordinate(CrimeLocation.results.bindings[key].lat.value,CrimeLocation.results.bindings[key].lon.value));
-		}*/
 		
 		for (var i = 1; i < CrimeLatLon.length; i++) {
 			CrimeHeat.push([CrimeLatLon[i].x, CrimeLatLon[i].y,1])
@@ -34,7 +72,7 @@ var jqxhr = $.getJSON( url, function() {
 	}).always(function() {
 });
 
-
+*/
 
 /**
  *  Leaflet map
