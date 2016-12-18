@@ -1,6 +1,6 @@
 package edu.crime;
 
-import edu.crime.exceptions.RDFConverterException;
+import edu.crime.turtles.Crime;
 
 import java.io.File;
 
@@ -9,19 +9,21 @@ import java.io.File;
  */
 public class RDFConverterExecutor {
     public static void main(String[] args){
-        RDFConverter rdfConverter = new RDFConverter();
+        RDFConverter<Crime> rdfConverter = new RDFConverter(Crime.class);
 
         //CSV File converter
         try {
 
-            String csvFile = "C:\\Users\\Jeilones\\Google Drive\\Crime Project\\Processed Data By Year\\Test Folder\\2014.csv";
+            String csvFile = "C:\\Users\\Jeilones\\Google Drive\\Crime Project\\Processed Data By Year\\Test Folder\\2014_Final.csv";
             rdfConverter.readFiles("C:\\Users\\Jeilones\\Google Drive\\Crime Project\\Processed Data By Year\\Test Folder\\");
 
             /*String csvFile = "C:\\Users\\Jeilones\\Google Drive\\Crime Project\\Processed Data By Year\\ttl autogenaration temp\\2014.csv";
             rdfConverter.readFiles("C:\\Users\\Jeilones\\Google Drive\\Crime Project\\Processed Data By Year\\ttl autogenaration temp\\");
-*/
+            */
+
             rdfConverter.convertCVSToTTL(new File(csvFile), 1);
-        } catch (RDFConverterException e) {
+
+        } catch (Exception e) {
             e.printStackTrace();
         }
 
