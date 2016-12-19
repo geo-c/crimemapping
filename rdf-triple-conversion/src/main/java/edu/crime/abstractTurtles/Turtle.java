@@ -1,4 +1,4 @@
-package edu.crime.interfaces;
+package edu.crime.abstractTurtles;
 
 import edu.crime.exceptions.RDFFormatException;
 import edu.crime.exceptions.RDFNotDefinedException;
@@ -10,11 +10,11 @@ import java.util.Map;
 /**
  * Created by Jeilones on 10/12/2016.
  */
-public abstract class Turtleable {
+public abstract class Turtle {
 
     private int VALID_LENGTH;
 
-    protected Turtleable(int length){
+    protected Turtle(int length){
         this.VALID_LENGTH = length;
     }
 
@@ -60,6 +60,8 @@ public abstract class Turtleable {
 
                 turtle += "\n";
             }
+
+            turtle += "\n";
         } catch (RDFFormatException e) {
             throw new RDFTurtleCreatorException(e);
         } catch (RDFNotDefinedException e) {

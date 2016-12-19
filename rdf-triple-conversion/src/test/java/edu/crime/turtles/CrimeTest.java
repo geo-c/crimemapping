@@ -199,7 +199,7 @@ public class CrimeTest {
         turtleExpected.append("_:t012014\n");
         turtleExpected.append("\ttime:month \"--01\"^^xsd:gMonth;\n");
         turtleExpected.append("\ttime:year \"2014\"^^xsd:gYear.\n");
-
+        turtleExpected.append("\n");
 
         String turtleResult = crime.createTurtleDefinition(rdfConverter.splitRowEntry(rowEntry));
         assertEquals(turtleExpected.toString(), turtleResult);

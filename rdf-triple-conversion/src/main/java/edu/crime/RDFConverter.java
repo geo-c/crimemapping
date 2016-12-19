@@ -1,23 +1,23 @@
 package edu.crime;
 
 import edu.crime.exceptions.RDFConverterException;
-import edu.crime.exceptions.RDFFormatException;
-import edu.crime.exceptions.RDFNotDefinedException;
 import edu.crime.exceptions.RDFTurtleCreatorException;
-import edu.crime.interfaces.Turtleable;
+import edu.crime.abstractTurtles.Turtle;
+import edu.crime.turtles.Crime;
 
 import java.io.*;
-import java.util.*;
 
 /**
  * Created by Jeilones on 21/11/2016.
  */
-public class RDFConverter<T extends Turtleable>{
+public class RDFConverter<T extends Turtle>{
 
     public static final String EXPRESSION_CVS_SPLITTER = ",(?=([^\"]*\"[^\"]*\")*[^\"]*$)";
     private final Class<T> clazz;
     private File[] files;
     private String folderLocation;
+
+    private long MEGA_BYTES_LIMIT_SIZE = 30*1024*1024;
 
     public RDFConverter(Class<T> clazz) {
         this.clazz = clazz;
@@ -39,40 +39,19 @@ public class RDFConverter<T extends Turtleable>{
         return rowEntry.split(EXPRESSION_CVS_SPLITTER, -1);
     }
 
-    synchronized public String convertCVSToTTL(File csvFile, int indexFile) throws RDFConverterException {
+    synchronized public void convertCVSToTTL(File csvFile, int indexFile) throws RDFConverterException {
 
         BufferedReader br = null;
-        FileOutputStream fos = null;
 
-        String rowEntry = "";
         int rowEntryNumber = 0;
-        String ttlPath = folderLocation + csvFile.getName() + ".ttl";
+        int filesCounter = 0;
+
 
         try {
             T turtleDefinition = this.createTurtleDefinition();
-            //////Write TTL File
-            File file = new File(ttlPath);
-            if (!file.exists()) {
-                file.createNewFile();
-            }
-
-            fos = new FileOutputStream(file);
-            fos.write(createTTLHeader().getBytes());
-            fos.write(createCrimeTypes().getBytes());
-            fos.write(createCrimeClasses().getBytes());
-            ////
-
             br = new BufferedReader(new FileReader(csvFile));
-            while ((rowEntry = br.readLine()) != null) {
-                rowEntryNumber++;
 
-                if (rowEntryNumber > 1) {
-                    fos.write(turtleDefinition.createTurtleDefinition(splitRowEntry(rowEntry)).getBytes());
-                    fos.write("\n".getBytes());
-                }
-            }
-
-            fos.flush();
+            createSegmentedTTLFile(turtleDefinition, csvFile, br, filesCounter, rowEntryNumber);
         } catch (FileNotFoundException e) {
             throw new RDFConverterException("Row Entry: " + rowEntryNumber, e);
         } catch (IOException e) {
@@ -87,7 +66,49 @@ public class RDFConverter<T extends Turtleable>{
                     throw new RDFConverterException("Error in closing the BufferedReader. Row Entry: " + rowEntryNumber, e);
                 }
             }
+        }
+    }
 
+    private void createSegmentedTTLFile(T turtleDefinition, File csvFile, BufferedReader br, int filesCounter, int rowEntryNumber) throws RDFConverterException {
+        FileOutputStream fos = null;
+        String ttlPath = getTTLFileName(csvFile.getName(), filesCounter);
+        String rowEntry = "";
+        boolean isNecessaryNewFile = false;
+
+        try {
+            //////Write TTL File
+            File file = new File(ttlPath);
+            if (!file.exists()) {
+                file.createNewFile();
+            }
+
+            fos = new FileOutputStream(file);
+            fos.write(createTTLHeader().getBytes());
+            fos.write(createCrimeTypes().getBytes());
+            fos.write(createCrimeClasses().getBytes());
+            ////
+
+            while ((rowEntry = br.readLine()) != null) {
+                rowEntryNumber++;
+
+                if (rowEntryNumber > 1) {
+                    fos.write(turtleDefinition.createTurtleDefinition(splitRowEntry(rowEntry)).getBytes());
+                    fos.write("\n".getBytes());
+                }
+
+                if(isNecessaryNewFile = file.length() > MEGA_BYTES_LIMIT_SIZE){
+                    break;
+                }
+            }
+
+            fos.flush();
+        } catch (FileNotFoundException e) {
+            throw new RDFConverterException("Row Entry: " + rowEntryNumber, e);
+        } catch (IOException e) {
+            throw new RDFConverterException("Row Entry: " + rowEntryNumber, e);
+        } catch (RDFTurtleCreatorException e) {
+            throw new RDFConverterException("Row Entry: " + rowEntryNumber, e);
+        } finally {
             if (fos != null) {
                 try {
                     fos.close();
@@ -96,7 +117,14 @@ public class RDFConverter<T extends Turtleable>{
                 }
             }
         }
-        return ttlPath;
+
+        if(isNecessaryNewFile){
+            createSegmentedTTLFile(turtleDefinition, csvFile, br, ++filesCounter, rowEntryNumber);
+        }
+    }
+
+    private String getTTLFileName(String csvFileName, int filesCounter) {
+        return folderLocation + csvFileName + filesCounter +".ttl";
     }
 
     public String createTTLHeader() {

@@ -3,16 +3,14 @@ package edu.crime.turtles;
 import edu.crime.exceptions.RDFFormatException;
 import edu.crime.exceptions.RDFNotDefinedException;
 import edu.crime.exceptions.RDFTurtleCreatorException;
-import edu.crime.interfaces.Turtleable;
+import edu.crime.abstractTurtles.Turtle;
 
-import java.text.ParseException;
-import java.text.SimpleDateFormat;
 import java.util.*;
 
 /**
  * Created by Jeilones on 16/12/2016.
  */
-public class TimeTurtle extends Turtleable {
+public class TimeTurtle extends Turtle {
 
     private List<String> IDENTIFIERS = new ArrayList<String>();
     private String timeTurtle;

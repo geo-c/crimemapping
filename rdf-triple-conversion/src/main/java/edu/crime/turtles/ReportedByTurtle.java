@@ -3,7 +3,7 @@ package edu.crime.turtles;
 import edu.crime.exceptions.RDFFormatException;
 import edu.crime.exceptions.RDFNotDefinedException;
 import edu.crime.exceptions.RDFTurtleCreatorException;
-import edu.crime.interfaces.Turtleable;
+import edu.crime.abstractTurtles.Turtle;
 
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -13,7 +13,7 @@ import java.util.Map;
 /**
  * Created by Jeilones on 16/12/2016.
  */
-public class ReportedByTurtle extends Turtleable{
+public class ReportedByTurtle extends Turtle {
 
     private List<String> IDENTIFIERS = new ArrayList<String>();
     private String timeTurtle;

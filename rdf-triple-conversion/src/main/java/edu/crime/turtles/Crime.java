@@ -1,10 +1,9 @@
 package edu.crime.turtles;
 
-import com.google.inject.Inject;
 import edu.crime.exceptions.RDFFormatException;
 import edu.crime.exceptions.RDFNotDefinedException;
 import edu.crime.exceptions.RDFTurtleCreatorException;
-import edu.crime.interfaces.Turtleable;
+import edu.crime.abstractTurtles.Turtle;
 
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
@@ -13,11 +12,13 @@ import java.util.*;
 /**
  * Created by Jeilones on 10/12/2016.
  */
-public class Crime extends Turtleable{
+public class Crime extends Turtle {
 
     private List<String> IDENTIFIERS = new ArrayList<String>();
     private String timeTurtle;
     private String reportedByTurtle;
+    private Map<String,String> timeMap = new HashMap<>();
+    private Map<String,String> reportedByMap = new HashMap<>();
 
     {
         IDENTIFIERS.add("CrimeID");
@@ -94,7 +95,7 @@ public class Crime extends Turtleable{
 
     @Override
     public String createTurtleDefinition(String[] rowEntry) throws RDFTurtleCreatorException {
-        return super.createTurtleDefinition(rowEntry) + "\n" + this.reportedByTurtle + "\n" + this.timeTurtle;
+        return super.createTurtleDefinition(rowEntry) + this.reportedByTurtle + this.timeTurtle;
     }
 
 
@@ -127,17 +128,29 @@ public class Crime extends Turtleable{
 
     private String createCrimeReportedBy(String key, String value) throws RDFTurtleCreatorException {
         String reportedByTurtle = this.getSyntaxis().get(key);
+        try{
+            String[] reportedBy = value.trim().split(" ");
+            String reporterID = "";
+            for (String reporterSplitted : reportedBy) {
+                reporterID += reporterSplitted.substring(0,1).toUpperCase();
+            }
 
-        String[] reportedBy = value.trim().split(" ");
-        String reporterID = "";
-        for (String reporterSplitted : reportedBy) {
-            reporterID += reporterSplitted.substring(0,1).toUpperCase();
+            reportedByTurtle += reporterID + ";";
+
+            ReportedByTurtle reportedByTurtle1 = new ReportedByTurtle();
+            String[] reportedRowEntry = {value};
+            Map<String,String> localTimeMap = reportedByTurtle1.extractRowData(reportedRowEntry);
+            String reportedByID = localTimeMap.get("ReportedByID");
+
+            this.reportedByTurtle = "";
+
+            if(!this.reportedByMap.containsKey(reportedByID)){
+                this.reportedByTurtle = reportedByTurtle1.createTurtleDefinition(reportedRowEntry);
+                this.reportedByMap.put(reportedByID,this.reportedByTurtle);
+            }
+        } catch (RDFFormatException e) {
+            throw new RDFTurtleCreatorException(e);
         }
-
-        reportedByTurtle += reporterID + ";";
-
-        this.reportedByTurtle = new ReportedByTurtle().createTurtleDefinition(new String[]{value});
-
         return reportedByTurtle;
     }
 
@@ -180,8 +193,20 @@ public class Crime extends Turtleable{
             dateTurtle = dateTurtle.replace("(MONTH)", monthString)
                     .replace("(YEAR)",String.valueOf(year));
 
-            this.timeTurtle = new TimeTurtle().createTurtleDefinition(new String[]{monthString, String.valueOf(year)});
+            TimeTurtle timeTurtle = new TimeTurtle();
+            String[] timeRowEntry = {monthString, String.valueOf(year)};
+            Map<String,String> localTimeMap = timeTurtle.extractRowData(timeRowEntry);
+            String timeID = localTimeMap.get("TimeID");
+
+            this.timeTurtle = "";
+
+            if(!this.timeMap.containsKey(timeID)){
+                this.timeTurtle = timeTurtle.createTurtleDefinition(timeRowEntry);
+                this.timeMap.put(timeID,this.timeTurtle);
+            }
         } catch (ParseException e) {
+            throw new RDFTurtleCreatorException(e);
+        } catch (RDFFormatException e) {
             throw new RDFTurtleCreatorException(e);
         }
         return dateTurtle;
