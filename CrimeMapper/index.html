@@ -61,7 +61,7 @@
     <!-- Diagram --->
     <section id="diagramContainer" >
         <div class="dropdown">
-            <button onclick="myFunction()" class="dropbtn">Select a borough</button>
+            <button onclick="myFunction()" class="dropbtn" id="dropbtn">Select a borough</button>
             <div id="myDropdown" class="dropdown-content">
                 <button onclick="showDiagram('City_of_London')">City of London</button>
                 <button onclick="showDiagram('City_of_Westminster')">City of Westminster</button>
@@ -97,14 +97,9 @@
                 <button onclick="showDiagram('London_Borough_of_Waltham_Forest')">London Borough of Waltham Forest</button>
                 <button onclick="showDiagram('London_Borough_of_Wandsworth')">London Borough of Wandsworth</button>
 
-                <!-- todo
-                - namen richtig eintragen
-                - javascript function showDiagram mit unterscheidung für die Boroughs
-                - CSS kram
-                -->
             </div>
         </div>
-        <div id="barDiagram" style="position:relative"></div>
+        <div id="barDiagram"></div>
     </section>
 
     <section id="map" ></section>

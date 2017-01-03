@@ -2,9 +2,11 @@ function showDiagram (boroughName) {
 
     console.log(boroughName);
 
-    // todo: query to parliament/OCT
+    // todo: query to parliament/OCT depending on selected borough name
     // todo: parse the received json
 
+    // show selected borough name on button
+    document.getElementById("dropbtn").textContent=boroughName;
 
     var chart = c3.generate({
         bindto: '#barDiagram',
