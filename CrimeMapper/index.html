@@ -58,9 +58,53 @@
     </div>
     </header>
 
+    <!-- Diagram --->
+    <section id="diagramContainer" >
+        <div class="dropdown">
+            <button onclick="myFunction()" class="dropbtn">Select a borough</button>
+            <div id="myDropdown" class="dropdown-content">
+                <button onclick="showDiagram('City_of_London')">City of London</button>
+                <button onclick="showDiagram('City_of_Westminster')">City of Westminster</button>
+                <button onclick="showDiagram('London_Borough_of_Camden')">London Borough of Camden</button>
+                <button onclick="showDiagram('London_Borough_of_Islington')">London Borough of Islington</button>
+                <button onclick="showDiagram('London_Borough_of_Tower_Hamlets')">LondonBorough of Tower Hamlets</button>
+                <button onclick="showDiagram('London_Borough_of_Barking_and_Dagenham')">London Borough of Barking and Dagenham</button>
+                <button onclick="showDiagram('London_Borough_of_Barnet')">London Borough of Barnet</button>
+                <button onclick="showDiagram('London_Borough_of_Bexley')">London Borough of Bexley</button>
+                <button onclick="showDiagram('London_Borough_of_Brent')">London Borough of Brent</button>
+                <button onclick="showDiagram('London_Borough_of_Bromley')">London Borough of Bromley</button>
+                <button onclick="showDiagram('London_Borough_of_Croydon')">London Borough of Croydon</button>
+                <button onclick="showDiagram('London_Borough_of_Ealing')">London Borough of Ealing</button>
+                <button onclick="showDiagram('London_Borough_of_Enfield')">London Borough of Enfield</button>
+                <button onclick="showDiagram('Royal_Borough_of_Greenwich')">Royal Borough of Greenwich</button>
+                <button onclick="showDiagram('London_Borough_of_Hackney')">London Borough of Hackney</button>
+                <button onclick="showDiagram('London_Borough_of_Hammersmith_and_Fulham')">London Borough of Hammersmith and Fulham</button>
+                <button onclick="showDiagram('London_Borough_of_Haringey')">London Borough of Haringey</button>
+                <button onclick="showDiagram('London_Borough_of_Harrow')">London Borough of Harrow</button>
+                <button onclick="showDiagram('London_Borough_of_Havering')">London Borough of Havering</button>
+                <button onclick="showDiagram('London_Borough_of_Hillingdon')">London Borough of Hillingdon</button>
+                <button onclick="showDiagram('London_Borough_of_Hounslow')">London Borough of Hounslow</button>
+                <button onclick="showDiagram('Royal_Borough_of_Kensington_and_Chelsea')">Royal Borough of Kensington and Chelsea</button>
+                <button onclick="showDiagram('Royal_Borough_of_Kingston_upon_Thames')">Royal Borough of Kingston upon Thames</button>
+                <button onclick="showDiagram('London_Borough_of_Lambeth')">London Borough of Lambeth</button>
+                <button onclick="showDiagram('London_Borough_of_Lewisham')">London Borough of Lewisham</button>
+                <button onclick="showDiagram('London_Borough_of_Merton')">London Borough of Merton</button>
+                <button onclick="showDiagram('London_Borough_of_Newham')">London Borough of Newham</button>
+                <button onclick="showDiagram('London_Borough_of_Redbridge')">London Borough of Redbridge</button>
+                <button onclick="showDiagram('London_Borough_of_Richmond_upon_Thames')">London Borough of Richmond upon Thames</button>
+                <button onclick="showDiagram('London_Borough_of_Southwark')">London Borough of Southwark</button>
+                <button onclick="showDiagram('London_Borough_of_Sutton')">London Borough of Sutton</button>
+                <button onclick="showDiagram('London_Borough_of_Waltham_Forest')">London Borough of Waltham Forest</button>
+                <button onclick="showDiagram('London_Borough_of_Wandsworth')">London Borough of Wandsworth</button>
 
-    <section id="chartContainer" >
-        <div id="barDiagram"></div>
+                <!-- todo
+                - namen richtig eintragen
+                - javascript function showDiagram mit unterscheidung für die Boroughs
+                - CSS kram
+                -->
+            </div>
+        </div>
+        <div id="barDiagram" style="position:relative"></div>
     </section>
 
     <section id="map" ></section>
