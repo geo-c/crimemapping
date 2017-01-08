@@ -31,6 +31,18 @@
                 $("#map").show();
             });
         });
+		
+		$(function() {
+		$('a.link').click(function() {
+		$('a.link').removeClass('active');
+		$(this).addClass('active');
+   });
+});
+
+$(document).ready(function () {
+	document.getElementById("Mapped").click();
+});
+
 	</script>
 </head>
 
@@ -43,8 +55,8 @@
 
     <nav>
         <ul>
-            <li><a class="active" id="Mapped">Map</a></li>
-            <li><a id="Diagram">Diagram</a></li>
+            <li><a  class="link" id="Mapped">Map</a></li>
+            <li><a class="link" id="Diagram">Diagram</a></li>
             <footer>
             Data courtesy of London Police ...
             </footer>

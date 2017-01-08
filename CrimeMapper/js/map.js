@@ -1,10 +1,17 @@
 var boroughs;
+var CrimeLatLon = [];
+var CrimeHeat = [];
 /*vars for parliament query*/
 var sparqlUrl = "http://giv-lodumdata.uni-muenster.de:8282/parliament/sparql?output=JSON&query=";
 /*Libraries*/
 var sqlPrefixes = "\
 PREFIX crime: <http://course.geoinfo2016.org/G3/>\n\
 PREFIX geo: <http://www.w3.org/2003/01/geo/wgs84_pos#>\n";
+
+function coordinate(x, y) {
+    this.x = parseFloat(x);
+    this.y = y;
+}
 
 
 function buildCrimeLocQuery(){
@@ -13,31 +20,57 @@ function buildCrimeLocQuery(){
 		WHERE { GRAPH <http://course.geoinfo2016.org/G3> {\n\
 		?crime geo:lat ?lat.\n\
 		?crime geo:long ?lon.\n\
-	}}";
+	}}LIMIT 80000";
 	console.log(query)
 	return query;
 }
 
 function askForCrimeLoc(query) {
 	var url = sparqlUrl + encodeURIComponent(query); // encodeURI is not enough as it doesn't enocde # for example.
+	console.log(url);
 	 $.ajax({
 		dataType: "jsonp",
 		url: url,
+		/*Success*/
 		success: function(data){
-		var JSONtext = data.responseJSON;
-		console.log(data.results.bindings)
+		console.log(data)
+		var JSONtext = data;
+		console.log(JSONtext.results.bindings[1].lat.value);
 		},
+		/*error*/
 		error: function (ajaxContext) {
+		console.log(ajaxContext)
         alert(ajaxContext.responseText)
     }
+	}).done(function(JSONtext) {
+		console.log("done")		
+		for (var key in JSONtext.results.bindings){
+		CrimeLatLon.push(new coordinate(JSONtext.results.bindings[key].lat.value,JSONtext.results.bindings[key].lon.value));
+		}	
+		console.log(CrimeLatLon)
+		for (var i = 1; i < CrimeLatLon.length; i++) {
+			CrimeHeat.push([CrimeLatLon[i].x, CrimeLatLon[i].y,0.5])
+		}
+		var heat = L.heatLayer(CrimeHeat, {radius: 10})
+			.addTo(map);	
+	
 	});
 }
 
-  $(document).ready(function(){
-    $('#clickMe').click(function(){
+document.getElementById('clickMe').onclick = function(){
+	console.log("here");
     askForCrimeLoc(buildCrimeLocQuery());
-    });
-  });
+  };
+
+/*Next is for loading locally stored JSON of crimes in data folder */
+/*
+window.onload = function(){
+	$.getJSON("data/data", function(json) {
+	var data=json;
+    console.log(data.results.bindings[3].lat.value); 
+});
+};
+*/
 
 /*vars for heatMap*/
 /**
@@ -72,7 +105,6 @@ var jqxhr = $.getJSON( url, function() {
 			console.log( "error" );
 	}).always(function() {
 });
-
 */
 
 /**
@@ -109,7 +141,7 @@ var grayscale   = L.tileLayer(mbUrl, {id: 'mapbox.light', attribution: mbAttr}),
 var map = L.map('map', {
 	zoomControl : true,
 	layers: [streets] //default layer on startup of map
-}).setView([51.509865, -0.118092], 10); //default zoom and position (london)
+}).setView([51.300465, -0.118092], 11); //default zoom and position (london)
 
 var baseLayers = {
     "Grayscale": grayscale,
@@ -124,6 +156,5 @@ var baseLayers = {
 var overlays = {
     "Boroughs": boroughs //todo: fix boroughs variable scope so this will work
 };
-
 
 L.control.layers(baseLayers).addTo(map); 

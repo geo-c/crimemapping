@@ -1,14 +1,15 @@
 html, body {
     overflow:hidden;
     height:100%;
+	background-color:#f1f1f1;
 }
 
 #map {
-    width: 90%;
-    height: 90%;
+    width: 90vw;
+    height: 90vw;
     position: absolute;
     z-index: 2;
-	margin: 5% 10%;
+	margin: 5vw 10vw;
 	overflow: hidden;
 	border: 1px solid #555;
 }
@@ -23,9 +24,9 @@ html, body {
 }
 header{
 	z-index:1;
-	width:90%;
+	width:90vw;
 	height:5vw;
-	margin:-5% 10%;
+	margin: -5vw 10vw;
 	background-color: #f1f1f1;
 }
 
@@ -96,11 +97,12 @@ li a:hover:not(.active) {
 }
 
 .informal{
-	position:relative;
+	position:absolute;
 	left:60%;
 }
 
 .button{
+	position:relative;
 	background-color: #4CAF50; /* Green */
     color: white;
 	margin: 1em 3em;
