@@ -1,3 +1,4 @@
+var boroughs;
 /*vars for parliament query*/
 var sparqlUrl = "http://giv-lodumdata.uni-muenster.de:8282/parliament/sparql?output=JSON&query=";
 /*Libraries*/
@@ -77,22 +78,9 @@ var jqxhr = $.getJSON( url, function() {
 /**
  *  Leaflet map
  */
-var map = L.map('map', {
-	zoomControl : true
-}).setView([51.509865, -0.118092], 10);
-
-L.tileLayer('http://{s}.tile.osm.org/{z}/{x}/{y}.png', {
-	maxZoom : 18,
-	attribution : 'Map data &copy; <a href="http://openstreetmap.org">OpenStreetMap</a> contributors, ' +
-	'<a href="http://creativecommons.org/licenses/by-sa/2.0/">CC-BY-SA</a>, '
-	/* +
-	'Imagery <a href="http://mapbox.com">Mapbox</a>',
-	/*id : 'mapbox.streets'*/
-}).addTo(map);
-
 // add boroughs layer to map
 $.getJSON("data/london_boroughs.geojson",function(boroughData){
-    L.geoJson( boroughData, {
+    boroughs = L.geoJson( boroughData, {
         style: function(){
             return { color: "#1c1499", weight: 2, fillOpacity: .0 };
         }/*,
@@ -102,3 +90,40 @@ $.getJSON("data/london_boroughs.geojson",function(boroughData){
 		 }*/
     }).addTo(map);
 });
+
+
+var mbAttr = 'Map data &copy; <a href="http://openstreetmap.org">OpenStreetMap</a> contributors, ' +
+            '<a href="http://creativecommons.org/licenses/by-sa/2.0/">CC-BY-SA</a>, ' +
+            'Imagery © <a href="http://mapbox.com">Mapbox</a>',
+    mbUrl = 'https://api.tiles.mapbox.com/v4/{id}/{z}/{x}/{y}.png?access_token=pk.eyJ1IjoibmdhdmlzaCIsImEiOiJjaXFheHJmc2YwMDdoaHNrcWM4Yjhsa2twIn0.8i1Xxwd1XifUU98dGE9nsQ';
+
+var grayscale   = L.tileLayer(mbUrl, {id: 'mapbox.light', attribution: mbAttr}),
+    streets  = L.tileLayer(mbUrl, {id: 'mapbox.streets',   attribution: mbAttr}),
+    outdoors = L.tileLayer(mbUrl, {id: 'mapbox.outdoors', attribution: mbAttr}),
+    satellite = L.tileLayer(mbUrl, {id: 'mapbox.satellite', attribution: mbAttr}),
+    dark = L.tileLayer(mbUrl, {id: 'mapbox.dark', attribution: mbAttr}),
+    light = L.tileLayer(mbUrl, {id: 'mapbox.light', attribution: mbAttr}),
+    satellitestreets = L.tileLayer(mbUrl, {id: 'mapbox.streets-satellite', attribution: mbAttr})
+    ;
+
+var map = L.map('map', {
+	zoomControl : true,
+	layers: [streets] //default layer on startup of map
+}).setView([51.509865, -0.118092], 10); //default zoom and position (london)
+
+var baseLayers = {
+    "Grayscale": grayscale,
+    "Streets": streets,
+    "Outdoors": outdoors,
+    "Satellite": satellite,
+    "Satellite Streets": satellitestreets,
+    "Dark Map": dark,
+    "Light Map": light
+    };
+
+var overlays = {
+    "Boroughs": boroughs //todo: fix boroughs variable scope so this will work
+};
+
+
+L.control.layers(baseLayers).addTo(map); 
