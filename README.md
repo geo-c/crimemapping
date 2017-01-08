@@ -1,4 +1,4 @@
-# crimemapping
+# Crime Mapping
 
 To run index.html file locally, you can setup Python Simple HTTP Server.
 
