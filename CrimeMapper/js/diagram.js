@@ -7,7 +7,9 @@ function showDiagram (boroughName) {
 
     // show selected borough name on button
     document.getElementById("dropbtn").textContent=boroughName;
+    document.getElementById("barDiagram").style.removeProperty('padding-left');
 
+    // generate a c3 barDiagram
     var chart = c3.generate({
         bindto: '#barDiagram',
         data: {
@@ -47,8 +49,7 @@ function showDiagram (boroughName) {
             height: 480
         }
     });
-
-};
+}
 
 /* ============ Dropdown ==============*/
 /* Dropdown Button */
