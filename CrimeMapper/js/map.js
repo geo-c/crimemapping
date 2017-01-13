@@ -1,4 +1,3 @@
-var boroughs;
 var CrimeLatLon = [];
 var CrimeHeat = [];
 /*vars for parliament query*/
@@ -62,66 +61,7 @@ document.getElementById('clickMe').onclick = function(){
     askForCrimeLoc(buildCrimeLocQuery());
   };
 
-/*Next is for loading locally stored JSON of crimes in data folder */
-/*
-window.onload = function(){
-	$.getJSON("data/data", function(json) {
-	var data=json;
-    console.log(data.results.bindings[3].lat.value); 
-});
-};
-*/
 
-/*vars for heatMap*/
-/**
-var CrimeLatLon = [];
-var CrimeHeat = [];
-
-function coordinate(x, y) {
-    this.x = parseFloat(x);
-    this.y = y;
-}
-var url= "http://giv-oct.uni-muenster.de:8080/api/dataset/crimeLoc?authorization=eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJhcHBfbmFtZSI6IkNyaW1lIE1hcHBlciIsImlhdCI6MTQ4MDY3ODM5Nn0.G8E9xAK7OoXhjpmc2RPd4ZMzqbA-6P38rONMc4H6_Ng"
-var jqxhr = $.getJSON( url, function() {
-  	console.log( "success" );
-	}).done(function() {
-		console.log("second success");
-		var JSONtext = jqxhr.responseJSON;
-		console.log(JSONtext)
-		
-		for (var key in JSONtext){
-		CrimeLatLon.push(new coordinate(JSONtext[key].lat.value,JSONtext[key].lon.value));
-		}
-		
-		for (var i = 1; i < CrimeLatLon.length; i++) {
-			CrimeHeat.push([CrimeLatLon[i].x, CrimeLatLon[i].y,1])
-		}
-		console.log(CrimeHeat);
-		var heat = L.heatLayer(CrimeHeat, {radius: 20})
-			.addTo(map);
-			
-			
-	}).fail(function() {
-			console.log( "error" );
-	}).always(function() {
-});
-*/
-
-/**
- *  Leaflet map
- */
-// add boroughs layer to map
-$.getJSON("data/london_boroughs.geojson",function(boroughData){
-    boroughs = L.geoJson( boroughData, {
-        style: function(){
-            return { color: "#1c1499", weight: 2, fillOpacity: .0 };
-        }/*,
-		 // todo: show names of the boroughs?
-		 onEachFeature: function( feature, layer ){
-		 layer.bindPopup( "<strong>" + feature.properties.name + "</strong><br/>" )
-		 }*/
-    }).addTo(map);
-});
 
 
 var mbAttr = 'Map data &copy; <a href="http://openstreetmap.org">OpenStreetMap</a> contributors, ' +
@@ -143,6 +83,27 @@ var map = L.map('map', {
 	layers: [streets] //default layer on startup of map
 }).setView([51.300465, -0.118092], 11); //default zoom and position (london)
 
+/* Load geoJSON from file synchronously */
+
+function LoadGeoJSON(data) {
+        var json = null;
+        $.ajax({
+            async: false,
+            global: false,
+            url: data,
+            dataType: "json",
+            success: function (data) {
+                json = data;
+            }
+        });
+        return json;
+    }
+
+	var boroughs = LoadGeoJSON("data/london_boroughs.geojson");
+	boroughLayer = L.geoJson(boroughs).addTo(map);
+
+
+
 var baseLayers = {
     "Grayscale": grayscale,
     "Streets": streets,
@@ -154,7 +115,7 @@ var baseLayers = {
     };
 
 var overlays = {
-    "Boroughs": boroughs //todo: fix boroughs variable scope so this will work
-};
-
-L.control.layers(baseLayers).addTo(map); 
+    "Boroughs": boroughLayer //todo: fix boroughs variable scope so this will work
+}; 
+ 
+L.control.layers(baseLayers, overlays).addTo(map); 
