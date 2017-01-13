@@ -83,7 +83,7 @@ var map = L.map('map', {
 	layers: [streets] //default layer on startup of map
 }).setView([51.300465, -0.118092], 11); //default zoom and position (london)
 
-/* Load geoJSON from file synchronously */
+/* Load geoJSON from file synchronously (!)*/
 
 function LoadGeoJSON(data) {
         var json = null;
@@ -99,9 +99,74 @@ function LoadGeoJSON(data) {
         return json;
     }
 
-	var boroughs = LoadGeoJSON("data/london_boroughs.geojson");
-	boroughLayer = L.geoJson(boroughs).addTo(map);
+/*
+Determine color of borough polygon according to crime rate 
+*/
 
+function getColor(d) {
+    return d > 1000 ? '#800026' :
+           d > 500  ? '#BD0026' :
+           d > 200  ? '#E31A1C' :
+           d > 100  ? '#FC4E2A' :
+           d > 50   ? '#FD8D3C' :
+           d > 20   ? '#FEB24C' :
+           d > 10   ? '#FED976' :
+                      '#FFEDA0';
+}
+
+/*
+Set colors for borough layer
+*/
+function style(feature) {
+    return {
+        //fillColor: getColor(feature.properties.density),
+        weight: 2,
+        opacity: 1,
+        color: 'blue',
+        dashArray: '3',
+        fillOpacity: 0.2
+    };
+}
+
+var boroughs = LoadGeoJSON("data/london_boroughs.geojson"); //Do not move
+
+/*
+Interactivity functions when hovering
+*/
+function highlightFeature(e) {
+    var layer = e.target;
+
+    layer.setStyle({
+        weight: 5,
+        color: '#666',
+        dashArray: '',
+        fillOpacity: 0.7
+    });
+
+    if (!L.Browser.ie && !L.Browser.opera && !L.Browser.edge) {
+        layer.bringToFront();
+    }
+}
+function resetHighlight(e) {
+    boroughLayer.resetStyle(e.target);
+}
+
+function zoomToFeature(e) {
+    map.fitBounds(e.target.getBounds());
+}
+
+function onEachFeature(feature, layer) {
+    layer.on({
+        mouseover: highlightFeature,
+        mouseout: resetHighlight,
+        click: zoomToFeature
+    });
+}
+
+boroughLayer = L.geoJson(boroughs, {
+    style: style,
+    onEachFeature: onEachFeature
+}).addTo(map);
 
 
 var baseLayers = {
