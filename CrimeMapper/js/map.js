@@ -1,5 +1,10 @@
+/*vars for heatmap*/
 var CrimeLatLon = [];
 var CrimeHeat = [];
+/*Heatmap layer*/
+var heat = new L.LayerGroup();
+/*variable where the requestes JSON (data) will be stored in*/
+var JSONtext;
 /*vars for parliament query*/
 var sparqlUrl = "http://giv-lodumdata.uni-muenster.de:8282/parliament/sparql?output=JSON&query=";
 /*Libraries*/
@@ -7,60 +12,89 @@ var sqlPrefixes = "\
 PREFIX crime: <http://course.geoinfo2016.org/G3/>\n\
 PREFIX geo: <http://www.w3.org/2003/01/geo/wgs84_pos#>\n";
 
-function coordinate(x, y) {
-    this.x = parseFloat(x);
-    this.y = y;
-}
+/**
+next is for heatmap ONLY
+**/
 
-
+/*Function to build the SPARQL-query for the heatmap*/
 function buildCrimeLocQuery(){
 	var query = sqlPrefixes + "\
 		SELECT ?crime ?lat ?lon\n\
 		WHERE { GRAPH <http://course.geoinfo2016.org/G3> {\n\
 		?crime geo:lat ?lat.\n\
 		?crime geo:long ?lon.\n\
-	}}LIMIT 80000";
+	}}LIMIT 1000";
 	console.log(query)
 	return query;
 }
 
-function askForCrimeLoc(query) {
-	var url = sparqlUrl + encodeURIComponent(query); // encodeURI is not enough as it doesn't enocde # for example.
+/*function needed to to processing on the receives Crime coordinates*/
+function coordinate(x, y) {
+    this.x = parseFloat(x);
+    this.y = y;
+}
+
+/*function to create the heatmap layer*/
+function createHeatMap(JSONtext){
+		for (var key in JSONtext.results.bindings){
+		CrimeLatLon.push(new coordinate(JSONtext.results.bindings[key].lat.value,JSONtext.results.bindings[key].lon.value));
+		}	
+		for (var i = 1; i < CrimeLatLon.length; i++) {
+			CrimeHeat.push([CrimeLatLon[i].x, CrimeLatLon[i].y,0.5])
+		}
+		L.heatLayer(CrimeHeat, {radius: 10})
+			.addTo(heat);
+}
+
+/*If user presses Imprint Button with ID ClickMe, request is started)*/
+document.getElementById('clickMe').onclick = function(){
+	console.log("here");
+    askForData(buildCrimeLocQuery());
+  };
+  
+  /**
+Functions to build query for choropleth map (Nimrod)
+**/
+
+/*Function to build request*/
+function buildChoroplethQuery(){
+	var query = sqlPrefixes + ""; /*Put your query here,like in buildCrimeLocQuery() */
+	console.log(query)
+	return query;
+}
+/**
+Function for receiving the data from parliament.
+Function askForData needs a query and safes the received data is JSONtext variable.
+On  .done   the function calls for other functions needing the JSONtext. Such as the heatmap
+**/
+  
+
+function askForData(query) {
+	var url = sparqlUrl + encodeURIComponent(query); // parse the whole URL containing the query
 	console.log(url);
 	 $.ajax({
 		dataType: "jsonp",
 		url: url,
-		/*Success*/
+		/*On Success the data reveived from parialemt is stored in the variable JSONtext*/
 		success: function(data){
 		console.log(data)
 		var JSONtext = data;
-		console.log(JSONtext.results.bindings[1].lat.value);
 		},
-		/*error*/
+		/*On error exceptions will be printed in dialog box*/
 		error: function (ajaxContext) {
 		console.log(ajaxContext)
         alert(ajaxContext.responseText)
     }
+	/*When request is done (.done) do something with it*/
 	}).done(function(JSONtext) {
-		console.log("done")		
-		for (var key in JSONtext.results.bindings){
-		CrimeLatLon.push(new coordinate(JSONtext.results.bindings[key].lat.value,JSONtext.results.bindings[key].lon.value));
-		}	
-		console.log(CrimeLatLon)
-		for (var i = 1; i < CrimeLatLon.length; i++) {
-			CrimeHeat.push([CrimeLatLon[i].x, CrimeLatLon[i].y,0.5])
-		}
-		var heat = L.heatLayer(CrimeHeat, {radius: 10})
-			.addTo(map);	
-	
+console.log("done");	
+	createHeatMap(JSONtext);
 	});
 }
 
-document.getElementById('clickMe').onclick = function(){
-	console.log("here");
-    askForCrimeLoc(buildCrimeLocQuery());
-  };
-
+  /**
+  Leaflet Map properties and functions
+  **/
 
 
 
@@ -180,7 +214,8 @@ var baseLayers = {
     };
 
 var overlays = {
-    "Boroughs": boroughLayer //todo: fix boroughs variable scope so this will work
+    "Boroughs": boroughLayer, //todo: fix boroughs variable scope so this will work
+	"Heatmap": heat
 }; 
  
 L.control.layers(baseLayers, overlays).addTo(map); 
