@@ -172,6 +172,10 @@ function askForData(query, processData, asynchronous) {
 		success: function(data){
 		console.log(data)
 		var JSONtext = data;
+		/*Used to show JSON crime points data and 33 borough results in a new window
+		//var url = 'data:text/jsonp;charset=utf8,' + encodeURIComponent(JSON.stringify(data));
+		//window.open(url, '_blank');
+		//window.focus(); */
 		},
 		/*On error exceptions will be printed in dialog box*/
 		error: function (ajaxContext) {
@@ -234,13 +238,13 @@ Determine color of borough polygon according to crime rate, (C) color brewer
 */
 
 function getColor(d) {
-    return d > 1000 ? '#800026' :
-           d > 500  ? '#BD0026' :
-           d > 200  ? '#E31A1C' :
-           d > 100  ? '#FC4E2A' :
-           d > 50   ? '#FD8D3C' :
-           d > 20   ? '#FEB24C' :
-           d > 10   ? '#FED976' :
+    return d > 782 ? '#b10026' :
+           d > 105  ? '#e31a1c' :
+           d > 90  ? '#fc4e2a' :
+           d > 82  ? '#fd8d3c' :
+           d > 74   ? '#feb24c' :
+           d > 62   ? '#fed976' :
+           d > 52   ? '#ffffb2' :
                       '#FFEDA0';
 }
 
@@ -249,16 +253,16 @@ Set colors for borough layer
 */
 function style(feature) {
     return {
-        //fillColor: getColor(feature.properties.density),
+        fillColor: getColor(feature.properties.crime_rate),
         weight: 2,
         opacity: 1,
-        color: 'blue',
-        dashArray: '3',
-        fillOpacity: 0.2
+        color: 'black',
+        dashArray: '0.1',
+        fillOpacity: 0.6
     };
 }
 
-var boroughs = LoadGeoJSON("data/london_boroughs.geojson"); //Do not move
+var boroughs = LoadGeoJSON("data/london_boroughs_crime.geojson"); //Do not move
 
 /*
 Interactivity functions when hovering
@@ -315,9 +319,9 @@ info.update = function (props) {
     this._div.innerHTML = '<h4>Borough Information</h4>' +  (props ?
         '<b>' + props.name + '</b><br />' +
 		(crimeIndexRateMap[props.name]? 
-			'Population: ' + crimeIndexRateMap[props.name].population + '<br />' +
-			'Income: ' + crimeIndexRateMap[props.name].income + '<br />' +
-			'Crime Rate Per 1,000 Inhabitants: ' + crimeIndexRateMap[props.name].crimeIndexRate + '<br />'
+			'Population: ' + crimeIndexRateMap[props.name].population.toLocaleString() + '<br />' +
+			'Income: ' + crimeIndexRateMap[props.name].income.toLocaleString() + '<br />' +
+			'Crime Rate Per 1,000 Inhabitants: ' + crimeIndexRateMap[props.name].crimeIndexRate.toLocaleString() + '<br />'
 		: '')
         : 'Hover over a borough');
 };
@@ -338,7 +342,7 @@ var baseLayers = {
 
 var overlays = {
     "Boroughs": boroughLayer, //todo: fix boroughs variable scope so this will work
-	"Heatmap": heat
+	"Heat Map": heat
 }; 
  
 L.control.layers(baseLayers, overlays).addTo(map); 
