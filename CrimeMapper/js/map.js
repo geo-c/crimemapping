@@ -199,7 +199,7 @@ function LoadGeoJSON(data) {
     }
 
 /*
-Determine color of borough polygon according to crime rate 
+Determine color of borough polygon according to crime rate, (C) color brewer 
 */
 
 function getColor(d) {
@@ -234,6 +234,7 @@ Interactivity functions when hovering
 */
 function highlightFeature(e) {
     var layer = e.target;
+    info.update(layer.feature.properties);
 
     layer.setStyle({
         weight: 5,
@@ -248,6 +249,7 @@ function highlightFeature(e) {
 }
 function resetHighlight(e) {
     boroughLayer.resetStyle(e.target);
+    info.update();
 }
 
 function zoomToFeature(e) {
@@ -267,6 +269,26 @@ boroughLayer = L.geoJson(boroughs, {
     onEachFeature: onEachFeature
 }).addTo(map);
 
+/* Control & Legend functions */
+
+var info = L.control();
+
+info.onAdd = function (map) {
+    this._div = L.DomUtil.create('div', 'info'); // create a div with a class "info"
+    this.update();
+    return this._div;
+};
+
+// method used to update the control based on feature properties passed
+info.update = function (props) {
+    this._div.innerHTML = '<h4>Crime Rate Per 1,000 Inhabitants</h4>' +  (props ?
+        '<b>' + props.name + '</b><br />'
+        : 'Hover over a state');
+};
+
+info.addTo(map);
+
+/*Finalizing Map */
 
 var baseLayers = {
     "Grayscale": grayscale,
