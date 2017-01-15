@@ -1,6 +1,8 @@
 /*vars for heatmap*/
 var CrimeLatLon = [];
 var CrimeHeat = [];
+/*vars for boroughs layer*/
+var crimeIndexRateMap = new Object();
 /*Heatmap layer*/
 var heat = new L.LayerGroup();
 /*variable where the requestes JSON (data) will be stored in*/
@@ -77,6 +79,16 @@ function coordinate(x, y) {
     this.y = y;
 }
 
+/*function needed to to processing on the receives Borough information*/
+function boroughObject(code, name, incomeVal, populationVal, crimeCountVal, crimeIndexRateVal) {
+    this.boroughCode = code;
+	this.boroughDBPediaName = name;
+	this.income = incomeVal;
+	this.population = populationVal;
+	this.crimeCount = crimeCountVal;
+	this.crimeIndexRate = crimeIndexRateVal;
+}
+
 /*function to create the heatmap layer*/
 function createHeatMap(JSONtext){
 		for (var key in JSONtext.results.bindings){
@@ -91,19 +103,34 @@ function createHeatMap(JSONtext){
 			.addTo(heat);
 }
 
+/*Replace all ocurrencies*/
+function replaceAll(str, find, replace) {
+  return str.replace(new RegExp(find, 'g'), replace);
+}
+
 /*function to create the Crime Index Rate layer*/
 function createCrimeIndexRateMap(JSONtext){
+		crimeIndexRateMap = new Object();
 		
 		for (var key in JSONtext.results.bindings){
 			var boroughCode = JSONtext.results.bindings[key].code.value;
 			var boroughDBPediaName = JSONtext.results.bindings[key].borough.value;
-			//var income = parseFloat(JSONtext.results.bindings[key].incomeVal.value);
+			var income = parseFloat(JSONtext.results.bindings[key].incomeVal.value);
 			var population = parseInt(JSONtext.results.bindings[key].populationVal.value);
 			var crimeCount = parseInt(JSONtext.results.bindings[key].crime_count.value);
-			var crimeIndexRate = parseInt(JSONtext.results.bindings[key].crimeIndex.value);
+			//var crimeIndexRate = parseInt(JSONtext.results.bindings[key].crimeIndexRate.value); //calculating the index rate in parliament is missing the decimals 
+			var crimeIndexRate = (crimeCount / population) * 1000;
+			crimeIndexRate = Math.round(crimeIndexRate * 100) / 100
 			
-			console.log("CIR of " + boroughDBPediaName + ":" + crimeIndexRate)
+			var borough = new boroughObject(boroughCode, boroughDBPediaName, income, population, crimeCount, crimeIndexRate);
 			
+			var shortName = replaceAll(borough.boroughDBPediaName,"http://dbpedia.org/page/","");
+			shortName = replaceAll(shortName,"London_Borough_of_","");
+			shortName = replaceAll(shortName,"Royal_Borough_of_","");
+			shortName = replaceAll(shortName,"_"," ");
+			
+			crimeIndexRateMap[shortName] = borough;
+			//console.log("CIR of " + shortName + ": " + crimeIndexRate)
 		}	
 		
 		/*L.heatLayer(CrimeHeat, {radius: 10})
@@ -113,8 +140,8 @@ function createCrimeIndexRateMap(JSONtext){
 /*If user presses Imprint Button with ID ClickMe, request is started)*/
 document.getElementById('clickMe').onclick = function(){
 	console.log("here");
-    askForData(buildCrimeLocQuery(), createHeatMap);
-	askForData(buildCrimeIndexRateQuery(), createCrimeIndexRateMap);
+	var async = true;
+    askForData(buildCrimeLocQuery(), createHeatMap, async);
   };
   
   /**
@@ -134,10 +161,11 @@ On  .done   the function calls for other functions needing the JSONtext. Such as
 **/
   
 
-function askForData(query, processData) {
+function askForData(query, processData, asynchronous) {
 	var url = sparqlUrl + encodeURIComponent(query); // parse the whole URL containing the query
 	console.log(url);
 	 $.ajax({
+		async: asynchronous,
 		dataType: "jsonp",
 		url: url,
 		/*On Success the data reveived from parialemt is stored in the variable JSONtext*/
@@ -185,18 +213,21 @@ var map = L.map('map', {
 /* Load geoJSON from file synchronously (!)*/
 
 function LoadGeoJSON(data) {
-        var json = null;
-        $.ajax({
-            async: false,
-            global: false,
-            url: data,
-            dataType: "json",
-            success: function (data) {
-                json = data;
-            }
-        });
-        return json;
-    }
+	var json = null;
+	$.ajax({
+		async: false,
+		global: false,
+		url: data,
+		dataType: "json",
+		success: function (data) {
+			var async = false;
+			askForData(buildCrimeIndexRateQuery(), createCrimeIndexRateMap, async);
+	
+			json = data;
+		}
+	});
+	return json;
+}
 
 /*
 Determine color of borough polygon according to crime rate, (C) color brewer 
@@ -281,9 +312,14 @@ info.onAdd = function (map) {
 
 // method used to update the control based on feature properties passed
 info.update = function (props) {
-    this._div.innerHTML = '<h4>Crime Rate Per 1,000 Inhabitants</h4>' +  (props ?
-        '<b>' + props.name + '</b><br />'
-        : 'Hover over a state');
+    this._div.innerHTML = '<h4>Borough Information</h4>' +  (props ?
+        '<b>' + props.name + '</b><br />' +
+		(crimeIndexRateMap[props.name]? 
+			'Population: ' + crimeIndexRateMap[props.name].population + '<br />' +
+			'Income: ' + crimeIndexRateMap[props.name].income + '<br />' +
+			'Crime Rate Per 1,000 Inhabitants: ' + crimeIndexRateMap[props.name].crimeIndexRate + '<br />'
+		: '')
+        : 'Hover over a borough');
 };
 
 info.addTo(map);
