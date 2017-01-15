@@ -7,10 +7,25 @@ var heat = new L.LayerGroup();
 var JSONtext;
 /*vars for parliament query*/
 var sparqlUrl = "http://giv-lodumdata.uni-muenster.de:8282/parliament/sparql?output=JSON&query=";
-/*Libraries*/
+
+/*vocabulary/prefixes*/
 var sqlPrefixes = "\
 PREFIX crime: <http://course.geoinfo2016.org/G3/>\n\
-PREFIX geo: <http://www.w3.org/2003/01/geo/wgs84_pos#>\n";
+PREFIX dbpedia-page: <http://dbpedia.org/page/>\n\
+PREFIX dbpedia: <http://dbpedia.org/ontology/>\n\
+PREFIX time: <http://www.w3.org/2006/time#>\n\
+PREFIX owl: <https://www.w3.org/2002/07/owl#>\n\
+PREFIX xsd: <http://www.w3.org/2001/XMLSchema#>\n\
+PREFIX lode: <http://linkedevents.org/ontology/>\n\
+PREFIX rdfs: <http://www.w3.org/2000/01/rdf-schema#>\n\
+PREFIX geo: <http://www.w3.org/2003/01/geo/wgs84_pos#>\n\
+PREFIX gpowl: <http://aims.fao.org/aos/geopolitical.owl#>\n\
+PREFIX rdf: <http://www.w3.org/1999/02/22-rdf-syntax-ns#>\n\
+PREFIX admingeo: <http://data.ordnancesurvey.co.uk/ontology/admingeo/>\n\
+PREFIX foaf: <http://xmlns.com/foaf/0.1/>\n\
+PREFIX dc: <http://dublincore.org/documents/2012/06/14/dcmi-terms/?v=elements#>\n\n";
+
+
 
 /**
 next is for heatmap ONLY
@@ -28,6 +43,34 @@ function buildCrimeLocQuery(){
 	return query;
 }
 
+/*Function to build the SPARQL-query for the Crime Index Rate*/
+function buildCrimeIndexRateQuery(){
+	var query = sqlPrefixes + "\
+	SELECT ?code ?borough ?incomeVal ?populationVal ?crime_count (((?crime_count/?populationVal)*1000) AS ?crimeIndexRate)\n\
+	WHERE {\n\
+		GRAPH <http://course.geoinfo2016.org/G3> {\n\
+			?borough admingeo:gssCode ?code.\n\
+			?borough dbpedia:income ?income.\n\
+			?income owl:hasValue ?incomeVal.\n\
+			?income dc:date \"2014\"^^xsd:gYear.\n\
+			?borough dbpedia:Population ?population.\n\
+			?population owl:hasValue ?populationVal.\n\
+			?population dc:date \"2014\"^^xsd:gYear.\n\
+			{\n\
+				SELECT ?borough (COUNT(?crime) as ?crime_count)\n\
+				WHERE\n\
+				{\n\
+					?crime lode:atPlace ?borough.\n\
+					?crime lode:atTime ?t.\n\
+					?t time:year \"2014\"^^xsd:gYear.\n\
+				}GROUP BY ?borough\n\
+			}\n\
+		}\n\
+	}\n\n";
+	console.log(query)
+	return query;
+}
+
 /*function needed to to processing on the receives Crime coordinates*/
 function coordinate(x, y) {
     this.x = parseFloat(x);
@@ -37,19 +80,41 @@ function coordinate(x, y) {
 /*function to create the heatmap layer*/
 function createHeatMap(JSONtext){
 		for (var key in JSONtext.results.bindings){
-		CrimeLatLon.push(new coordinate(JSONtext.results.bindings[key].lat.value,JSONtext.results.bindings[key].lon.value));
+			var coords = new coordinate(JSONtext.results.bindings[key].lat.value,JSONtext.results.bindings[key].lon.value)
+			CrimeLatLon.push(coords);
+			CrimeHeat.push([coords.x, coords.y,0.5])
 		}	
-		for (var i = 1; i < CrimeLatLon.length; i++) {
+		/*for (var i = 1; i < CrimeLatLon.length; i++) {
 			CrimeHeat.push([CrimeLatLon[i].x, CrimeLatLon[i].y,0.5])
-		}
+		}*/
 		L.heatLayer(CrimeHeat, {radius: 10})
 			.addTo(heat);
+}
+
+/*function to create the Crime Index Rate layer*/
+function createCrimeIndexRateMap(JSONtext){
+		
+		for (var key in JSONtext.results.bindings){
+			var boroughCode = JSONtext.results.bindings[key].code.value;
+			var boroughDBPediaName = JSONtext.results.bindings[key].borough.value;
+			//var income = parseFloat(JSONtext.results.bindings[key].incomeVal.value);
+			var population = parseInt(JSONtext.results.bindings[key].populationVal.value);
+			var crimeCount = parseInt(JSONtext.results.bindings[key].crime_count.value);
+			var crimeIndexRate = parseInt(JSONtext.results.bindings[key].crimeIndex.value);
+			
+			console.log("CIR of " + boroughDBPediaName + ":" + crimeIndexRate)
+			
+		}	
+		
+		/*L.heatLayer(CrimeHeat, {radius: 10})
+			.addTo(heat);*/
 }
 
 /*If user presses Imprint Button with ID ClickMe, request is started)*/
 document.getElementById('clickMe').onclick = function(){
 	console.log("here");
-    askForData(buildCrimeLocQuery());
+    askForData(buildCrimeLocQuery(), createHeatMap);
+	askForData(buildCrimeIndexRateQuery(), createCrimeIndexRateMap);
   };
   
   /**
@@ -69,7 +134,7 @@ On  .done   the function calls for other functions needing the JSONtext. Such as
 **/
   
 
-function askForData(query) {
+function askForData(query, processData) {
 	var url = sparqlUrl + encodeURIComponent(query); // parse the whole URL containing the query
 	console.log(url);
 	 $.ajax({
@@ -87,8 +152,8 @@ function askForData(query) {
     }
 	/*When request is done (.done) do something with it*/
 	}).done(function(JSONtext) {
-console.log("done");	
-	createHeatMap(JSONtext);
+		console.log("done");	
+		processData(JSONtext);
 	});
 }
 
