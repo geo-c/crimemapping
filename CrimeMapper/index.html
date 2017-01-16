@@ -18,7 +18,7 @@
 	<script src="js/map.js" type="text/javascript"></script>
     <script src="js/c3.js"></script>
     <script src="js/d3.js" charset="utf-8"></script>
-    
+
 
 	<script type="text/javascript">
         $(document).ready(function(){
@@ -35,14 +35,14 @@
 		$('a.link').click(function() {
 		$('a.link').removeClass('active');
 		$(this).addClass('active');
-   });
-});
+           });
+        });
 
-$(document).ready(function () {
-	document.getElementById("Mapped").click();
-});
-
+        $(document).ready(function () {
+            document.getElementById("Mapped").click();
+        });
 	</script>
+
 </head>
 
 
@@ -57,7 +57,7 @@ $(document).ready(function () {
             <li><a  class="link" id="Mapped">Map</a></li>
             <li><a class="link" id="Diagram">Diagram</a></li>
             <footer>
-            Data courtesy of London Police 
+            Data courtesy of London Police
             </footer>
         </ul>
     </nav>
@@ -65,51 +65,78 @@ $(document).ready(function () {
     <header>
     <div class="informal">
         <button type="button" class="button" a href="javascript:void(0)" onclick="document.getElementById('show').style.display='block';document.getElementById('close').style.display='block'">About</a></button>
-        <button type="button"class="button" id="clickMe">Imprint</button>
+        <button type="button" class="button" id="clickMe">Imprint</button>
     </div>
     </header>
 
-    <!-- Diagram --->
+    <!-- Borough Diagram --->
     <section id="diagramContainer" >
-        <div class="dropdown">
-            <button onclick="myFunction()" class="dropbtn" id="dropbtn">Select a borough</button>
-            <div id="myDropdown" class="dropdown-content">
-                <button onclick="showDiagram('City_of_London')">City of London</button>
-                <button onclick="showDiagram('City_of_Westminster')">City of Westminster</button>
-                <button onclick="showDiagram('London_Borough_of_Camden')">London Borough of Camden</button>
-                <button onclick="showDiagram('London_Borough_of_Islington')">London Borough of Islington</button>
-                <button onclick="showDiagram('London_Borough_of_Tower_Hamlets')">LondonBorough of Tower Hamlets</button>
-                <button onclick="showDiagram('London_Borough_of_Barking_and_Dagenham')">London Borough of Barking and Dagenham</button>
-                <button onclick="showDiagram('London_Borough_of_Barnet')">London Borough of Barnet</button>
-                <button onclick="showDiagram('London_Borough_of_Bexley')">London Borough of Bexley</button>
-                <button onclick="showDiagram('London_Borough_of_Brent')">London Borough of Brent</button>
-                <button onclick="showDiagram('London_Borough_of_Bromley')">London Borough of Bromley</button>
-                <button onclick="showDiagram('London_Borough_of_Croydon')">London Borough of Croydon</button>
-                <button onclick="showDiagram('London_Borough_of_Ealing')">London Borough of Ealing</button>
-                <button onclick="showDiagram('London_Borough_of_Enfield')">London Borough of Enfield</button>
-                <button onclick="showDiagram('Royal_Borough_of_Greenwich')">Royal Borough of Greenwich</button>
-                <button onclick="showDiagram('London_Borough_of_Hackney')">London Borough of Hackney</button>
-                <button onclick="showDiagram('London_Borough_of_Hammersmith_and_Fulham')">London Borough of Hammersmith and Fulham</button>
-                <button onclick="showDiagram('London_Borough_of_Haringey')">London Borough of Haringey</button>
-                <button onclick="showDiagram('London_Borough_of_Harrow')">London Borough of Harrow</button>
-                <button onclick="showDiagram('London_Borough_of_Havering')">London Borough of Havering</button>
-                <button onclick="showDiagram('London_Borough_of_Hillingdon')">London Borough of Hillingdon</button>
-                <button onclick="showDiagram('London_Borough_of_Hounslow')">London Borough of Hounslow</button>
-                <button onclick="showDiagram('Royal_Borough_of_Kensington_and_Chelsea')">Royal Borough of Kensington and Chelsea</button>
-                <button onclick="showDiagram('Royal_Borough_of_Kingston_upon_Thames')">Royal Borough of Kingston upon Thames</button>
-                <button onclick="showDiagram('London_Borough_of_Lambeth')">London Borough of Lambeth</button>
-                <button onclick="showDiagram('London_Borough_of_Lewisham')">London Borough of Lewisham</button>
-                <button onclick="showDiagram('London_Borough_of_Merton')">London Borough of Merton</button>
-                <button onclick="showDiagram('London_Borough_of_Newham')">London Borough of Newham</button>
-                <button onclick="showDiagram('London_Borough_of_Redbridge')">London Borough of Redbridge</button>
-                <button onclick="showDiagram('London_Borough_of_Richmond_upon_Thames')">London Borough of Richmond upon Thames</button>
-                <button onclick="showDiagram('London_Borough_of_Southwark')">London Borough of Southwark</button>
-                <button onclick="showDiagram('London_Borough_of_Sutton')">London Borough of Sutton</button>
-                <button onclick="showDiagram('London_Borough_of_Waltham_Forest')">London Borough of Waltham Forest</button>
-                <button onclick="showDiagram('London_Borough_of_Wandsworth')">London Borough of Wandsworth</button>
-            </div>
+
+        <div style="margin-top: 10px; margin-left: 25px">
+        <!-- Borough selection -->
+            <select onchange="changeSession()" id="selectedBorough">
+                <option selected="selected">Select a borough</option>
+                <option value='City_of_London'>City of London</option>
+                <option value='City_of_Westminster'>City of Westminster</option>
+                <option value='London_Borough_of_Camden'>London Borough of Camden</option>
+                <option value='London_Borough_of_Islington'>London Borough of Islington</option>
+                <option value=London_Borough_of_Tower_Hamlets'>LondonBorough of Tower Hamlets</option>
+                <option value='London_Borough_of_Barking_and_Dagenham'>London Borough of Barking and Dagenham</option>
+                <option value=London_Borough_of_Barnet'>London Borough of Barnet</option>
+                <option value='London_Borough_of_Bexley'>London Borough of Bexley</option>
+                <option value='London_Borough_of_Brent'>London Borough of Brent</option>
+                <option value='London_Borough_of_Bromley'>London Borough of Bromley</option>
+                <option value='London_Borough_of_Croydon'>London Borough of Croydon</option>
+                <option value='London_Borough_of_Ealing'>London Borough of Ealing</option>
+                <option value='London_Borough_of_Enfield'>London Borough of Enfield</option>
+                <option value='Royal_Borough_of_Greenwich'>Royal Borough of Greenwich</option>
+                <option value='London_Borough_of_Hackney'>London Borough of Hackney</option>
+                <option value='London_Borough_of_Hammersmith_and_Fulham'>London Borough of Hammersmith and Fulham</option>
+                <option value='London_Borough_of_Haringey'>London Borough of Haringey</option>
+                <option value='London_Borough_of_Harrow'>London Borough of Harrow</option>
+                <option value='London_Borough_of_Havering'>London Borough of Havering</option>
+                <option value='London_Borough_of_Hillingdon'>London Borough of Hillingdon</option>
+                <option value='London_Borough_of_Hounslow'>London Borough of Hounslow</option>
+                <option value='Royal_Borough_of_Kensington_and_Chelsea'>Royal Borough of Kensington and Chelsea</option>
+                <option value='Royal_Borough_of_Kingston_upon_Thames'>Royal Borough of Kingston upon Thames</option>
+                <option value='London_Borough_of_Lambeth'>London Borough of Lambeth</option>
+                <option value='London_Borough_of_Lewisham'>London Borough of Lewisham</option>
+                <option value='London_Borough_of_Merton'>London Borough of Merton</option>
+                <option value='London_Borough_of_Newham'>London Borough of Newham</option>
+                <option value='London_Borough_of_Redbridge'>London Borough of Redbridge</option>
+                <option value='London_Borough_of_Richmond_upon_Thames'>London Borough of Richmond upon Thames</option>
+                <option value='London_Borough_of_Southwark'>London Borough of Southwark</option>
+                <option value='London_Borough_of_Sutton'>London Borough of Sutton</option>
+                <option value='London_Borough_of_Waltham_Forest'>London Borough of Waltham Forest</option>
+                <option value='London_Borough_of_Wandsworth'>London Borough of Wandsworth</option>
+            </select>
+
+            <!-- Crime type selection -->
+            <select onchange="changeSession()" id="selectedCrimeType">
+                <option value='BicycleTheft'>Bicycle theft</option>
+                <option value='Burglary'>Burglary</option>
+                <option value='TheftFromThePerson'>Theft from the person</option>
+                <option value='Anti-socialBehaviour'>Anti-social behaviour</option>
+                <option value='PublicOrder'>Public order</option>
+                <option value='Shoplifting'>Shoplifting</option>
+                <option value='Drugs'>Drugs</option>
+                <option value='VehicleCrime'>Vehicle crime</option>
+                <option value='ViolenceAndSexualOffences'>Violence and sexual offences</option>
+                <option value='CriminalDamageAndArson'>Criminal damage and arson</option>
+                <option value='PossessionOfWeapons'>Possession of weapons</option>
+                <option value='Robbery'>Robbery</option>
+                <option value='OtherTheft'>Other theft</option>
+                <option value='OtherCrime'>Other crime</option>
+            </select>
+
+            <!-- Year selection -->
+            <select onchange="changeSession()" id="selectedYear">
+                <option value='2013'>2013</option>
+                <option value='2014'>2014</option>
+            </select>
         </div>
-        <div id="barDiagram" style="padding-left: 25px;">
+
+        <div id="barDiagram" style="padding-left: 25px; padding-top: 20px">
             Please select the borough for which a diagramm shall be shown.
         </div>
     </section>

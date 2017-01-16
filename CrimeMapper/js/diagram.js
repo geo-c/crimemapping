@@ -1,15 +1,112 @@
-function showDiagram (boroughName) {
+var selectedBorough = "";
 
-    console.log(boroughName);
+/* ============ Dropdown ==============*/
+function myFunction() {
+    document.getElementById("myDropdown").classList.toggle("show");
+}
 
-    // todo: query to parliament/OCT depending on selected borough name
-    // todo: parse the received json
+// Called when a change is detected in one of the dropdowns/select
+function changeSession() {
+    var boroughName = document.getElementById('selectedBorough').value;
+    var crimeType = document.getElementById('selectedCrimeType').value;
+    var year = document.getElementById('selectedYear').value;
+    // Ensure that a borough name has been selected
+    if (boroughName == 'Select a borough') {
+        document.getElementById("barDiagram").textContent = 'Please select a borough.';
+        document.getElementById("barDiagram").style.color = 'Red';
+    } else {
+        document.getElementById("barDiagram").style.paddingLeft = '25px';
+        document.getElementById("barDiagram").textContent = 'Please wait, diagram is loading.';
+        document.getElementById("barDiagram").style.color = 'Green';
+        askForDiagramData(buildDiagramQuery(boroughName, crimeType, year));
+    }
+}
 
-    // show selected borough name on button
-    document.getElementById("dropbtn").textContent=boroughName;
-    document.getElementById("barDiagram").style.removeProperty('padding-left');
 
-    // generate a c3 barDiagram
+/* ================ Diagram query ==============*/
+/*vars for parliament query*/
+var sparqlUrl = "http://giv-lodumdata.uni-muenster.de:8282/parliament/sparql?output=JSON&query=";
+
+/*Libraries*/
+var sqlPrefixes = "\
+PREFIX crime: <http://course.geoinfo2016.org/G3/>\n\
+PREFIX dbpedia-page: <http://dbpedia.org/page/>\n\
+PREFIX dbpedia: <http://dbpedia.org/ontology/>\n\
+PREFIX time: <http://www.w3.org/2006/time#>\n\
+PREFIX owl: <https://www.w3.org/2002/07/owl#>\n\
+PREFIX xsd: <http://www.w3.org/2001/XMLSchema#>\n\
+PREFIX lode: <http://linkedevents.org/ontology/>\n\
+PREFIX rdfs: <http://www.w3.org/2000/01/rdf-schema#>\n\
+PREFIX geo: <http://www.w3.org/2003/01/geo/wgs84_pos#>\n\
+PREFIX gpowl: <http://aims.fao.org/aos/geopolitical.owl#>\n\
+PREFIX rdf: <http://www.w3.org/1999/02/22-rdf-syntax-ns#>\n\
+PREFIX admingeo: <http://data.ordnancesurvey.co.uk/ontology/admingeo/>\n\
+PREFIX foaf: <http://xmlns.com/foaf/0.1/>\n\
+PREFIX dc: <http://dublincore.org/documents/2012/06/14/dcmi-terms/?v=elements#>\n";
+
+/*function buildDiagramQuery(boroughName, year, crimeType){
+    var query = sqlPrefixes + '\
+    SELECT ?m ?y ?ct COUNT(?crime)\n\
+    WHERE{ GRAPH<http://course.geoinfo2016.org/G3>{ \n\
+        ?crime lode:atTime ?t.\n\
+            ?t time:month ?m. \n\
+            ?t time:year "2013"^^xsd:gYear. \n\
+            ?crime rdf:type ?ct. \n\
+            ?crime lode:atPlace dbpedia-page:'+boroughName+'. \n\
+    }FILTER(?ct!=crime:Crime&&?ct!=rdfs:Class) \n\
+    }GROUP BY ?m ?y ?ct \n\
+        ORDER BY ?m ?y \n';
+    console.log(query);
+    return query;
+}*/
+
+// builds a string containing the query which will be send to parliament
+function buildDiagramQuery(boroughName, crimeType, year){
+    var query = sqlPrefixes + '\
+    SELECT ?m ?y ?ct COUNT(?crime)\n\
+    WHERE{ GRAPH<http://course.geoinfo2016.org/G3>{ \n\
+        ?crime lode:atTime ?t.\n\
+            ?t time:month ?m. \n\
+            ?t time:year "'+year+'"^^xsd:gYear. \n\
+            ?crime rdf:type crime:'+crimeType+'. \n\
+            ?crime lode:atPlace dbpedia-page:'+boroughName+'. \n\
+    }\n\
+    }GROUP BY ?m ?y \n\
+        ORDER BY ?m ?y \n';
+    console.log(query);
+    return query;
+}
+
+// send request to parliament
+function askForDiagramData(query) {
+    var url = sparqlUrl + encodeURIComponent(query); // encodeURI is not enough as it doesn't enocde # for example.
+    console.log(url);
+    $.ajax({
+        dataType: "jsonp",
+        url: url,
+        /*Success*/
+        success: function(data){
+            console.log(data);
+            document.getElementById("barDiagram").style.removeProperty('padding-left');
+            document.getElementById("barDiagram").style.removeProperty('color');
+            generateDiagram(data);
+        },
+        /*error*/
+        error: function (ajaxContext) {
+            console.log("error"+ ajaxContext);
+            alert(ajaxContext.responseText);
+        }
+    }).done(function(JSONtext) {
+        console.log("done")
+    });
+}
+
+// Parse received data and generate the diagram
+function generateDiagram(data) {
+    // parse data
+    // todo
+
+    // generate c3 bar Diagram
     var chart = c3.generate({
         bindto: '#barDiagram',
         data: {
@@ -27,7 +124,7 @@ function showDiagram (boroughName) {
         },
         grid: {
             y: {
-                lines: [{value:0}]
+                lines: [{value: 0}]
             }
         },
         axis: {
@@ -50,26 +147,3 @@ function showDiagram (boroughName) {
         }
     });
 }
-
-/* ============ Dropdown ==============*/
-/* Dropdown Button */
-/* When the user clicks on the button,
- toggle between hiding and showing the dropdown content */
-function myFunction() {
-    document.getElementById("myDropdown").classList.toggle("show");
-}
-
-// Close the dropdown menu if the user clicks outside of it
-window.onclick = function(event) {
-    if (!event.target.matches('.dropbtn')) {
-
-        var dropdowns = document.getElementsByClassName("dropdown-content");
-        var i;
-        for (i = 0; i < dropdowns.length; i++) {
-            var openDropdown = dropdowns[i];
-            if (openDropdown.classList.contains('show')) {
-                openDropdown.classList.remove('show');
-            }
-        }
-    }
-};
