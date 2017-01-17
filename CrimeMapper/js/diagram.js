@@ -1,4 +1,5 @@
-var selectedBorough = "";
+var selectedYear = "";
+var selectedCrimeType = "";
 
 /* ============ Dropdown ==============*/
 function myFunction() {
@@ -14,10 +15,15 @@ function changeSession() {
     if (boroughName == 'Select a borough') {
         document.getElementById("barDiagram").textContent = 'Please select a borough.';
         document.getElementById("barDiagram").style.color = 'Red';
+    }if (crimeType == 'Select a crime type') {
+        document.getElementById("barDiagram").textContent = 'Please select a crime type.';
+        document.getElementById("barDiagram").style.color = 'Red';
     } else {
         document.getElementById("barDiagram").style.paddingLeft = '25px';
         document.getElementById("barDiagram").textContent = 'Please wait, diagram is loading.';
         document.getElementById("barDiagram").style.color = 'Green';
+        selectedYear = year;
+        selectedCrimeType = crimeType;
         askForDiagramData(buildDiagramQuery(boroughName, crimeType, year));
     }
 }
@@ -44,6 +50,7 @@ PREFIX admingeo: <http://data.ordnancesurvey.co.uk/ontology/admingeo/>\n\
 PREFIX foaf: <http://xmlns.com/foaf/0.1/>\n\
 PREFIX dc: <http://dublincore.org/documents/2012/06/14/dcmi-terms/?v=elements#>\n";
 
+// query for displaying the data of all crime types
 /*function buildDiagramQuery(boroughName, year, crimeType){
     var query = sqlPrefixes + '\
     SELECT ?m ?y ?ct COUNT(?crime)\n\
@@ -73,14 +80,15 @@ function buildDiagramQuery(boroughName, crimeType, year){
     }\n\
     }GROUP BY ?m ?y \n\
         ORDER BY ?m ?y \n';
-    console.log(query);
+   // console.log(query);
     return query;
 }
 
 // send request to parliament
 function askForDiagramData(query) {
     var url = sparqlUrl + encodeURIComponent(query); // encodeURI is not enough as it doesn't enocde # for example.
-    console.log(url);
+    //console.log(url);
+    console.log('start request');
     $.ajax({
         dataType: "jsonp",
         url: url,
@@ -103,29 +111,43 @@ function askForDiagramData(query) {
 
 // Parse received data and generate the diagram
 function generateDiagram(data) {
-    // parse data
-    // todo
 
-    // generate c3 bar Diagram
+    var yearArray; // to be used to generate the diagram
+    if (selectedYear == "2013") {
+        yearArray = ['x', '2013-01-01', '2013-02-02', '2013-03-03', '2013-04-04', '2013-05-05', '2013-06-06', '2013-07-01', '2013-08-01', '2013-09-01', '2013-10-01', '2013-11-01', '2013-12-01'];
+    } else {
+        yearArray = ['x', '2014-01-01', '2014-02-02', '2014-03-03', '2014-04-04', '2014-05-05', '2014-06-06', '2014-07-01', '2014-08-01', '2014-09-01', '2014-10-01', '2014-11-01', '2014-12-01'];
+    }
+
+    var dataArray = [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0]; // to be used to generate the diagram
+    dataArray[0] = selectedCrimeType;
+    for (var key = 0; key < data.results.bindings.length; key++) {
+        var number = data.results.bindings[key][".1"].value;
+        var month = data.results.bindings[key]["m"].value;
+        month = month.slice(2,4); // delete "--" at the beginning of the string
+        if(month.slice(0,1) == "0"){ // delete "0" at the beginning if needed
+            month = month.slice(1);
+        }
+        dataArray[month] = number; // add the number of crimes for the specific month in the array
+    }
+    console.log(dataArray);
+
+    /**** generate c3 bar Diagram ***/
     var chart = c3.generate({
         bindto: '#barDiagram',
         data: {
             x: 'x',
             columns: [
-                ['x', '2013-01-01', '2013-02-02', '2013-03-03', '2013-04-04', '2013-05-05', '2013-06-06', '2013-07-01', '2013-08-01', '2013-09-01', '2013-10-01', '2013-11-01', '2013-12-01', '2014-01-01', '2014-02-02', '2014-03-03', '2014-04-04', '2014-05-05', '2014-06-06', '2014-07-01', '2014-08-01', '2014-09-01', '2014-10-01', '2014-11-01', '2014-12-01'],
-                ['BicycleTheft', 30, 200, 200, 400, 150, 250, 30, 200, 200, 400, 150, 250, 30, 200, 200, 400, 150, 250, 30, 200, 200, 400, 150, 250],
-                ['Burglary', 130, 100, 100, 200, 150, 50, 30, 200, 200, 400, 150, 250, 30, 200, 200, 400, 150, 250, 30, 200, 200, 400, 150, 250],
-                ['Other theft', 230, 200, 200, 300, 250, 250, 30, 200, 200, 400, 150, 250, 30, 200, 200, 400, 150, 250, 30, 200, 200, 400, 150, 250]
+                yearArray,
+                dataArray
             ],
             type: 'bar',
             groups: [
                 ['BicycleTheft', 'Burglary', 'Other theft']
             ]
         },
-        grid: {
-            y: {
-                lines: [{value: 0}]
-            }
+        color: {
+            pattern: ['#3c8d31']
         },
         axis: {
             // todo: fixed height for y-axis??

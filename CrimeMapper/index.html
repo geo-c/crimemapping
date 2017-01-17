@@ -74,7 +74,7 @@
 
         <div style="margin-top: 10px; margin-left: 25px">
         <!-- Borough selection -->
-            <select onchange="changeSession()" id="selectedBorough">
+            <select id="selectedBorough">
                 <option selected="selected">Select a borough</option>
                 <option value='City_of_London'>City of London</option>
                 <option value='City_of_Westminster'>City of Westminster</option>
@@ -112,7 +112,8 @@
             </select>
 
             <!-- Crime type selection -->
-            <select onchange="changeSession()" id="selectedCrimeType">
+            <select id="selectedCrimeType">
+                <option selected="selected">Select a crime type</option>
                 <option value='BicycleTheft'>Bicycle theft</option>
                 <option value='Burglary'>Burglary</option>
                 <option value='TheftFromThePerson'>Theft from the person</option>
@@ -130,14 +131,17 @@
             </select>
 
             <!-- Year selection -->
-            <select onchange="changeSession()" id="selectedYear">
+            <select id="selectedYear">
                 <option value='2013'>2013</option>
                 <option value='2014'>2014</option>
             </select>
+
+            <!-- submit button -->
+            <button onclick="changeSession()">Load Diagram</button>
         </div>
 
         <div id="barDiagram" style="padding-left: 25px; padding-top: 20px">
-            Please select the borough for which a diagramm shall be shown.
+            Please select the borough and crime type for which a diagramm shall be shown. You can also choose the year. Please press the button to sumbit.
         </div>
     </section>
 
