@@ -320,7 +320,7 @@ info.update = function (props) {
         '<b>' + props.name + '</b><br />' +
 		(crimeIndexRateMap[props.name]? 
 			'Population: ' + crimeIndexRateMap[props.name].population.toLocaleString() + '<br />' +
-			'Income: ' + crimeIndexRateMap[props.name].income.toLocaleString() + '<br />' +
+			'Income: ' + crimeIndexRateMap[props.name].income.toLocaleString() + ' &pound;<br />' +
 			'Crime Rate Per 1,000 Inhabitants: ' + crimeIndexRateMap[props.name].crimeIndexRate.toLocaleString() + '<br />'
 		: '')
         : 'Hover over a borough');
