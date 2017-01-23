@@ -319,8 +319,9 @@ info.update = function (props) {
     this._div.innerHTML = '<h4>Borough Information</h4>' +  (props ?
         '<b>' + props.name + '</b><br />' +
 		(crimeIndexRateMap[props.name]? 
+			'Year: 2014<br />' +
 			'Population: ' + crimeIndexRateMap[props.name].population.toLocaleString() + '<br />' +
-			'Income: ' + crimeIndexRateMap[props.name].income.toLocaleString() + ' &pound;<br />' +
+			'Avg. Annual Income: ' + crimeIndexRateMap[props.name].income.toLocaleString() + ' &pound;<br />' +
 			'Crime Rate Per 1,000 Inhabitants: ' + crimeIndexRateMap[props.name].crimeIndexRate.toLocaleString() + '<br />'
 		: '')
         : 'Hover over a borough');
