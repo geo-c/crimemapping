@@ -51,18 +51,30 @@
     <div class="topTitle">
        <p>Crime GIS<p>
     </div>
-
+	
     <nav>
         <ul>
             <li><a  class="link" id="Mapped">Map</a></li>
             <li><a class="link" id="Diagram">Diagram</a></li>
-            <footer>
+            <footer>		
             Data courtesy of London Police
             </footer>
         </ul>
     </nav>
 
     <header>
+
+		<div class="TimeWindows" style="z-index: 30; position:absolute; margin-left: 6vw; margin-top: 1vw;">
+		<div class="timeWindowMonth">
+				<input type="range" id="rangeInputMonth" name="rangeInput" step="1" min="1" max="12">
+				<label id="rangeTextMonth">
+		</div>
+		<div class="timeWindowYear">
+				<input type="range" id="rangeInputYear" name="rangeInputY" step="1" min="2013" max="2015">
+				<label id="rangeTextYear">
+		</div>
+	</div>
+	
     <div class="informal">
         <button type="button" class="button" a href="javascript:void(0)" onclick="document.getElementById('show').style.display='block';document.getElementById('close').style.display='block'">About</a></button>
         <button type="button" class="button" id="clickMe">Imprint</button>
@@ -145,7 +157,9 @@
         </div>
     </section>
 
-    <section id="map" ></section>
+    <section id="map">
+	</section>
+
 
     <div id="show" class="about_content">About. <a href="javascript:void(0)" onclick="document.getElementById('show').style.display='none';document.getElementById('close').style.display='none'">Close</a></div>
     <div id="close" class="invisible_overlay"></div>

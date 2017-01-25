@@ -29,6 +29,53 @@ PREFIX dc: <http://dublincore.org/documents/2012/06/14/dcmi-terms/?v=elements#>\
 
 
 
+
+/**
+Sliders only
+***/
+
+var rangeMonths = {
+    "1": "January",
+        "2": "February",
+        "3": "March",
+        "4": "April",
+		"5": "May",
+		"6": "June",
+		"7": "July",
+		"8": "August",
+		"9": "September",
+		"10": "October",
+		"11": "November",
+		"12": "December"
+};
+
+var rangeYears = {
+    "2013": "2013",
+        "2014": "2014",
+		"2015": "2015"
+};
+
+$(function () {
+
+    $('#rangeTextMonth').text(rangeMonths[$('#rangeInputMonth').val()]);
+
+    $('#rangeInputMonth').on('input change', function () {
+        $('#rangeTextMonth').text(rangeMonths[$(this).val()]);
+    });
+
+});
+
+$(function () {
+
+    $('#rangeTextYear').text(rangeYears[$('#rangeInputYear').val()]);
+
+    $('#rangeInputYear').on('input change', function () {
+        $('#rangeTextYear').text(rangeYears[$(this).val()]);
+    });
+
+});
+
+
 /**
 next is for heatmap ONLY
 **/
