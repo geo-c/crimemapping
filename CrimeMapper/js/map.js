@@ -82,12 +82,16 @@ next is for heatmap ONLY
 
 /*Function to build the SPARQL-query for the heatmap*/
 function buildCrimeLocQuery(){
+	var month = document.getElementById('rangeInputMonth').value < 10 ? "0"+document.getElementById('rangeInputMonth').value : document.getElementById('rangeInputMonth').value
 	var query = sqlPrefixes + "\
 		SELECT ?crime ?lat ?lon\n\
 		WHERE { GRAPH <http://course.geoinfo2016.org/G3> {\n\
 		?crime geo:lat ?lat.\n\
 		?crime geo:long ?lon.\n\
-	}}LIMIT 1000";
+	?crime lode:atTime ?t.\n\
+		?t time:month \"--"+ month + "\"^^xsd:gMonth.\n\
+		?t time:year \""+ rangeYears[$('#rangeInputYear').val()]+ "\"^^xsd:gYear.\n\
+	}}LIMIT 20000";
 	console.log(query)
 	return query;
 }
@@ -138,14 +142,14 @@ function boroughObject(code, name, incomeVal, populationVal, crimeCountVal, crim
 
 /*function to create the heatmap layer*/
 function createHeatMap(JSONtext){
+	CrimeLatLon.length = 0;
+	CrimeHeat.length = 0;
+	heat.clearLayers();
 		for (var key in JSONtext.results.bindings){
 			var coords = new coordinate(JSONtext.results.bindings[key].lat.value,JSONtext.results.bindings[key].lon.value)
 			CrimeLatLon.push(coords);
 			CrimeHeat.push([coords.x, coords.y,0.5])
 		}	
-		/*for (var i = 1; i < CrimeLatLon.length; i++) {
-			CrimeHeat.push([CrimeLatLon[i].x, CrimeLatLon[i].y,0.5])
-		}*/
 		L.heatLayer(CrimeHeat, {radius: 10})
 			.addTo(heat);
 }
@@ -180,8 +184,6 @@ function createCrimeIndexRateMap(JSONtext){
 			//console.log("CIR of " + shortName + ": " + crimeIndexRate)
 		}	
 		
-		/*L.heatLayer(CrimeHeat, {radius: 10})
-			.addTo(heat);*/
 }
 
 /*If user presses Imprint Button with ID ClickMe, request is started)*/
