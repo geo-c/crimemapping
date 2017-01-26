@@ -264,7 +264,7 @@ var grayscale   = L.tileLayer(mbUrl, {id: 'mapbox.light', attribution: mbAttr}),
 var map = L.map('map', {
 	zoomControl : true,
 	layers: [streets] //default layer on startup of map
-}).setView([51.300465, -0.118092], 11); //default zoom and position (london)
+}).setView([51.528001, -0.130781], 10); //default zoom and position (london)
 
 /* Load geoJSON from file synchronously (!)*/
 
@@ -365,6 +365,27 @@ info.onAdd = function (map) {
     this.update();
     return this._div;
 };
+
+/*Create Legend for choropleth */
+var legend = L.control({position: 'bottomright'});
+
+ legend.onAdd = function (map) {
+ grades = [0, 55, 65, 75, 85, 95, 110, 785],
+ labels = [];
+
+ var div = L.DomUtil.create('Choropleth', 'Choropleth legend');
+    
+ for (var i = 0; i < grades.length; i++) {
+ 	div.innerHTML +=
+    '<i style="background:' + getColor(grades[i] + 1) + '"></i> ' +
+    grades[i] + (grades[i + 1] ? '&ndash;' + grades[i + 1] + '<br>' : '+');
+    }
+
+    return div;
+};
+
+legend.addTo(map);
+
 
 // method used to update the control based on feature properties passed
 info.update = function (props) {
