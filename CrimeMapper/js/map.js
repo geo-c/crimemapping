@@ -91,7 +91,7 @@ function buildCrimeLocQuery(){
 	?crime lode:atTime ?t.\n\
 		?t time:month \"--"+ month + "\"^^xsd:gMonth.\n\
 		?t time:year \""+ rangeYears[$('#rangeInputYear').val()]+ "\"^^xsd:gYear.\n\
-	}}LIMIT 20000";
+	}}LIMIT 100000";
 	console.log(query)
 	return query;
 }
@@ -213,6 +213,7 @@ On  .done   the function calls for other functions needing the JSONtext. Such as
 function askForData(query, processData, asynchronous) {
 	var url = sparqlUrl + encodeURIComponent(query); // parse the whole URL containing the query
 	console.log(url);
+	$("#loader").show(1);
 	 $.ajax({
 		async: asynchronous,
 		dataType: "jsonp",
@@ -220,6 +221,7 @@ function askForData(query, processData, asynchronous) {
 		/*On Success the data reveived from parialemt is stored in the variable JSONtext*/
 		success: function(data){
 		console.log(data)
+		$("#loader").hide(1);
 		var JSONtext = data;
 		/*Used to show JSON crime points data and 33 borough results in a new window
 		//var url = 'data:text/jsonp;charset=utf8,' + encodeURIComponent(JSON.stringify(data));
@@ -228,6 +230,7 @@ function askForData(query, processData, asynchronous) {
 		},
 		/*On error exceptions will be printed in dialog box*/
 		error: function (ajaxContext) {
+			$("#loader").hide(1);
 		console.log(ajaxContext)
         alert(ajaxContext.responseText)
     }
