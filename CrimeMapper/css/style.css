@@ -86,7 +86,7 @@ ul {
 li{
 	text-align: center;
 	line-height: 17vw;
-	font-size: 1em;
+	font-size: 1vw;
     border-bottom: 1px solid #555;
 }
 
@@ -127,7 +127,7 @@ li a:hover:not(.active) {
     background-color: black;
     clear: left;
     text-align: center;
-	font-size: 1em;
+	font-size: 1vw;
 	width: 10vw;
 	z-index: 3;
 	height: 10%;
@@ -135,19 +135,57 @@ li a:hover:not(.active) {
 
 .informal{
 	position:absolute;
-	left:60%;
+	width: 16vw;
+	left: 85vw;
 }
 
+.TimeWindows{
+	z-index: 3; 
+	position:absolute; 
+	width: 13vw; 
+	left: 18vw; 
+	top: 4vw;
+	border: 1px solid #555;
+	background-color: #f1f1f1;
+	box-shadow: 0 1vw 1vw 0 rgba(0, 0, 0, 0.2), 0 1vw 1vw 0 rgba(0, 0, 0, 0.19);
+}
+
+.requestButtons{
+	z-index: 10; 
+	position:absolute; 
+	width: 11vw; 
+	height: 11vw;
+	left: 33vw; 
+	top: 4vw;
+	border: 1px solid #555;
+	background-color: #f1f1f1;
+	box-shadow: 0 1vw 1vw 0 rgba(0, 0, 0, 0.2), 0 1vw 1vw 0 rgba(0, 0, 0, 0.19);
+}
+
+.loader{
+	z-index:100;
+	position:absolute;
+	margin-left: 30vw;
+	margin-top: 18vw;
+	height:20vw; 
+	width: 30vw; 
+	background-size: 100% 100%;
+	display: inline-block;
+	text-align: center;
+    text-decoration: none;
+	border: 1px solid #555;
+	box-shadow: 0 1vw 1vw 0 rgba(0, 0, 0, 0.2), 0 1vw 1vw 0 rgba(0, 0, 0, 0.19);
+}
 .button{
 	position:relative;
 	background-color: #4CAF50; /* Green */
     color: white;
-	margin: 1em 3em;
-	padding: 1em 2em;
+	margin: 1vw 3vw;
+	padding: 1vw 2vw;
     text-align: center;
     text-decoration: none;
     display: inline-block;
-    font-size: 0.8em;
+    font-size: 0.55vw;
 	border: 1px solid #555;
 }
 .button:hover {
@@ -192,7 +230,7 @@ li a:hover:not(.active) {
     background-color: #4CAF50;
     color: white;
     padding: 10px;
-    font-size: 1em;
+    font-size: 1vw;
     border: none;
     cursor: pointer;
 }
@@ -219,7 +257,7 @@ li a:hover:not(.active) {
     box-shadow: 0px 0px 6px 6px rgba(0, 0, 0, 0.38);
     overflow: auto;
     z-index: 1;
-    font-size: 0.9em;
+    font-size: 0.9vw;
 }
 
 /* Buttons inside the dropdown */
@@ -236,3 +274,11 @@ li a:hover:not(.active) {
 
 /* Show the dropdown menu (use JS to add this class to the .dropdown-content container when the user clicks on the dropdown button) */
 .show {display:block;}
+
+	p{
+		font-size: 0.8vw;
+	}
+	
+input[type="range"] {
+	width:9vw;
+}

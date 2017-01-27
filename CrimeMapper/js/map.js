@@ -186,11 +186,17 @@ function createCrimeIndexRateMap(JSONtext){
 		
 }
 
-/*If user presses Imprint Button with ID ClickMe, request is started)*/
-document.getElementById('clickMe').onclick = function(){
-	console.log("here");
+/*If user presses Imprint Button with ID reqHeatmap, request is started)*/
+document.getElementById('reqHeatmap').onclick = function(){
+	console.log("heat");
 	var async = true;
     askForData(buildCrimeLocQuery(), createHeatMap, async);
+  };
+
+  document.getElementById('clickMe').onclick = function(){
+	console.log("Choro");
+	var async = true;
+	askForData(buildCrimeIndexRateQuery(), createCrimeIndexRateMap, async);
   };
   
   /**
@@ -276,9 +282,7 @@ function LoadGeoJSON(data) {
 		url: data,
 		dataType: "json",
 		success: function (data) {
-			var async = false;
-			askForData(buildCrimeIndexRateQuery(), createCrimeIndexRateMap, async);
-	
+			var async = false;	
 			json = data;
 		}
 	});
@@ -314,7 +318,7 @@ function style(feature) {
     };
 }
 
-var boroughs = LoadGeoJSON("data/london_boroughs_crime.geojson"); //Do not move
+var boroughs = LoadGeoJSON("data/london_boroughs_crime.geojson"); //Do not move*/
 
 /*
 Interactivity functions when hovering
@@ -408,10 +412,7 @@ var baseLayers = {
     "Grayscale": grayscale,
     "Streets": streets,
     "Outdoors": outdoors,
-    "Satellite": satellite,
-    "Satellite Streets": satellitestreets,
-    "Dark Map": dark,
-    "Light Map": light
+    "Dark Map": dark
     };
 
 var overlays = {
@@ -419,4 +420,4 @@ var overlays = {
 	"Heat Map": heat
 }; 
  
-L.control.layers(baseLayers, overlays).addTo(map); 
+L.control.layers(baseLayers, overlays,{collapsed:false}).addTo(map); 

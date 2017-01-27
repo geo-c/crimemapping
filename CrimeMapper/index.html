@@ -24,10 +24,15 @@
         $(document).ready(function(){
             $("#Diagram").click(function(){
                 $("#map").hide();
+				$("#TimeWindows").hide();
+				$("#requestButtons").hide();
+				
             });
 
             $("#Mapped").click(function(){
                 $("#map").show();
+				$("#TimeWindows").show();
+				$("#requestButtons").show();
             });
         });
 		
@@ -66,24 +71,33 @@
 
     <header>
 
-		<div class="TimeWindows" style="z-index: 30; position:absolute; margin-left: 6vw; margin-top: 1vw;">
-		<div class="timeWindowMonth">
+	<div class="TimeWindows" id="TimeWindows">
+	<p style="margin-left: 1vw;"> Choose a timeframe:</p> 
+		<div class="timeWindowMonth" style="margin-left: 1vw;">
 				<input type="range" id="rangeInputMonth" name="rangeInput" step="1" min="1" max="12">
 				<label id="rangeTextMonth">
 		</div>
-		<div class="timeWindowYear">
+		<div class="timeWindowYear" style="margin-top: 1vw; margin-left: 1vw;">
 				<input type="range" id="rangeInputYear" name="rangeInputY" step="1" min="2013" max="2015">
 				<label id="rangeTextYear">
 		</div>
 	</div>
 	
+	<div class="requestButtons" id="requestButtons">
+		<p style="margin-left: 1vw;"> Choose a visualization:</p> 
+	<button type="button" class="button" id="reqHeatmap" style="padding: 0.4vw 2.08vw; margin-top: 0.2vw; margin-left: 2.5vw;">Heat Map</button>
+	<!-- Maybe we enter more appropiate names here -->
+	<button type="button" class="button" id="clickMe" style="padding: 0.4vw 1.1vw; margin-left: 2.5vw;">Choropleth Map</button>
+	</div>
+	
     <div class="informal">
         <button type="button" class="button" a href="javascript:void(0)" onclick="document.getElementById('show').style.display='block';document.getElementById('close').style.display='block'">About</a></button>
-        <button type="button" class="button" id="clickMe">Get Data</button>
     </div>  
 	
-						    <div id="loader" style="background:url(loader/gears.gif) no-repeat center center; margin-left: 20vw; height:100%; width: 10%; background-size: 35% 50%; display: none;">
+	<div class="loader" id="loader" style="background: #f1f1f1 url('loader/gears.gif') no-repeat center center; display:none;">
+	<h1> Please wait...</h1>
     </div> 
+	
     </header>
 
     <!-- Borough Diagram --->
@@ -158,7 +172,7 @@
         </div>
 
         <div id="barDiagram" style="padding-left: 25px; padding-top: 20px">
-            Please select the borough and crime type for which a diagramm shall be shown. You can also choose the year. Please press the button to sumbit.
+            <p>Please select the borough and crime type for which a diagramm shall be shown. You can also choose the year. Please press the button to sumbit.</p>
         </div>
     </section>
 
