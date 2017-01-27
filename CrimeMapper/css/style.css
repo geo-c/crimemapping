@@ -62,9 +62,10 @@ html, body {
 header{
 	z-index:1;
 	width:90vw;
-	height:5vw;
-	margin: -5vw 10vw;
+	height:5.3vw;
+	margin: -5.5vw 10vw;
 	background-color: #f1f1f1;
+	border-top: 2px solid black;
 }
 
 nav{
@@ -80,18 +81,17 @@ ul {
     height: 90%;
     position: absolute;
     overflow: auto; 
-	border: 1px solid #555;
+	border: none;
 }
 
 li{
 	text-align: center;
 	line-height: 17vw;
 	font-size: 1vw;
-    border-bottom: 1px solid #555;
 }
 
-li:last-child {
-    border-bottom: 1px solid #555;;
+#d{
+	border-bottom: 1px solid black;
 }
 
 li a {
@@ -99,16 +99,21 @@ li a {
     color: #000;
     padding: 8px 16px;
     text-decoration: none;
+	transition-duration: 0.5s;
 }
 
 li a.active {
     background-color: #4CAF50;
     color: white;
+	text-transform: uppercase;
+	font-weight: bold;
+	font-size: 16px;
 }
 
 li a:hover:not(.active) {
     background-color: #555;
     color: white;
+	font-size: 150%;
 }
 
 .horizontal{
@@ -128,7 +133,7 @@ li a:hover:not(.active) {
     clear: left;
     text-align: center;
 	font-size: 1vw;
-	width: 10vw;
+	width: 10.1vw;
 	z-index: 3;
 	height: 10%;
 }
@@ -142,23 +147,26 @@ li a:hover:not(.active) {
 .TimeWindows{
 	z-index: 3; 
 	position:absolute; 
-	width: 13vw; 
-	left: 18vw; 
-	top: 4vw;
-	border: 1px solid #555;
-	background-color: #f1f1f1;
+	width: 18.5vw; 
+	height: 9.5vw;
+	left: 13.5vw; 
+	top: 2.5vw;
+	border: 3px solid #4CAF50;
+	border-radius: 10px;
+	background-color: rgba(255,255,255,100);
 	box-shadow: 0 1vw 1vw 0 rgba(0, 0, 0, 0.2), 0 1vw 1vw 0 rgba(0, 0, 0, 0.19);
 }
 
 .requestButtons{
 	z-index: 10; 
 	position:absolute; 
-	width: 11vw; 
-	height: 11vw;
+	width: 19vw; 
+	height: 9.5vw;
 	left: 33vw; 
-	top: 4vw;
-	border: 1px solid #555;
-	background-color: #f1f1f1;
+	top: 2.5vw;
+	border: 3px solid #4CAF50;
+	border-radius: 10px;
+	background-color: rgba(255,255,255,100);
 	box-shadow: 0 1vw 1vw 0 rgba(0, 0, 0, 0.2), 0 1vw 1vw 0 rgba(0, 0, 0, 0.19);
 }
 
@@ -177,20 +185,25 @@ li a:hover:not(.active) {
 	box-shadow: 0 1vw 1vw 0 rgba(0, 0, 0, 0.2), 0 1vw 1vw 0 rgba(0, 0, 0, 0.19);
 }
 .button{
-	position:relative;
+	position:fixed;
 	background-color: #4CAF50; /* Green */
     color: white;
-	margin: 1vw 3vw;
-	padding: 1vw 2vw;
+	margin: 2.5vw 3vw;
+	padding: 0.5vw 0.5vw;
     text-align: center;
     text-decoration: none;
     display: inline-block;
-    font-size: 0.55vw;
-	border: 1px solid #555;
+    font-size: 1vw;
+	border: 2px solid #4CAF50;
+	transition-duration: 0.5s;
 }
+
 .button:hover {
-	background-color:#5cbf2a;
+	background-color:#75d689;
+	border: 2px solid #4CAF50;
+	color: black;
 }
+
 .button:active {
 	position:relative;
 	top:1px;
@@ -199,6 +212,13 @@ li a:hover:not(.active) {
 #About_button{
 	font-size: 12px;
 	padding: 10px;
+	margin-top: 1vw;
+	border:0.5px solid #93bc9b;
+}
+
+#About_button:hover{
+	font-size:105%;
+	padding: 7px 3.7px;
 }
 
 .invisible_overlay {
@@ -216,10 +236,11 @@ li a:hover:not(.active) {
 }
 .about_content {
   display: none;
+  font-weight: normal;
   position: absolute;
   width: 900px; 
-  height: 90%;
-  top: 8%;
+  height: 93%;
+  top: 5%;
   left: 15%;
   padding: 16px;
   border: 3px solid #4CAF50;
@@ -229,12 +250,12 @@ li a:hover:not(.active) {
   overflow: auto;
 }
 
-#a1{
+p#a1{
   font-family: Palatino Linotype;
   font-size: 28px;
 }
 
-#a2{
+p#a2{
   font-family: Palatino Linotype;
   font-size: 16px;
 }
@@ -290,12 +311,36 @@ li a:hover:not(.active) {
 /* Show the dropdown menu (use JS to add this class to the .dropdown-content container when the user clicks on the dropdown button) */
 .show {display:block;}
 
-	p{
-		font-size: 0.8vw;
-	}
+p{
+	font-size: 1vw;
+}
 	
-input[type="range"] {
+input[type=range] {
+	-webkit-appearance: none;
 	width:9vw;
+}
+
+input[type=range]::-webkit-slider-runnable-track {
+    width: 300px;
+    height: 5px;
+    background: #93bc9b;
+    border: none;
+    border-radius: 25px;
+}
+
+input[type=range]::-webkit-slider-thumb {
+    -webkit-appearance: none;
+    border: none;
+    height: 15px;
+    width: 15px;
+    border-radius: 25%;
+    background: green;
+    margin-top: -5px;
+}
+
+input[type=range]::-webkit-slider-thumb:hover {
+    background: #f1f1f1;
+    border: 1px solid green;
 }
 
 #button1{
@@ -311,3 +356,4 @@ input[type="range"] {
 	background-color: white;
     color: black;
 	border: 2px solid #4CAF50;
+}
