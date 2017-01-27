@@ -196,6 +196,11 @@ li a:hover:not(.active) {
 	top:1px;
 }
 
+#About_button{
+	font-size: 12px;
+	padding: 10px;
+}
+
 .invisible_overlay {
   display: none;
   position: absolute;
@@ -222,10 +227,17 @@ li a:hover:not(.active) {
   background-color: #f1f1f1;
   z-index: 1002;
   overflow: auto;
+}
+
+#a1{
+  font-family: Palatino Linotype;
+  font-size: 28px;
+}
+
+#a2{
   font-family: Palatino Linotype;
   font-size: 16px;
 }
-
 
 /******* Dropdown ********/
 /* Dropdown Button */
