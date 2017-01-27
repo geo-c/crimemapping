@@ -75,11 +75,11 @@
 	<p style="margin-left: 1vw;"> Choose a timeframe:</p> 
 		<div class="timeWindowMonth" style="margin-left: 1vw;">
 			<input type="range" id="rangeInputMonth" name="rangeInput" step="1" min="1" max="12">
-			<label id="rangeTextMonth">
+			<label id="rangeTextMonth"></label>
 		</div>
 		<div class="timeWindowYear" style="margin-top: 1vw; margin-left: 1vw;">
 			<input type="range" id="rangeInputYear" name="rangeInputY" step="1" min="2013" max="2015">
-			<label id="rangeTextYear">
+			<label id="rangeTextYear"></label>
 		</div>
 	</div>
 	
@@ -91,7 +91,7 @@
 	</div>
 	
     <div class="informal">
-        <button type="button" class="button"><a href="javascript:void(0)" onclick="document.getElementById('show').style.display='block';document.getElementById('close').style.display='block'">About</a></button>
+        <button id="About_button" type="button" class="button"><a href="javascript:void(0)" onclick="document.getElementById('show').style.display='block';document.getElementById('close').style.display='block'">About</a></button>
     </div>  
 	
 	<div class="loader" id="loader" style="background: #f1f1f1 url('loader/gears.gif') no-repeat center center; display:none;">
