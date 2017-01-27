@@ -54,12 +54,12 @@
 <body>
 
     <div class="topTitle">
-       <p>Crime Map<p>
+       <p>Crime Map</p>
     </div>
 	
     <nav>
         <ul>
-            <li><a  class="link" id="Mapped">Map</a></li>
+            <li><a class="link" id="Mapped">Map</a></li>
             <li><a class="link" id="Diagram">Diagram</a></li>
             <br>
             <br>
@@ -74,12 +74,12 @@
 	<div class="TimeWindows" id="TimeWindows">
 	<p style="margin-left: 1vw;"> Choose a timeframe:</p> 
 		<div class="timeWindowMonth" style="margin-left: 1vw;">
-				<input type="range" id="rangeInputMonth" name="rangeInput" step="1" min="1" max="12">
-				<label id="rangeTextMonth">
+			<input type="range" id="rangeInputMonth" name="rangeInput" step="1" min="1" max="12">
+			<label id="rangeTextMonth">
 		</div>
 		<div class="timeWindowYear" style="margin-top: 1vw; margin-left: 1vw;">
-				<input type="range" id="rangeInputYear" name="rangeInputY" step="1" min="2013" max="2015">
-				<label id="rangeTextYear">
+			<input type="range" id="rangeInputYear" name="rangeInputY" step="1" min="2013" max="2015">
+			<label id="rangeTextYear">
 		</div>
 	</div>
 	
@@ -91,7 +91,7 @@
 	</div>
 	
     <div class="informal">
-        <button type="button" class="button" a href="javascript:void(0)" onclick="document.getElementById('show').style.display='block';document.getElementById('close').style.display='block'">About</a></button>
+        <button type="button" class="button"><a href="javascript:void(0)" onclick="document.getElementById('show').style.display='block';document.getElementById('close').style.display='block'">About</a></button>
     </div>  
 	
 	<div class="loader" id="loader" style="background: #f1f1f1 url('loader/gears.gif') no-repeat center center; display:none;">
@@ -179,8 +179,19 @@
     <section id="map">
 	</section>
 
-
-    <div id="show" class="about_content">About. <a href="javascript:void(0)" onclick="document.getElementById('show').style.display='none';document.getElementById('close').style.display='none'">Close</a></div>
+ <div id="show" class="about_content">
+		<p id="a1"><center><b style="font-size: 28px;">About</b></center></p>
+		<p id="a2"><b>Welcome to Crime Mapper!</b>
+		<br>This application is intended to help Citizens, Tourists, the Police Department, Students and Researchers to get a better overview of the crimes in Greater London. There are two kinds of views, the map view and the diagram view. You can choose between the layers using the controls on the left.
+		<br><br><b>Map View:</b><br>You can select the Crime Index layer or the Heat layer from the controls provided on the right. To get the heat layer, select the time period using the sliders and click <b>Get Data</b>.
+		<br><br><b>Diagram View:</b><br>Please select the Borough, crime type and the year and click <b>Load Diagram</b>. 
+		</p>
+		<table id="t1" style="width: 800px;"><tr>
+		<td><i><u>Created by:</u><br>Nimrod Gavish, Antonia van Eek, Jeison Londoño <br> Mina Karamesouti, Sangeetha Shankar, Julius Wittkopp
+		<br>University of Muenster, Germany.</i></td>
+		<td><img src="crimePict1.jpg" height=150px width=300px style="margin: auto;"></td></tr></table><br>
+	
+	<center><button id="button1"><a href="javascript:void(0)" onclick="document.getElementById('show').style.display='none';document.getElementById('close').style.display='none'">Close</a></button></center></div>
     <div id="close" class="invisible_overlay"></div>
 
 </body>
