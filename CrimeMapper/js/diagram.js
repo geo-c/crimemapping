@@ -25,6 +25,8 @@ function changeSession() {
         selectedYear = year;
         selectedCrimeType = crimeType;
         askForDiagramData(buildDiagramQuery(boroughName, crimeType, year));
+		askForTableData(buildTableQuery(boroughName));
+		putWikiLink(boroughName);
     }
 }
 
@@ -165,7 +167,71 @@ function generateDiagram(data) {
             }
         },
         size: {
-            height: 480
+            height: 400
         }
     });
+}
+
+
+// functions for table below the diagram
+function buildTableQuery(boroughName, crimeType, year){
+	
+    var query = sqlPrefixes + '\
+    SELECT ?y ?iVal ?pVal\n\
+    WHERE{ GRAPH<http://course.geoinfo2016.org/G3>{ \n\
+            dbpedia-page:'+boroughName+' dbpedia:income ?income. \n\
+			?income owl:hasValue ?iVal. \n\
+			?income dc:date ?y. \n\
+			dbpedia-page:'+boroughName+' dbpedia:Population ?popu. \n\
+			?popu owl:hasValue ?pVal. \n\
+			?popu dc:date ?y. \n\
+    }\n\
+    }';
+   // console.log(query);
+    return query;
+}
+
+// send request to parliament
+function askForTableData(query) {
+    var url = sparqlUrl + encodeURIComponent(query); // encodeURI is not enough as it doesn't enocde # for example.
+    //console.log(url);
+    console.log('start request');
+    $.ajax({
+        dataType: "jsonp",
+        url: url,
+        /*Success*/
+        success: function(data){
+            console.log(data);
+            createAndFillTable(data);
+        },
+        /*error*/
+        error: function (ajaxContext) {
+            console.log("error"+ ajaxContext);
+            alert(ajaxContext.responseText);
+        }
+    }).done(function(JSONtext) {
+        console.log("done")
+    });
+}
+
+// Parse received data and generate the diagram
+function createAndFillTable(data) {
+	var result ="<br><center><table class='BoroughInfoTable'><tr><th>Year</th><th>Income</th><th>Population</th></tr>";
+	for (var key = 0; key < data.results.bindings.length-1; key++) {	//-1 to skip the last row (values of 2012)
+        var year = data.results.bindings[key]["y"].value;
+        var iVal = data.results.bindings[key]["iVal"].value;
+		var pVal = data.results.bindings[key]["pVal"].value;
+        result = result + "<tr><td>"+year+"</td><td>"+iVal+"</td><td>"+pVal+"</td></tr>";
+    }
+	result = result + "</table></center>";
+    //console.log(result);
+	document.getElementById('TableContainer').innerHTML=result;    
+}
+
+// Wiki link for the selected borough
+function putWikiLink(boroughName){
+	var boroughNameNew = boroughName.replace(/_/g, ' ');
+	var wikiURL = "<br><center><a id='wikilink' href='https://en.wikipedia.org/wiki/"+boroughName+"' target='_blank'>Wikipedia page of "+boroughNameNew+"</a></center>";
+	//console.log(wikiURL);
+	document.getElementById('WikiLinkHolder').innerHTML=wikiURL;
 }
