@@ -42,8 +42,8 @@ html, body {
 }
 
 #map {
-  width: 90vw;
-  height: 45vw;
+  width: 90vw; /* Do not change! */
+  height: 46vw; /* Do not change! */ 
   position: absolute;
   z-index: 2;
 	margin: 5vw 10vw;

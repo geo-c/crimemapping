@@ -91,7 +91,7 @@ function buildCrimeLocQuery(){
 	?crime lode:atTime ?t.\n\
 		?t time:month \"--"+ month + "\"^^xsd:gMonth.\n\
 		?t time:year \""+ rangeYears[$('#rangeInputYear').val()]+ "\"^^xsd:gYear.\n\
-	}}LIMIT 100000";
+	}}LIMIT 150000";
 	console.log(query)
 	return query;
 }
@@ -105,17 +105,17 @@ function buildCrimeIndexRateQuery(){
 			?borough admingeo:gssCode ?code.\n\
 			?borough dbpedia:income ?income.\n\
 			?income owl:hasValue ?incomeVal.\n\
-			?income dc:date \"2014\"^^xsd:gYear.\n\
+			?income dc:date \""+ rangeYears[$('#rangeInputYear').val()]+ "\"^^xsd:gYear.\n\
 			?borough dbpedia:Population ?population.\n\
 			?population owl:hasValue ?populationVal.\n\
-			?population dc:date \"2014\"^^xsd:gYear.\n\
+			?population dc:date \""+ rangeYears[$('#rangeInputYear').val()]+ "\"^^xsd:gYear.\n\
 			{\n\
 				SELECT ?borough (COUNT(?crime) as ?crime_count)\n\
 				WHERE\n\
 				{\n\
 					?crime lode:atPlace ?borough.\n\
 					?crime lode:atTime ?t.\n\
-					?t time:year \"2014\"^^xsd:gYear.\n\
+					?t time:year \""+ rangeYears[$('#rangeInputYear').val()]+ "\"^^xsd:gYear.\n\
 				}GROUP BY ?borough\n\
 			}\n\
 		}\n\
@@ -188,14 +188,18 @@ function createCrimeIndexRateMap(JSONtext){
 
 /*If user presses Imprint Button with ID reqHeatmap, request is started)*/
 document.getElementById('reqHeatmap').onclick = function(){
-	console.log("heat");
+	console.log("Heat");
 	var async = true;
+	map.removeLayer(boroughLayer);
+	map.addLayer(heat);
     askForData(buildCrimeLocQuery(), createHeatMap, async);
   };
 
-  document.getElementById('clickMe').onclick = function(){
-	console.log("Choro");
+document.getElementById('reqChoropleth').onclick = function(){
+	console.log("Choropleth");
 	var async = true;
+	map.removeLayer(heat);
+	map.addLayer(boroughLayer);
 	askForData(buildCrimeIndexRateQuery(), createCrimeIndexRateMap, async);
   };
   
@@ -358,7 +362,7 @@ function onEachFeature(feature, layer) {
 boroughLayer = L.geoJson(boroughs, {
     style: style,
     onEachFeature: onEachFeature
-}).addTo(map);
+})
 
 /* Control & Legend functions */
 
@@ -378,7 +382,9 @@ var legend = L.control({position: 'bottomright'});
  labels = [];
 
  var div = L.DomUtil.create('Choropleth', 'Choropleth legend');
-    
+   
+ div.innerHTML= '<b>Crime Rate Per 1,000: </b>' +'<br>';
+
  for (var i = 0; i < grades.length; i++) {
  	div.innerHTML +=
     '<i style="background:' + getColor(grades[i] + 1) + '"></i> ' +
@@ -416,8 +422,19 @@ var baseLayers = {
     };
 
 var overlays = {
-    "Boroughs": boroughLayer, //todo: fix boroughs variable scope so this will work
+    "Boroughs": boroughLayer, 
 	"Heat Map": heat
 }; 
  
 L.control.layers(baseLayers, overlays,{collapsed:false}).addTo(map); 
+
+/** Borough boundary only by default **/
+
+var defaultBorough = LoadGeoJSON("data/london_boroughs.geojson")
+
+L.geoJson(defaultBorough, {
+	style: {
+		opacity: 1,
+		fillOpacity: 0
+	}
+}).addTo(map);
