@@ -3,6 +3,8 @@ var CrimeLatLon = [];
 var CrimeHeat = [];
 /*vars for boroughs layer*/
 var crimeIndexRateMap = new Object();
+var highestRate = 0;
+var lowestRate = 0;
 /*Heatmap layer*/
 var heat = new L.LayerGroup();
 /*variable where the requestes JSON (data) will be stored in*/
@@ -156,7 +158,7 @@ function createHeatMap(JSONtext){
 
 /*Replace all ocurrencies*/
 function replaceAll(str, find, replace) {
-  return str.replace(new RegExp(find, 'g'), replace);
+	return str.replace(new RegExp(find, 'g'), replace);
 }
 
 /*function to create the Crime Index Rate layer*/
@@ -169,9 +171,16 @@ function createCrimeIndexRateMap(JSONtext){
 			var income = parseFloat(JSONtext.results.bindings[key].incomeVal.value);
 			var population = parseInt(JSONtext.results.bindings[key].populationVal.value);
 			var crimeCount = parseInt(JSONtext.results.bindings[key].crime_count.value);
-			//var crimeIndexRate = parseInt(JSONtext.results.bindings[key].crimeIndexRate.value); //calculating the index rate in parliament is missing the decimals 
-			var crimeIndexRate = (crimeCount / population) * 1000;
+			var crimeIndexRate = parseFloat(JSONtext.results.bindings[key].crimeIndexRate.value); //calculating the index rate in parliament is missing the decimals 
+			//var crimeIndexRate = (crimeCount / population) * 1000;
 			crimeIndexRate = Math.round(crimeIndexRate * 100) / 100
+			
+			if(highestRate < crimeIndexRate ){
+				highestRate = crimeIndexRate;
+			}
+			if(lowestRate > crimeIndexRate){
+				lowestRate = crimeIndexRate;
+			}
 			
 			var borough = new boroughObject(boroughCode, boroughDBPediaName, income, population, crimeCount, crimeIndexRate);
 			
@@ -184,6 +193,12 @@ function createCrimeIndexRateMap(JSONtext){
 			//console.log("CIR of " + shortName + ": " + crimeIndexRate)
 		}	
 		
+		map.removeControl(legend);
+		legend.addTo(map);
+		
+		boroughLayer = getBoroughtsLayer();
+		
+		map.addLayer(boroughLayer);
 }
 
 /*If user presses Imprint Button with ID reqHeatmap, request is started)*/
@@ -191,15 +206,16 @@ document.getElementById('reqHeatmap').onclick = function(){
 	console.log("Heat");
 	var async = true;
 	map.removeLayer(boroughLayer);
+	map.removeControl(legend);
 	map.addLayer(heat);
     askForData(buildCrimeLocQuery(), createHeatMap, async);
   };
 
 document.getElementById('reqChoropleth').onclick = function(){
 	console.log("Choropleth");
-	var async = true;
+	var async = false;
 	map.removeLayer(heat);
-	map.addLayer(boroughLayer);
+	map.removeLayer(boroughLayer);
 	askForData(buildCrimeIndexRateQuery(), createCrimeIndexRateMap, async);
   };
   
@@ -296,16 +312,32 @@ function LoadGeoJSON(data) {
 /*
 Determine color of borough polygon according to crime rate, (C) color brewer 
 */
-
-function getColor(d) {
-    return d > 782 ? '#b10026' :
-           d > 105  ? '#e31a1c' :
-           d > 90  ? '#fc4e2a' :
-           d > 82  ? '#fd8d3c' :
-           d > 74   ? '#feb24c' :
-           d > 62   ? '#fed976' :
-           d > 52   ? '#ffffb2' :
+function getColor(crimeIndexRate) {
+    return crimeIndexRate > 782 ? '#b10026' :
+           crimeIndexRate > 105  ? '#e31a1c' :
+           crimeIndexRate > 90  ? '#fc4e2a' :
+           crimeIndexRate > 82  ? '#fd8d3c' :
+           crimeIndexRate > 74   ? '#feb24c' :
+           crimeIndexRate > 62   ? '#fed976' :
+           crimeIndexRate > 52   ? '#ffffb2' :
                       '#FFEDA0';
+}
+
+function getColorCrimeRateIndex(crimeIndexRate) {
+	
+	grades = getChoroplethGrades();
+	var colors = getChoroplethColors(grades.length);
+	
+	for(var i = 0; i < grades.length; i++){
+		if((i+1) == grades.length){
+			return colors[colors.length - 1];
+		}
+		if(crimeIndexRate >= grades[i] && crimeIndexRate < grades[i+1]){
+			return colors[i];
+		}
+	}
+	
+	return "#FFEDA0";
 }
 
 /*
@@ -313,7 +345,8 @@ Set colors for borough layer
 */
 function style(feature) {
     return {
-        fillColor: getColor(feature.properties.crime_rate),
+        //fillColor: getColor(feature.properties.crime_rate),
+		fillColor: getColorCrimeRateIndex(crimeIndexRateMap[feature.properties.name] ? crimeIndexRateMap[feature.properties.name].crimeIndexRate : 0),
         weight: 2,
         opacity: 1,
         color: 'black',
@@ -359,10 +392,14 @@ function onEachFeature(feature, layer) {
     });
 }
 
-boroughLayer = L.geoJson(boroughs, {
-    style: style,
-    onEachFeature: onEachFeature
-})
+boroughLayer = getBoroughtsLayer();
+
+function getBoroughtsLayer(){
+	return L.geoJson(boroughs, {
+		style: style,
+		onEachFeature: onEachFeature
+	});
+}
 
 /* Control & Legend functions */
 
@@ -377,24 +414,61 @@ info.onAdd = function (map) {
 /*Create Legend for choropleth */
 var legend = L.control({position: 'bottomright'});
 
- legend.onAdd = function (map) {
- grades = [0, 55, 65, 75, 85, 95, 110, 785],
- labels = [];
+/* legend.onAdd = function (map) {
+	var div = L.DomUtil.create('Choropleth', 'Choropleth legend');
 
- var div = L.DomUtil.create('Choropleth', 'Choropleth legend');
-   
- div.innerHTML= '<b>Crime Rate Per 1,000: </b>' +'<br>';
+	div.innerHTML= '<b>Crime Rate Per 1,000: </b>' +'<br>';
+	
+	var grades = [0, 55, 65, 75, 85, 95, 110, 785];
 
- for (var i = 0; i < grades.length; i++) {
- 	div.innerHTML +=
-    '<i style="background:' + getColor(grades[i] + 1) + '"></i> ' +
-    grades[i] + (grades[i + 1] ? '&ndash;' + grades[i + 1] + '<br>' : '+');
-    }
+	for (var i = 0; i < grades.length; i++) {
+		div.innerHTML +=
+		'<i style="background:' + getColor(grades[i] + 1) + '"></i> ' +
+		grades[i] + (grades[i + 1] ? '&ndash;' + grades[i + 1] + '<br>' : '+');
+	}
+	
+    return div;
+}; */
+
+function getChoroplethGrades(){
+	var amountOfBoroughs = 33;
+	var amountOfGrades = 8;
+	var grades = [];
+	
+	var range = parseInt(highestRate / amountOfGrades) + 1;
+	for(var i = 0; i < amountOfGrades; i++){
+		grades.push(range * i);
+	}
+	
+	return grades;
+}
+function getChoroplethColors(length){
+	/* return d3.scaleThreshold()
+		.domain(d3.range(0, length))
+		.range(d3.schemeYlOrRd[9]); */
+		
+	colors = ["#FFEDA0","#ffffb2","#fed976","#feb24c","#fd8d3c","#fc4e2a","#e31a1c","#b10026"];
+	
+	return colors;
+}
+
+legend.onAdd = function () {
+	var div = L.DomUtil.create('Choropleth', 'Choropleth legend');
+
+	div.innerHTML= '<b>Crime Rate Per 1,000: </b>' +'<br>';
+	
+	grades = getChoroplethGrades();
+	
+	var colors = getChoroplethColors(grades.length);
+	
+	for(var i = 0; i < grades.length; i++){
+		div.innerHTML +=
+		'<i style="background:' + colors[i] + '"></i> ' +
+		grades[i] + (grades[i + 1] ? '&ndash;' + grades[i + 1] + '<br>' : '+');
+	}
 
     return div;
 };
-
-legend.addTo(map);
 
 
 // method used to update the control based on feature properties passed
