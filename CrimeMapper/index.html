@@ -25,7 +25,7 @@
                 $("#map").hide();
 				$("#TimeWindows").hide();
 				$("#requestButtons").hide();
-				
+
             });
 
             $("#Mapped").click(function(){
@@ -34,7 +34,7 @@
 				$("#requestButtons").show();
             });
         });
-		
+
 		$(function() {
 		$('a.link').click(function() {
 		$('a.link').removeClass('active');
@@ -55,14 +55,14 @@
     <div class="topTitle">
        <p>Crime Map</p>
     </div>
-	
+
     <nav>
         <ul>
             <li><a class="link" id="Mapped">Map</a></li>
             <li id="d"><a class="link" id="Diagram">Diagram</a></li>
             <br>
             <br>
-            <footer align="center">		
+            <footer align="center">
             Data courtesy of <a href= "https://data.police.uk/"> London Police </a>
             </footer>
         </ul>
@@ -71,7 +71,7 @@
     <header>
 
 	<div class="TimeWindows" id="TimeWindows">
-	<p style="margin-left: 1vw;"><b>Choose a timeframe:</b></p> 
+	<p style="margin-left: 1vw;"><b>Choose a timeframe:</b></p>
 		<div class="timeWindowMonth" style="margin-left: 1vw;">
 			<input type="range" id="rangeInputMonth" name="rangeInput" step="1" min="1" max="12">
 			<label id="rangeTextMonth"></label>
@@ -81,29 +81,29 @@
 			<label id="rangeTextYear"></label>
 		</div>
 	</div>
-	
+
 	<div class="requestButtons" id="requestButtons">
-	<p style="margin-left: 1vw;margin-bottom:0.05vw; font-family: Verdana;"><b>Choose a visualization:</b></p> 
+	<p style="margin-left: 1vw;margin-bottom:0.05vw; font-family: Verdana;"><b>Choose a visualization:</b></p>
 	<button type="button" class="button" id="reqHeatmap" style="padding: 0.4vw 2.08vw; margin-top: 0.7vw; margin-left: 0.75vw; width: 17vw;">Heat Map</button>
 	<!-- Maybe we enter more appropiate names here -->
 	<button type="button" class="button" id="reqChoropleth" style="padding: 0.4vw 1.1vw; margin-top: 3.5vw;margin-left: 0.75vw;width: 17vw;">Choropleth Map</button>
 	</div>
-	
+
     <div class="informal">
         <button id="About_button" type="button" class="button" a href="javascript:void(0)" onclick="document.getElementById('show').style.display='block';document.getElementById('close').style.display='block'">About</button>
-    </div>  
-	
+    </div>
+
 	<div class="loader" id="loader" style="background: #f1f1f1 url('loader/gears.gif') no-repeat center center; display:none;">
 	<h1> Please wait...</h1>
-    </div> 
-	
+    </div>
+
     </header>
 
     <!-- Borough Diagram --->
     <section id="diagramContainer" >
 
         <div style="margin-top: 10px; margin-left: 25px">
-        <!-- Borough selection -->
+            <!-- Borough selection -->
             <select id="selectedBorough">
                 <option selected="selected">Select a borough</option>
                 <option value='City_of_London'>City of London</option>
@@ -142,40 +142,55 @@
             </select>
 
             <!-- Crime type selection -->
-            <select id="selectedCrimeType">
-                <option selected="selected">Select a crime type</option>
-                <option value='BicycleTheft'>Bicycle theft</option>
-                <option value='Burglary'>Burglary</option>
-                <option value='TheftFromThePerson'>Theft from the person</option>
-                <option value='Anti-socialBehaviour'>Anti-social behaviour</option>
-                <option value='PublicOrder'>Public order</option>
-                <option value='Shoplifting'>Shoplifting</option>
-                <option value='Drugs'>Drugs</option>
-                <option value='VehicleCrime'>Vehicle crime</option>
-                <option value='ViolenceAndSexualOffences'>Violence and sexual offences</option>
-                <option value='CriminalDamageAndArson'>Criminal damage and arson</option>
-                <option value='PossessionOfWeapons'>Possession of weapons</option>
-                <option value='Robbery'>Robbery</option>
-                <option value='OtherTheft'>Other theft</option>
-                <option value='OtherCrime'>Other crime</option>
-            </select>
+            <div class="multiselect" style="left: 400px; top: 10px; z-index: 10;">
+                <div class="selectBox" onclick="showCheckboxes()">
+                    <select>
+                        <option>Select crime types</option>
+                    </select>
+                    <div class="overSelect"></div>
+                </div>
+                <div id="crimeTypeCheckboxes" style="background-color: white;">
+                    <input type="checkbox" class="crimeVals"  value='BicycleTheft'>Bicycle theft</input><br>
+                    <input type="checkbox" class="crimeVals"  value='Burglary'>Burglary</input><br>
+                    <input type="checkbox" class="crimeVals"  value='TheftFromThePerson'>Theft from the person</input><br>
+                    <input type="checkbox" class="crimeVals"  value='Anti-socialBehaviour'>Anti-social behaviour</input><br>
+                    <input type="checkbox" class="crimeVals"  value='PublicOrder'>Public order</input><br>
+                    <input type="checkbox" class="crimeVals"  value='Shoplifting'>Shoplifting</input><br>
+                    <input type="checkbox" class="crimeVals"  value='Drugs'>Drugs</input><br>
+                    <input type="checkbox" class="crimeVals"  value='VehicleCrime'>Vehicle crime</input><br>
+                    <input type="checkbox" class="crimeVals"  value='ViolenceAndSexualOffences'>Violence and sexual offences</input><br>
+                    <input type="checkbox" class="crimeVals"  value='CriminalDamageAndArson'>Criminal damage and arson</input><br>
+                    <input type="checkbox" class="crimeVals"  value='PossessionOfWeapons'>Possession of weapons</input><br>
+                    <input type="checkbox" class="crimeVals"  value='Robbery'>Robbery</input><br>
+                    <input type="checkbox" class="crimeVals"  value='OtherTheft'>Other theft</input><br>
+                    <input type="checkbox" class="crimeVals"  value='OtherCrime'>Other crime</input><br>
+                </div>
+            </div>
+
 
             <!-- Year selection -->
-            <select id="selectedYear">
-                <option value='2013'>2013</option>
-                <option value='2014'>2014</option>
-            </select>
+            <div style="left: 710px; top: 10px; position:absolute;">
+                <select id="selectedYear">
+                    <option value='2013'>2013</option>
+                    <option value='2014'>2014</option>
+                </select></div>
 
             <!-- submit button -->
-            <button id="submitButton" onclick="changeSession()">Load Diagram</button>
+            <div style="left: 780px; top: 10px; position:absolute;">
+                <button id="submitButton" onclick="changeSession()">Load Diagram</button></div>
+            <br>
+
+            <div id="LoadingMessage" style="color: #4CAF50"> </div>
         </div>
+
 
         <div id="barDiagram" style="padding-left: 25px; padding-top: 20px">
             <p>Please select the borough and crime type for which a diagram shall be shown. You can also choose the year. Please press the button to sumbit.</p>
         </div>
-		<div id="TableContainer"></div>
-		<div id="WikiLinkHolder"></div>
+        <div id="TableContainer"></div>
+        <div id="WikiLinkHolder"></div>
     </section>
+
 
     <section id="map">
 	</section>
@@ -185,13 +200,13 @@
 		<p id="a2"><b>Welcome to Crime Mapper!</b>
 		<br>This application is intended to help Citizens, Tourists, the Police Department, Students and Researchers to get a better overview of the crimes in Greater London. There are two kinds of views, the map view and the diagram view. You can choose between the views using the controls on the left.
 		<br><br><b>Map View:</b><br>You can choose a visualisation using the buttons provided and activate/deactivate the Crime Index layer or the Heat map using the controls provided on the right. To get the heat map, select the time period using the sliders and click <b>Heat Map</b>. To get the Cholopleth map of Crime index, click <b>Choropleth Map</b>.
-		<br><br><b>Diagram View:</b><br>Please select the Borough, crime type and the year and click <b>Load Diagram</b>. 
+		<br><br><b>Diagram View:</b><br>Please select the Borough, crime type and the year and click <b>Load Diagram</b>.
 		</p>
 		<table id="t1" style="width: 800px;"><tr>
 		<td><i><u>Created by:</u><br>Nimrod Gavish, Antonia van Eek, Jeison Londoño <br> Mina Karamesouti, Sangeetha Shankar, Julius Wittkopp
 		<br>University of Muenster, Germany.</i></td>
 		<td><img src="crimePict1.jpg" height=150px width=300px style="margin: auto;"></td></tr></table><br>
-	
+
 	<center><button id="button1" a href="javascript:void(0)" onclick="document.getElementById('show').style.display='none';document.getElementById('close').style.display='none'">Close</button></center></div>
     <div id="close" class="invisible_overlay"></div>
 

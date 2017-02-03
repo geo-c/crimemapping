@@ -85,13 +85,13 @@ ul {
 }
 
 li{
-	text-align: center;
-	line-height: 17vw;
-	font-size: 1vw;
+    text-align: center;
+    line-height: 17vw;
+    font-size: 1vw;
 }
 
 #d{
-	border-bottom: 1px solid black;
+    border-bottom: 1px solid black;
 }
 
 li a {
@@ -99,34 +99,34 @@ li a {
     color: #000;
     padding: 8px 16px;
     text-decoration: none;
-	transition-duration: 0.5s;
+    transition-duration: 0.5s;
 }
 
 li a.active {
     background-color: #4CAF50;
     color: white;
-	text-transform: uppercase;
-	font-weight: bold;
-	font-size: 16px;
+    text-transform: uppercase;
+    font-weight: bold;
+    font-size: 16px;
 }
 
 li a:hover:not(.active) {
     background-color: #555;
     color: white;
-	font-size: 150%;
+    font-size: 150%;
 }
 
 .horizontal{
-	position: relative;
-	z-index: 1;
-	height: 5vw;
-	float: left;
-	width: 100%;
-	background-color: #f1f1f1;
-	z-index:3;
+    position: relative;
+    z-index: 1;
+    height: 5vw;
+    float: left;
+    width: 100%;
+    background-color: #f1f1f1;
+    z-index:3;
 }
 .topTitle{
-	position:relative;
+    position:relative;
     padding:1em;
     color: white;
     background-color: black;
@@ -139,9 +139,9 @@ li a:hover:not(.active) {
 }
 
 .informal{
-	position:absolute;
-	width: 16vw;
-	left: 85vw;
+    position:absolute;
+    width: 16vw;
+    left: 85vw;
 }
 
 .TimeWindows{
@@ -171,54 +171,54 @@ li a:hover:not(.active) {
 }
 
 .loader{
-	z-index:100;
-	position:absolute;
-	margin-left: 30vw;
-	margin-top: 18vw;
-	height:20vw; 
-	width: 30vw; 
-	background-size: 100% 100%;
-	display: inline-block;
-	text-align: center;
+    z-index:100;
+    position:absolute;
+    margin-left: 30vw;
+    margin-top: 18vw;
+    height:20vw;
+    width: 30vw;
+    background-size: 100% 100%;
+    display: inline-block;
+    text-align: center;
     text-decoration: none;
-	border: 1px solid #555;
-	box-shadow: 0 1vw 1vw 0 rgba(0, 0, 0, 0.2), 0 1vw 1vw 0 rgba(0, 0, 0, 0.19);
+    border: 1px solid #555;
+    box-shadow: 0 1vw 1vw 0 rgba(0, 0, 0, 0.2), 0 1vw 1vw 0 rgba(0, 0, 0, 0.19);
 }
 .button{
-	position:fixed;
-	background-color: #4CAF50; /* Green */
+    position:fixed;
+    background-color: #4CAF50; /* Green */
     color: white;
-	margin: 2.5vw 3vw;
-	padding: 0.5vw 0.5vw;
+    margin: 2.5vw 3vw;
+    padding: 0.5vw 0.5vw;
     text-align: center;
     text-decoration: none;
     display: inline-block;
     font-size: 1vw;
-	border: 2px solid #4CAF50;
-	transition-duration: 0.5s;
+    border: 2px solid #4CAF50;
+    transition-duration: 0.5s;
 }
 
 .button:hover {
-	background-color:#75d689;
-	border: 2px solid #4CAF50;
-	color: black;
+    background-color:#75d689;
+    border: 2px solid #4CAF50;
+    color: black;
 }
 
 .button:active {
-	position:relative;
-	top:1px;
+    position:relative;
+    top:1px;
 }
 
 #About_button{
-	font-size: 12px;
-	padding: 10px;
-	margin-top: 1vw;
-	border:0.5px solid #93bc9b;
+    font-size: 12px;
+    padding: 10px;
+    margin-top: 1vw;
+    border:0.5px solid #93bc9b;
 }
 
 #About_button:hover{
-	font-size:105%;
-	padding: 7px 3.7px;
+    font-size:105%;
+    padding: 7px 3.7px;
 }
 
 .invisible_overlay {
@@ -382,19 +382,45 @@ input[type=range]::-webkit-slider-thumb:hover {
 }
 
 .BoroughInfoTable th{
-	background-color: #3c8d31;
-	color: white;
+    background-color: #3c8d31;
+    color: white;
 }
 
 .BoroughInfoTable tr:nth-child(even) {background-color: #f2f2f2}
 
 #wikilink{
-	text-decoration: none;
-	color: #3c8d31;
+    text-decoration: none;
+    color: #3c8d31;
 }
 
 #wikilink:hover{
-	text-decoration: underline;
-	color: blue;
-	cursor: pointer;
+    text-decoration: underline;
+    color: blue;
+    cursor: pointer;
+}
+
+.multiselect {
+    width: 300px;
+    position: absolute;
+}
+
+.selectBox {
+    position: relative;
+}
+
+.selectBox select {
+    width: 100%;
+}
+
+.overSelect {
+    position: absolute;
+    left: 0;
+    right: 0;
+    top: 0;
+    bottom: 0;
+}
+
+#crimeTypeCheckboxes {
+    display: none;
+    border: 1px #dadada solid;
 }

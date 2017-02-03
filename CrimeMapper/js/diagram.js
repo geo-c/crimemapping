@@ -1,6 +1,7 @@
 var selectedYear = "";
-var selectedCrimeType = "";
-
+var selectedCrimeType = [];
+var responseAll = [];
+var pos;
 /* ============ Dropdown ==============*/
 function myFunction() {
     document.getElementById("myDropdown").classList.toggle("show");
@@ -9,24 +10,33 @@ function myFunction() {
 // Called when a change is detected in one of the dropdowns/select
 function changeSession() {
     var boroughName = document.getElementById('selectedBorough').value;
-    var crimeType = document.getElementById('selectedCrimeType').value;
+    selectedCrimeType = [];
+    pos = 0;
+    responseAll.length = 0;
+    responseAll=[0,0,0,0,0,0,0,0,0,0,0,0,0];
+    console.log(responseAll);
+    var inputElements = document.getElementsByClassName('crimeVals');
+    for(var i=0; inputElements[i]; ++i){
+        if(inputElements[i].checked){
+            selectedCrimeType.push(inputElements[i].value);
+        }
+    }console.log(selectedCrimeType);
     var year = document.getElementById('selectedYear').value;
     // Ensure that a borough name has been selected
     if (boroughName == 'Select a borough') {
         document.getElementById("barDiagram").textContent = 'Please select a borough.';
         document.getElementById("barDiagram").style.color = 'Red';
-    }if (crimeType == 'Select a crime type') {
-        document.getElementById("barDiagram").textContent = 'Please select a crime type.';
+    }else if(selectedCrimeType.length==0){
+        document.getElementById("barDiagram").textContent = 'Please select atleast one crime type.';
         document.getElementById("barDiagram").style.color = 'Red';
     } else {
         document.getElementById("barDiagram").style.paddingLeft = '25px';
-        document.getElementById("barDiagram").textContent = 'Please wait, diagram is loading.';
+        document.getElementById("barDiagram").textContent = 'Please wait, diagram is loading....';
         document.getElementById("barDiagram").style.color = 'Green';
         selectedYear = year;
-        selectedCrimeType = crimeType;
-        askForDiagramData(buildDiagramQuery(boroughName, crimeType, year));
-		askForTableData(buildTableQuery(boroughName));
-		putWikiLink(boroughName);
+        buildDiagramAll(boroughName,year);
+        askForTableData(buildTableQuery(boroughName));
+        putWikiLink(boroughName);
     }
 }
 
@@ -53,50 +63,36 @@ PREFIX foaf: <http://xmlns.com/foaf/0.1/>\n\
 PREFIX dc: <http://dublincore.org/documents/2012/06/14/dcmi-terms/?v=elements#>\n";
 
 // query for displaying the data of all crime types
-/*function buildDiagramQuery(boroughName, year, crimeType){
-    var query = sqlPrefixes + '\
-    SELECT ?m ?y ?ct COUNT(?crime)\n\
-    WHERE{ GRAPH<http://course.geoinfo2016.org/G3>{ \n\
-        ?crime lode:atTime ?t.\n\
-            ?t time:month ?m. \n\
-            ?t time:year "2013"^^xsd:gYear. \n\
-            ?crime rdf:type ?ct. \n\
-            ?crime lode:atPlace dbpedia-page:'+boroughName+'. \n\
-    }FILTER(?ct!=crime:Crime&&?ct!=rdfs:Class) \n\
-    }GROUP BY ?m ?y ?ct \n\
-        ORDER BY ?m ?y \n';
-    console.log(query);
-    return query;
-}*/
+function buildDiagramAll(boroughName, year){
+    for(var i = 0; i < selectedCrimeType.length; i++){
 
-// builds a string containing the query which will be send to parliament
-function buildDiagramQuery(boroughName, crimeType, year){
-    var query = sqlPrefixes + '\
-    SELECT ?m ?y ?ct COUNT(?crime)\n\
-    WHERE{ GRAPH<http://course.geoinfo2016.org/G3>{ \n\
-        ?crime lode:atTime ?t.\n\
-            ?t time:month ?m. \n\
-            ?t time:year "'+year+'"^^xsd:gYear. \n\
-            ?crime rdf:type crime:'+crimeType+'. \n\
-            ?crime lode:atPlace dbpedia-page:'+boroughName+'. \n\
-    }\n\
-    }GROUP BY ?m ?y \n\
-        ORDER BY ?m ?y \n';
-   // console.log(query);
-    return query;
+        var query = sqlPrefixes + '\
+		SELECT ?m ?ct COUNT(?crime)\n\
+		WHERE{ GRAPH<http://course.geoinfo2016.org/G3>{ \n\
+				?crime lode:atTime ?t.\n\
+				?t time:month ?m. \n\
+				?t time:year "'+year+'"^^xsd:gYear. \n\
+				?crime rdf:type ?ct. \n\
+				?crime lode:atPlace dbpedia-page:'+boroughName+'. \n\
+		}FILTER(?ct!=crime:Crime&&?ct!=rdfs:Class&&?ct=crime:'+selectedCrimeType[i]+') \n\
+		}GROUP BY ?m ?ct \n\
+			ORDER BY ?m \n';
+        //console.log(query);
+        askForDiagramData(query);
+    }
 }
 
 // send request to parliament
 function askForDiagramData(query) {
     var url = sparqlUrl + encodeURIComponent(query); // encodeURI is not enough as it doesn't enocde # for example.
     //console.log(url);
-    console.log('start request');
+    //console.log('start request');
     $.ajax({
         dataType: "jsonp",
         url: url,
         /*Success*/
         success: function(data){
-            console.log(data);
+            //console.log(data);
             document.getElementById("barDiagram").style.removeProperty('padding-left');
             document.getElementById("barDiagram").style.removeProperty('color');
             generateDiagram(data);
@@ -112,6 +108,7 @@ function askForDiagramData(query) {
 }
 
 // Parse received data and generate the diagram
+
 function generateDiagram(data) {
 
     var yearArray; // to be used to generate the diagram
@@ -121,8 +118,10 @@ function generateDiagram(data) {
         yearArray = ['x', '2014-01-01', '2014-02-02', '2014-03-03', '2014-04-04', '2014-05-05', '2014-06-06', '2014-07-01', '2014-08-01', '2014-09-01', '2014-10-01', '2014-11-01', '2014-12-01'];
     }
 
+    document.getElementById('LoadingMessage').textContent = "Loading data...";
     var dataArray = [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0]; // to be used to generate the diagram
-    dataArray[0] = selectedCrimeType;
+    dataArray[0] = data.results.bindings[0].ct.value;
+    dataArray[0] = dataArray[0].substr(dataArray[0].lastIndexOf('/') + 1);
     for (var key = 0; key < data.results.bindings.length; key++) {
         var number = data.results.bindings[key][".1"].value;
         var month = data.results.bindings[key]["m"].value;
@@ -132,7 +131,9 @@ function generateDiagram(data) {
         }
         dataArray[month] = number; // add the number of crimes for the specific month in the array
     }
-    console.log(dataArray);
+    //console.log(dataArray);
+    responseAll[pos]=dataArray;
+    pos = pos + 1;
 
     /**** generate c3 bar Diagram ***/
     var chart = c3.generate({
@@ -141,15 +142,24 @@ function generateDiagram(data) {
             x: 'x',
             columns: [
                 yearArray,
-                dataArray
+                responseAll[0],
+                responseAll[1],
+                responseAll[2],
+                responseAll[3],
+                responseAll[4],
+                responseAll[5],
+                responseAll[6],
+                responseAll[7],
+                responseAll[8],
+                responseAll[9],
+                responseAll[10],
+                responseAll[11],
+                responseAll[12]
             ],
             type: 'bar',
             groups: [
-                ['BicycleTheft', 'Burglary', 'Other theft']
+                ['BicycleTheft','Burglary','TheftFromThePerson','Anti-socialBehaviour','PublicOrder','Shoplifting','Drugs','VehicleCrime','ViolenceAndSexualOffences','CriminalDamageAndArson','PossessionOfWeapons','Robbery','OtherTheft','OtherCrime']
             ]
-        },
-        color: {
-            pattern: ['#3c8d31']
         },
         axis: {
             // todo: fixed height for y-axis??
@@ -170,12 +180,16 @@ function generateDiagram(data) {
             height: 400
         }
     });
+    if(responseAll[selectedCrimeType.length-1]!=0){
+        document.getElementById("LoadingMessage").textContent = " ";
+        console.log(responseAll);
+    }
 }
 
 
 // functions for table below the diagram
 function buildTableQuery(boroughName, crimeType, year){
-	
+
     var query = sqlPrefixes + '\
     SELECT ?y ?iVal ?pVal\n\
     WHERE{ GRAPH<http://course.geoinfo2016.org/G3>{ \n\
@@ -187,7 +201,7 @@ function buildTableQuery(boroughName, crimeType, year){
 			?popu dc:date ?y. \n\
     }\n\
     }';
-   // console.log(query);
+    // console.log(query);
     return query;
 }
 
@@ -216,22 +230,34 @@ function askForTableData(query) {
 
 // Parse received data and generate the diagram
 function createAndFillTable(data) {
-	var result ="<br><center><table class='BoroughInfoTable'><tr><th>Year</th><th>Income</th><th>Population</th></tr>";
-	for (var key = 0; key < data.results.bindings.length-1; key++) {	//-1 to skip the last row (values of 2012)
+    var result ="<br><center><table class='BoroughInfoTable'><tr><th>Year</th><th>Income</th><th>Population</th></tr>";
+    for (var key = 0; key < data.results.bindings.length-1; key++) {	//-1 to skip the last row (values of 2012)
         var year = data.results.bindings[key]["y"].value;
         var iVal = data.results.bindings[key]["iVal"].value;
-		var pVal = data.results.bindings[key]["pVal"].value;
+        var pVal = data.results.bindings[key]["pVal"].value;
         result = result + "<tr><td>"+year+"</td><td>"+iVal+"</td><td>"+pVal+"</td></tr>";
     }
-	result = result + "</table></center>";
+    result = result + "</table></center>";
     //console.log(result);
-	document.getElementById('TableContainer').innerHTML=result;    
+    document.getElementById('TableContainer').innerHTML=result;
 }
 
 // Wiki link for the selected borough
 function putWikiLink(boroughName){
-	var boroughNameNew = boroughName.replace(/_/g, ' ');
-	var wikiURL = "<br><center><a id='wikilink' href='https://en.wikipedia.org/wiki/"+boroughName+"' target='_blank'>Wikipedia page of "+boroughNameNew+"</a></center>";
-	//console.log(wikiURL);
-	document.getElementById('WikiLinkHolder').innerHTML=wikiURL;
+    var boroughNameNew = boroughName.replace(/_/g, ' ');
+    var wikiURL = "<br><center><a id='wikilink' href='https://en.wikipedia.org/wiki/"+boroughName+"' target='_blank'>Wikipedia page of "+boroughNameNew+"</a></center>";
+    //console.log(wikiURL);
+    document.getElementById('WikiLinkHolder').innerHTML=wikiURL;
+}
+
+var expanded = false;
+function showCheckboxes() {
+    var checkboxes = document.getElementById("crimeTypeCheckboxes");
+    if (!expanded) {
+        checkboxes.style.display = "block";
+        expanded = true;
+    } else {
+        checkboxes.style.display = "none";
+        expanded = false;
+    }
 }
