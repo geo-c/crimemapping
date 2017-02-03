@@ -150,20 +150,20 @@
                     <div class="overSelect"></div>
                 </div>
                 <div id="crimeTypeCheckboxes" style="background-color: white;">
-                    <input type="checkbox" class="crimeVals"  value='BicycleTheft'>Bicycle theft</input><br>
-                    <input type="checkbox" class="crimeVals"  value='Burglary'>Burglary</input><br>
-                    <input type="checkbox" class="crimeVals"  value='TheftFromThePerson'>Theft from the person</input><br>
-                    <input type="checkbox" class="crimeVals"  value='Anti-socialBehaviour'>Anti-social behaviour</input><br>
-                    <input type="checkbox" class="crimeVals"  value='PublicOrder'>Public order</input><br>
-                    <input type="checkbox" class="crimeVals"  value='Shoplifting'>Shoplifting</input><br>
-                    <input type="checkbox" class="crimeVals"  value='Drugs'>Drugs</input><br>
-                    <input type="checkbox" class="crimeVals"  value='VehicleCrime'>Vehicle crime</input><br>
-                    <input type="checkbox" class="crimeVals"  value='ViolenceAndSexualOffences'>Violence and sexual offences</input><br>
-                    <input type="checkbox" class="crimeVals"  value='CriminalDamageAndArson'>Criminal damage and arson</input><br>
-                    <input type="checkbox" class="crimeVals"  value='PossessionOfWeapons'>Possession of weapons</input><br>
-                    <input type="checkbox" class="crimeVals"  value='Robbery'>Robbery</input><br>
-                    <input type="checkbox" class="crimeVals"  value='OtherTheft'>Other theft</input><br>
-                    <input type="checkbox" class="crimeVals"  value='OtherCrime'>Other crime</input><br>
+                    <input type="checkbox" class="crimeVals"  value='BicycleTheft'>Bicycle theft<br>
+                    <input type="checkbox" class="crimeVals"  value='Burglary'>Burglary<br>
+                    <input type="checkbox" class="crimeVals"  value='TheftFromThePerson'>Theft from the person<br>
+                    <input type="checkbox" class="crimeVals"  value='Anti-socialBehaviour'>Anti-social behaviour<br>
+                    <input type="checkbox" class="crimeVals"  value='PublicOrder'>Public order<br>
+                    <input type="checkbox" class="crimeVals"  value='Shoplifting'>Shoplifting<br>
+                    <input type="checkbox" class="crimeVals"  value='Drugs'>Drugs<br>
+                    <input type="checkbox" class="crimeVals"  value='VehicleCrime'>Vehicle crime<br>
+                    <input type="checkbox" class="crimeVals"  value='ViolenceAndSexualOffences'>Violence and sexual offences<br>
+                    <input type="checkbox" class="crimeVals"  value='CriminalDamageAndArson'>Criminal damage and arson<br>
+                    <input type="checkbox" class="crimeVals"  value='PossessionOfWeapons'>Possession of weapons<br>
+                    <input type="checkbox" class="crimeVals"  value='Robbery'>Robbery<br>
+                    <input type="checkbox" class="crimeVals"  value='OtherTheft'>Other theft<br>
+                    <input type="checkbox" class="crimeVals"  value='OtherCrime'>Other crime<br>
                 </div>
             </div>
 
@@ -180,7 +180,6 @@
                 <button id="submitButton" onclick="changeSession()">Load Diagram</button></div>
             <br>
 
-            <div id="LoadingMessage" style="color: #4CAF50"> </div>
         </div>
 
 
@@ -189,6 +188,13 @@
         </div>
         <div id="TableContainer"></div>
         <div id="WikiLinkHolder"></div>
+		
+		<div class="loader" id="loaderDiagram" style="display:none;">
+		<img src = "loader/gears.gif" style="height: 3vw; width: 3vw;">
+		</div>
+		
+		<div id="ProgressBar" style="display:none;"><progress id="pBar"></progress></div>
+		
     </section>
 
 
@@ -196,13 +202,13 @@
 	</section>
 
  <div id="show" class="about_content">
-		<p id="a1"><center><b style="font-size: 28px;">About</b></center></p>
+		<p id="a1"><center><b style="font-size: 2.5vw;">About</b></center></p>
 		<p id="a2"><b>Welcome to Crime Mapper!</b>
 		<br>This application is intended to help Citizens, Tourists, the Police Department, Students and Researchers to get a better overview of the crimes in Greater London. There are two kinds of views, the map view and the diagram view. You can choose between the views using the controls on the left.
 		<br><br><b>Map View:</b><br>You can choose a visualisation using the buttons provided and activate/deactivate the Crime Index layer or the Heat map using the controls provided on the right. To get the heat map, select the time period using the sliders and click <b>Heat Map</b>. To get the Cholopleth map of Crime index, click <b>Choropleth Map</b>.
 		<br><br><b>Diagram View:</b><br>Please select the Borough, crime type and the year and click <b>Load Diagram</b>.
 		</p>
-		<table id="t1" style="width: 800px;"><tr>
+		<table id="t1" style="width: 65vw;"><tr>
 		<td><i><u>Created by:</u><br>Nimrod Gavish, Antonia van Eek, Jeison Londoño <br> Mina Karamesouti, Sangeetha Shankar, Julius Wittkopp
 		<br>University of Muenster, Germany.</i></td>
 		<td><img src="crimePict1.jpg" height=150px width=300px style="margin: auto;"></td></tr></table><br>
