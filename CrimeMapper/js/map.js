@@ -91,9 +91,9 @@ function buildCrimeLocQuery(){
 		?crime geo:lat ?lat.\n\
 		?crime geo:long ?lon.\n\
 	?crime lode:atTime ?t.\n\
-		?t time:month \"--"+ month + "\"^^xsd:gMonth.\n\
+		?t time:month ?m. \n\
 		?t time:year \""+ rangeYears[$('#rangeInputYear').val()]+ "\"^^xsd:gYear.\n\
-	}}LIMIT 150000";
+	}FILTER(?m >= \""+ "--01" +"\"^^xsd:gMonth && ?m <=\""+ "--02" +"\"^^xsd:gMonth)}";
 	console.log(query)
 	return query;
 }
