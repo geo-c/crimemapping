@@ -170,7 +170,7 @@ li a:hover:not(.active) {
 	box-shadow: 0 1vw 1vw 0 rgba(0, 0, 0, 0.2), 0 1vw 1vw 0 rgba(0, 0, 0, 0.19);
 }
 
-.loader{
+#loader{
     z-index:100;
     position:absolute;
     margin-left: 30vw;
@@ -184,6 +184,20 @@ li a:hover:not(.active) {
     border: 1px solid #555;
     box-shadow: 0 1vw 1vw 0 rgba(0, 0, 0, 0.2), 0 1vw 1vw 0 rgba(0, 0, 0, 0.19);
 }
+
+#loaderDiagram{
+	border: none; 
+	display:none; 
+	height: 5vw; 
+	width: 5vw; 
+	top: 0.2vw; 
+	left: 70vw;
+    z-index:100;
+    position:absolute;
+    background-size: 100% 100%;
+    display: inline-block;
+}
+
 .button{
     position:fixed;
     background-color: #4CAF50; /* Green */
@@ -423,4 +437,31 @@ input[type=range]::-webkit-slider-thumb:hover {
 #crimeTypeCheckboxes {
     display: none;
     border: 1px #dadada solid;
+}
+
+#ProgressBar{position:absolute;
+	z-index:150;
+	top: 1.2vw; 
+	left: 73vw;
+}
+
+progress::-webkit-progress-bar {
+	height: 1.5vw;
+	width: 15vw;
+}
+
+progress[value] {
+  -webkit-appearance: none;
+   appearance: none;
+}
+
+progress[value]::-webkit-progress-bar {
+  background-color: #f1f1f1;
+  border-radius: 2px;
+  box-shadow: 0 2px 5px rgba(0, 0, 0, 0.25) inset;
+}
+
+progress[value]::-webkit-progress-value {
+  background-color: #4CAF50;
+  opacity: 50%;
 }
