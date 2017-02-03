@@ -30,6 +30,10 @@ function changeSession() {
         document.getElementById("barDiagram").textContent = 'Please select atleast one crime type.';
         document.getElementById("barDiagram").style.color = 'Red';
     } else {
+		document.getElementById("pBar").max = selectedCrimeType.length*3;
+		document.getElementById("pBar").value = "0";
+		$("#loaderDiagram").show(1);
+		$("#ProgressBar").show(1);
         document.getElementById("barDiagram").style.paddingLeft = '25px';
         document.getElementById("barDiagram").textContent = 'Please wait, diagram is loading....';
         document.getElementById("barDiagram").style.color = 'Green';
@@ -65,7 +69,7 @@ PREFIX dc: <http://dublincore.org/documents/2012/06/14/dcmi-terms/?v=elements#>\
 // query for displaying the data of all crime types
 function buildDiagramAll(boroughName, year){
     for(var i = 0; i < selectedCrimeType.length; i++){
-
+		document.getElementById("pBar").value = document.getElementById("pBar").value + 1;
         var query = sqlPrefixes + '\
 		SELECT ?m ?ct COUNT(?crime)\n\
 		WHERE{ GRAPH<http://course.geoinfo2016.org/G3>{ \n\
@@ -93,6 +97,7 @@ function askForDiagramData(query) {
         /*Success*/
         success: function(data){
             //console.log(data);
+			document.getElementById("pBar").value = document.getElementById("pBar").value + 1;
             document.getElementById("barDiagram").style.removeProperty('padding-left');
             document.getElementById("barDiagram").style.removeProperty('color');
             generateDiagram(data);
@@ -118,7 +123,6 @@ function generateDiagram(data) {
         yearArray = ['x', '2014-01-01', '2014-02-02', '2014-03-03', '2014-04-04', '2014-05-05', '2014-06-06', '2014-07-01', '2014-08-01', '2014-09-01', '2014-10-01', '2014-11-01', '2014-12-01'];
     }
 
-    document.getElementById('LoadingMessage').textContent = "Loading data...";
     var dataArray = [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0]; // to be used to generate the diagram
     dataArray[0] = data.results.bindings[0].ct.value;
     dataArray[0] = dataArray[0].substr(dataArray[0].lastIndexOf('/') + 1);
@@ -180,8 +184,10 @@ function generateDiagram(data) {
             height: 400
         }
     });
+	document.getElementById("pBar").value = document.getElementById("pBar").value + 1;
     if(responseAll[selectedCrimeType.length-1]!=0){
-        document.getElementById("LoadingMessage").textContent = " ";
+        $("#loaderDiagram").hide(1);
+		$("#ProgressBar").hide(1);
         console.log(responseAll);
     }
 }
