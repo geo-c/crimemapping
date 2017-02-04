@@ -148,7 +148,7 @@ li a:hover:not(.active) {
 	z-index: 3; 
 	position:absolute; 
 	width: 28.7vw; 
-	height: 10.5vw;
+	height: 11.5vw;
 	left: 13.5vw; 
 	top: 2.5vw;
 	border: 3px solid #4CAF50;
@@ -175,7 +175,7 @@ li a:hover:not(.active) {
 
 .timeControl2{
 	left: 13.5vw;
-    top: 2.5vw;
+    top: 3.05vw;
 }
 
 .timeControl button{
