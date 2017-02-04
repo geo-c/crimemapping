@@ -147,14 +147,48 @@ li a:hover:not(.active) {
 .TimeWindows{
 	z-index: 3; 
 	position:absolute; 
-	width: 18.5vw; 
-	height: 9.5vw;
+	width: 28.7vw; 
+	height: 10.5vw;
 	left: 13.5vw; 
 	top: 2.5vw;
 	border: 3px solid #4CAF50;
 	border-radius: 10px;
 	background-color: rgba(255,255,255,100);
 	box-shadow: 0 1vw 1vw 0 rgba(0, 0, 0, 0.2), 0 1vw 1vw 0 rgba(0, 0, 0, 0.19);
+}
+
+.TimeWindowsTitle{
+	margin-left: 1vw;
+	margin-bottom: 0vw;
+}
+
+.TimeWindows .timeControl{
+	width: 13.7vw;
+	display: table-cell;
+	vertical-align: bottom;
+	position: absolute;
+}
+.timeControl1{
+	left: 0vw;
+    top: 2.5vw;
+}
+
+.timeControl2{
+	left: 13.5vw;
+    top: 2.5vw;
+}
+
+.timeControl button{
+	margin: 0;
+    margin-left: 0.55vw;
+    margin-top: 0.7vw;
+}
+
+#reqHeatmap,#reqChoropleth{
+	padding: 0.4vw 2.08vw;
+	margin-top: 0.7vw;
+	margin-left: 0.75vw;
+	width: 13vw;
 }
 
 .requestButtons{

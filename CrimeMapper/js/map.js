@@ -74,6 +74,12 @@ $(function () {
     $('#rangeInputYear').on('input change', function () {
         $('#rangeTextYear').text(rangeYears[$(this).val()]);
     });
+	
+	$('#rangeChoroplethTextYear').text(rangeYears[$('#rangeChoroplethInputYear').val()]);
+
+    $('#rangeChoroplethInputYear').on('input change', function () {
+        $('#rangeChoroplethTextYear').text(rangeYears[$(this).val()]);
+    });
 
 });
 
@@ -107,17 +113,17 @@ function buildCrimeIndexRateQuery(){
 			?borough admingeo:gssCode ?code.\n\
 			?borough dbpedia:income ?income.\n\
 			?income owl:hasValue ?incomeVal.\n\
-			?income dc:date \""+ rangeYears[$('#rangeInputYear').val()]+ "\"^^xsd:gYear.\n\
+			?income dc:date \""+ rangeYears[$('#rangeChoroplethInputYear').val()]+ "\"^^xsd:gYear.\n\
 			?borough dbpedia:Population ?population.\n\
 			?population owl:hasValue ?populationVal.\n\
-			?population dc:date \""+ rangeYears[$('#rangeInputYear').val()]+ "\"^^xsd:gYear.\n\
+			?population dc:date \""+ rangeYears[$('#rangeChoroplethInputYear').val()]+ "\"^^xsd:gYear.\n\
 			{\n\
 				SELECT ?borough (COUNT(?crime) as ?crime_count)\n\
 				WHERE\n\
 				{\n\
 					?crime lode:atPlace ?borough.\n\
 					?crime lode:atTime ?t.\n\
-					?t time:year \""+ rangeYears[$('#rangeInputYear').val()]+ "\"^^xsd:gYear.\n\
+					?t time:year \""+ rangeYears[$('#rangeChoroplethInputYear').val()]+ "\"^^xsd:gYear.\n\
 				}GROUP BY ?borough\n\
 			}\n\
 		}\n\
@@ -147,13 +153,14 @@ function createHeatMap(JSONtext){
 	CrimeLatLon.length = 0;
 	CrimeHeat.length = 0;
 	heat.clearLayers();
-		for (var key in JSONtext.results.bindings){
-			var coords = new coordinate(JSONtext.results.bindings[key].lat.value,JSONtext.results.bindings[key].lon.value)
-			CrimeLatLon.push(coords);
-			CrimeHeat.push([coords.x, coords.y,0.5])
-		}	
-		L.heatLayer(CrimeHeat, {radius: 10})
-			.addTo(heat);
+	for (var key in JSONtext.results.bindings){
+		var coords = new coordinate(JSONtext.results.bindings[key].lat.value,JSONtext.results.bindings[key].lon.value)
+		CrimeLatLon.push(coords);
+		CrimeHeat.push([coords.x, coords.y,0.5])
+	}	
+	L.heatLayer(CrimeHeat, {radius: 10})
+		.addTo(heat);
+	map.addLayer(heat);
 }
 
 /*Replace all ocurrencies*/
@@ -197,6 +204,7 @@ function createCrimeIndexRateMap(JSONtext){
 		legend.addTo(map);
 		
 		boroughLayer = getBoroughtsLayer();
+		layercontrol.addOverlay(boroughLayer, "Crime Rate")
 		
 		map.addLayer(boroughLayer);
 }
@@ -207,7 +215,7 @@ document.getElementById('reqHeatmap').onclick = function(){
 	var async = true;
 	map.removeLayer(boroughLayer);
 	map.removeControl(legend);
-	map.addLayer(heat);
+	//map.addLayer(heat);
     askForData(buildCrimeLocQuery(), createHeatMap, async);
   };
 
@@ -216,6 +224,7 @@ document.getElementById('reqChoropleth').onclick = function(){
 	var async = false;
 	map.removeLayer(heat);
 	map.removeLayer(boroughLayer);
+	layercontrol.removeLayer(boroughLayer);
 	askForData(buildCrimeIndexRateQuery(), createCrimeIndexRateMap, async);
   };
   
@@ -319,8 +328,8 @@ function getColor(crimeIndexRate) {
            crimeIndexRate > 82  ? '#fd8d3c' :
            crimeIndexRate > 74   ? '#feb24c' :
            crimeIndexRate > 62   ? '#fed976' :
-           crimeIndexRate > 52   ? '#ffffb2' :
-                      '#FFEDA0';
+           crimeIndexRate > 52   ? '#FFEDA0' :
+                      '#ffffb2';
 }
 
 function getColorCrimeRateIndex(crimeIndexRate) {
@@ -447,7 +456,7 @@ function getChoroplethColors(length){
 		.domain(d3.range(0, length))
 		.range(d3.schemeYlOrRd[9]); */
 		
-	colors = ["#FFEDA0","#ffffb2","#fed976","#feb24c","#fd8d3c","#fc4e2a","#e31a1c","#b10026"];
+	colors = ["#ffffb2","#FFEDA0","#fed976","#feb24c","#fd8d3c","#fc4e2a","#e31a1c","#b10026"];
 	
 	return colors;
 }
@@ -496,11 +505,11 @@ var baseLayers = {
     };
 
 var overlays = {
-    "Boroughs": boroughLayer, 
-	"Heat Map": heat
+	"Heat Map": heat,
+	"Crime Rate": boroughLayer
 }; 
  
-L.control.layers(baseLayers, overlays,{collapsed:false}).addTo(map); 
+var layercontrol = L.control.layers(baseLayers, overlays,{collapsed:false}).addTo(map); 
 
 /** Borough boundary only by default **/
 
@@ -508,6 +517,7 @@ var defaultBorough = LoadGeoJSON("data/london_boroughs.geojson")
 
 L.geoJson(defaultBorough, {
 	style: {
+		color: '#666',
 		opacity: 1,
 		fillOpacity: 0
 	}
