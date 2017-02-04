@@ -125,7 +125,7 @@
     <!-- Borough Diagram --->
     <section id="diagramContainer" >
 
-        <div style="margin-top: 10px; margin-left: 25px">
+        <div style="margin-top: 10px; margin-left: 25px; z-index: 10">
             <!-- Borough selection -->
             <select id="selectedBorough">
                 <option selected="selected">Select a borough</option>
@@ -192,14 +192,15 @@
 
 
             <!-- Year selection -->
-            <div style="left: 710px; top: 10px; position:absolute;">
+            <div style="left: 705px; top: 10px; position:absolute; z-index: 10">
                 <select id="selectedYear">
                     <option value='2013'>2013</option>
                     <option value='2014'>2014</option>
+                    <option value='2013/2014'>2013/2014</option>
                 </select></div>
 
             <!-- submit button -->
-            <div style="left: 780px; top: 10px; position:absolute;">
+            <div style="left: 820px; top: 10px; position:absolute;">
                 <button id="submitButton" onclick="changeSession()">Load Diagram</button></div>
             <br>
 

@@ -68,20 +68,33 @@ PREFIX dc: <http://dublincore.org/documents/2012/06/14/dcmi-terms/?v=elements#>\
 
 // query for displaying the data of all crime types
 function buildDiagramAll(boroughName, year){
-    for(var i = 0; i < selectedCrimeType.length; i++){
-		document.getElementById("pBar").value = document.getElementById("pBar").value + 1;
-        var query = sqlPrefixes + '\
-		SELECT ?m ?ct COUNT(?crime)\n\
-		WHERE{ GRAPH<http://course.geoinfo2016.org/G3>{ \n\
-				?crime lode:atTime ?t.\n\
-				?t time:month ?m. \n\
-				?t time:year "'+year+'"^^xsd:gYear. \n\
-				?crime rdf:type ?ct. \n\
-				?crime lode:atPlace dbpedia-page:'+boroughName+'. \n\
-		}FILTER(?ct!=crime:Crime&&?ct!=rdfs:Class&&?ct=crime:'+selectedCrimeType[i]+') \n\
-		}GROUP BY ?m ?ct \n\
-			ORDER BY ?m \n';
-        //console.log(query);
+    for(var i = 0; i < selectedCrimeType.length; i++) {
+        document.getElementById("pBar").value = document.getElementById("pBar").value + 1;
+        if ( year == "2013" || year == "2014") {
+            var query = sqlPrefixes + '\
+            SELECT ?m ?ct COUNT(?crime)\n\
+            WHERE{ GRAPH<http://course.geoinfo2016.org/G3>{ \n\
+                    ?crime lode:atTime ?t.\n\
+                    ?t time:month ?m. \n\
+                    ?t time:year "' + year + '"^^xsd:gYear. \n\
+                    ?crime rdf:type ?ct. \n\
+                    ?crime lode:atPlace dbpedia-page:' + boroughName + '. \n\
+            }FILTER(?ct!=crime:Crime&&?ct!=rdfs:Class&&?ct=crime:' + selectedCrimeType[i] + ') \n\
+            }GROUP BY ?m ?ct \n\
+			ORDER BY ?m\n';
+        } else {
+            var query = sqlPrefixes + '\
+            SELECT ?m ?ct ?y COUNT(?crime)\n\
+            WHERE{ GRAPH<http://course.geoinfo2016.org/G3>{ \n\
+                    ?crime lode:atTime ?t.\n\
+                    ?t time:month ?m. \n\
+                    ?t time:year ?y. \n\
+                    ?crime rdf:type ?ct. \n\
+                    ?crime lode:atPlace dbpedia-page:' + boroughName + '. \n\
+            }FILTER(?ct!=crime:Crime&&?ct!=rdfs:Class&&?ct=crime:' + selectedCrimeType[i] + ') \n\
+            }GROUP BY ?m ?y ?ct \n\
+                ORDER BY ?m ?y\n';
+        }
         askForDiagramData(query);
     }
 }
@@ -119,21 +132,42 @@ function generateDiagram(data) {
     var yearArray; // to be used to generate the diagram
     if (selectedYear == "2013") {
         yearArray = ['x', '2013-01-01', '2013-02-02', '2013-03-03', '2013-04-04', '2013-05-05', '2013-06-06', '2013-07-01', '2013-08-01', '2013-09-01', '2013-10-01', '2013-11-01', '2013-12-01'];
-    } else {
+    } else if (selectedYear == "2014") {
         yearArray = ['x', '2014-01-01', '2014-02-02', '2014-03-03', '2014-04-04', '2014-05-05', '2014-06-06', '2014-07-01', '2014-08-01', '2014-09-01', '2014-10-01', '2014-11-01', '2014-12-01'];
+    } else {
+        yearArray = ['x', '2013-01-01', '2013-02-02', '2013-03-03', '2013-04-04', '2013-05-05', '2013-06-06', '2013-07-01', '2013-08-01', '2013-09-01', '2013-10-01', '2013-11-01', '2013-12-01', '2014-01-01', '2014-02-02', '2014-03-03', '2014-04-04', '2014-05-05', '2014-06-06', '2014-07-01', '2014-08-01', '2014-09-01', '2014-10-01', '2014-11-01', '2014-12-01'];
     }
 
-    var dataArray = [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0]; // to be used to generate the diagram
-    dataArray[0] = data.results.bindings[0].ct.value;
-    dataArray[0] = dataArray[0].substr(dataArray[0].lastIndexOf('/') + 1);
-    for (var key = 0; key < data.results.bindings.length; key++) {
-        var number = data.results.bindings[key][".1"].value;
-        var month = data.results.bindings[key]["m"].value;
-        month = month.slice(2,4); // delete "--" at the beginning of the string
-        if(month.slice(0,1) == "0"){ // delete "0" at the beginning if needed
-            month = month.slice(1);
+    if( selectedYear == "2013" || selectedYear == "2014") {
+        var dataArray = [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0]; // to be used to generate the diagram
+        dataArray[0] = data.results.bindings[0].ct.value;
+        dataArray[0] = dataArray[0].substr(dataArray[0].lastIndexOf('/') + 1);
+        for (var key = 0; key < data.results.bindings.length; key++) {
+            var number = data.results.bindings[key][".1"].value;
+            var month = data.results.bindings[key]["m"].value;
+            month = month.slice(2, 4); // delete "--" at the beginning of the string
+            if (month.slice(0, 1) == "0") { // delete "0" at the beginning if needed
+                month = month.slice(1);
+            }
+            dataArray[month] = number; // add the number of crimes for the specific month in the array
         }
-        dataArray[month] = number; // add the number of crimes for the specific month in the array
+    } else {
+        var dataArray = [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0]; // to be used to generate the diagram
+        dataArray[0] = data.results.bindings[0].ct.value;
+        dataArray[0] = dataArray[0].substr(dataArray[0].lastIndexOf('/') + 1);
+        for (var key = 0; key < data.results.bindings.length; key++) {
+            var number = data.results.bindings[key][".1"].value;
+            var month = data.results.bindings[key]["m"].value;
+            var year = data.results.bindings[key]["y"].value;
+            month = month.slice(2, 4); // delete "--" at the beginning of the string
+            if (month.slice(0, 1) == "0") { // delete "0" at the beginning if needed
+                month = month.slice(1);
+            }
+            if (year == "2013")
+                dataArray[month] = number; // add the number of crimes for the specific month in the array
+            if (year == "2014")
+                dataArray[11 + parseInt(month)] = number;
+        }
     }
     //console.log(dataArray);
     responseAll[pos]=dataArray;
