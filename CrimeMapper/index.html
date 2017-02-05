@@ -9,8 +9,10 @@
     <link rel="stylesheet" href="http://www.w3schools.com/lib/w3.css">
 	<link rel="stylesheet" type="text/css" href="css/style.css" />
     <link rel="stylesheet" type="text/css" href="css/c3.css">
-    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.1.1/jquery.min.js"></script>
-    <script src="http://code.jquery.com/ui/1.11.4/jquery-ui.js"></script>
+    <!--<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.1.1/jquery.min.js"></script>
+    <script src="http://code.jquery.com/ui/1.11.4/jquery-ui.js"></script>-->
+	<script src="https://code.jquery.com/jquery-1.12.4.js"></script>
+	<script src="https://code.jquery.com/ui/1.12.1/jquery-ui.js"></script>
 	<script src="http://canvasjs.com/assets/script/canvasjs.min.js"></script>
     <script src="http://cdn.leafletjs.com/leaflet/v1.0.0-beta.2/leaflet.js"></script>
 	<script src="js/leaflet-heat.js"></script>
@@ -18,6 +20,7 @@
     <script src="js/c3.js"></script>
     <script src="js/d3.js" charset="utf-8"></script>
 
+	
 
 	<script type="text/javascript">
         $(document).ready(function(){
@@ -25,26 +28,37 @@
                 $("#map").hide();
 				$("#TimeWindows").hide();
 				$("#requestButtons").hide();
-
             });
-
             $("#Mapped").click(function(){
                 $("#map").show();
 				$("#TimeWindows").show();
 				$("#requestButtons").show();
             });
         });
-
 		$(function() {
 		$('a.link').click(function() {
 		$('a.link').removeClass('active');
 		$(this).addClass('active');
            });
         });
-
         $(document).ready(function () {
             document.getElementById("Mapped").click();
         });
+		
+		//Slider-range by JQery
+			$( function() {
+		$( "#rangeInputMonth" ).slider({
+			range: true,
+			min: 1,
+			max: 12,
+			values: [ 5, 6 ],
+			slide: function( event, ui ) {
+				$( "#amount" ).val( "Month: " + ui.values[ 0 ] + " - " + ui.values[ 1 ] );
+			}
+		});
+		$( "#amount" ).val( "Month: " + $( "#rangeInputMonth" ).slider( "values", 0 ) +
+			" - " + $( "#rangeInputMonth" ).slider( "values", 1 ) );
+	} );
 	</script>
 
 </head>
@@ -62,7 +76,7 @@
             <li id="d"><a class="link" id="Diagram">Diagram</a></li>
             <br>
             <br>
-            <footer align="center">
+            <footer align="center" style="font-size: 1vw;">
             Data courtesy of <a href= "https://data.police.uk/"> London Police </a>
             </footer>
         </ul>
@@ -72,10 +86,12 @@
 
 	<div class="TimeWindows" id="TimeWindows">
 		<p class="TimeWindowsTitle"><b>Choose a timeframe:</b></p> 
-		<div class="timeControl timeContro2">
+		<div class="timeControl timeControl1">
 			<div class="timeWindowMonth" style="margin-left: 1vw;">
-				<input type="range" id="rangeInputMonth" name="rangeInput" step="1" min="1" max="12">
-				<label id="rangeTextMonth">July</label>
+				<!--<input type="range" id="rangeInputMonth" name="rangeInput" step="1" min="1" max="12">
+				<label id="rangeTextMonth">July</label>-->
+				<input type="text" id="amount" readonly style="border:0;">
+				<div id="rangeInputMonth"></div>
 			</div>
 			<div class="timeWindowYear" style="margin-top: 1vw; margin-left: 1vw;">
 				<input type="range" id="rangeInputYear" name="rangeInputY" step="1" min="2013" max="2014">
@@ -84,7 +100,7 @@
 			<button type="button" class="button" id="reqHeatmap">Heat Map</button>
 		</div>
 		<div class="timeControl timeControl2">
-			<div class="choroplethTimeWindowYear" style="margin-top: 2.4vw; margin-left: 1vw;">
+			<div class="choroplethTimeWindowYear" style="margin-top: 3.4vw;margin-left: 1vw;">
 				<input type="range" id="rangeChoroplethInputYear" name="rangeInputY" step="1" min="2013" max="2014">
 				<label id="rangeChoroplethTextYear">2014</label>
 			</div>
@@ -104,8 +120,7 @@
 
     <!-- Borough Diagram --->
     <section id="diagramContainer" >
-
-        <div style="margin-top: 10px; margin-left: 25px">
+        <div style="margin-top: 1.75vw; margin-left: 1vw; font-size: 1vw;">
             <!-- Borough selection -->
             <select id="selectedBorough">
                 <option selected="selected">Select a borough</option>
@@ -145,7 +160,7 @@
             </select>
 
             <!-- Crime type selection -->
-            <div class="multiselect" style="left: 400px; top: 10px; z-index: 10;">
+            <div class="multiselect" style="left: 26.5vw; top: 1.75vw; z-index: 10; font-size: 1vw; width: 17vw;">
                 <div class="selectBox" onclick="showCheckboxes()">
                     <select>
                         <option>Select crime types</option>
@@ -172,32 +187,32 @@
 
 
             <!-- Year selection -->
-            <div style="left: 710px; top: 10px; position:absolute;">
-                <select id="selectedYear">
+            <div style="left: 44vw; top: 1.75vw; position:absolute;">
+                <select id="selectedYear" style="width: 6vw">
                     <option value='2013'>2013</option>
                     <option value='2014'>2014</option>
+                    <option value='2013/2014'>2013/2014</option>
                 </select></div>
 
             <!-- submit button -->
-            <div style="left: 780px; top: 10px; position:absolute;">
+            <div style="left: 51vw; top: 1.75vw; position:absolute;">
                 <button id="submitButton" onclick="changeSession()">Load Diagram</button></div>
-            <br>
-
-        </div>
-
-
-        <div id="barDiagram" style="padding-left: 25px; padding-top: 20px">
-            <p>Please select the borough and crime type for which a diagram shall be shown. You can also choose the year. Please press the button to sumbit.</p>
-        </div>
-        <div id="TableContainer"></div>
-        <div id="WikiLinkHolder"></div>
 		
 		<div class="loader" id="loaderDiagram" style="display:none;">
 		<img src = "loader/gears.gif" style="height: 3vw; width: 3vw;">
 		</div>
 		
 		<div id="ProgressBar" style="display:none;"><progress id="pBar"></progress></div>
-		
+            <br>
+
+        </div>
+
+
+        <div id="barDiagram" style="padding-left: 2.5vw; padding-top: 2vw">
+            <p>Please select the borough and crime type for which a diagram shall be shown. You can also choose the year. Please press the button to sumbit.</p>
+        </div>
+        <div id="TableContainer"></div>
+        <div id="WikiLinkHolder"></div>		
     </section>
 
 
@@ -211,10 +226,10 @@
 		<br><br><b>Map View:</b><br>You can choose a visualisation using the buttons provided and activate/deactivate the Crime Index layer or the Heat map using the controls provided on the right. To get the heat map, select the time period using the sliders and click <b>Heat Map</b>. To get the Cholopleth map of Crime index, click <b>Choropleth Map</b>.
 		<br><br><b>Diagram View:</b><br>Please select the Borough, crime type and the year and click <b>Load Diagram</b>.
 		</p>
-		<table id="t1" style="width: 65vw;"><tr>
+		<table id="t1" style="width: 65vw; font-size:1.1vw"><tr>
 		<td><i><u>Created by:</u><br>Nimrod Gavish, Antonia van Eek, Jeison Londoño <br> Mina Karamesouti, Sangeetha Shankar, Julius Wittkopp
 		<br>University of Muenster, Germany.</i></td>
-		<td><img src="crimePict1.jpg" height=150px width=300px style="margin: auto;"></td></tr></table><br>
+		<td><img src="crimePict1.jpg" style="margin: auto; height: 12vw; width: 25vw;"></td></tr></table><br>
 
 	<center><button id="button1" a href="javascript:void(0)" onclick="document.getElementById('show').style.display='none';document.getElementById('close').style.display='none'">Close</button></center></div>
     <div id="close" class="invisible_overlay"></div>

@@ -99,7 +99,7 @@ function buildCrimeLocQuery(){
 	?crime lode:atTime ?t.\n\
 		?t time:month ?m. \n\
 		?t time:year \""+ rangeYears[$('#rangeInputYear').val()]+ "\"^^xsd:gYear.\n\
-	}FILTER(?m >= \""+ "--01" +"\"^^xsd:gMonth && ?m <=\""+ "--02" +"\"^^xsd:gMonth)}";
+	}FILTER(?m >= \""+ "--0" + $( "#rangeInputMonth" ).slider( "values", 0 ) +"\"^^xsd:gMonth && ?m <=\""+ "--0"+ $( "#rangeInputMonth" ).slider( "values", 1 ) +"\"^^xsd:gMonth)}";
 	console.log(query)
 	return query;
 }
