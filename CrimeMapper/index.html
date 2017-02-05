@@ -80,7 +80,7 @@
             <li id="d"><a class="link" id="Diagram">Diagram</a></li>
             <br>
             <br>
-            <footer align="center">
+            <footer align="center" style="font-size: 1vw;">
             Data courtesy of <a href= "https://data.police.uk/"> London Police </a>
             </footer>
         </ul>
@@ -125,7 +125,7 @@
     <!-- Borough Diagram --->
     <section id="diagramContainer" >
 
-        <div style="margin-top: 10px; margin-left: 25px; z-index: 10">
+        <div style="margin-top: 1.75vw; margin-left: 1vw; font-size: 1vw;">
             <!-- Borough selection -->
             <select id="selectedBorough">
                 <option selected="selected">Select a borough</option>
@@ -165,7 +165,7 @@
             </select>
 
             <!-- Crime type selection -->
-            <div class="multiselect" style="left: 400px; top: 10px; z-index: 10;">
+            <div class="multiselect" style="left: 26.5vw; top: 1.75vw; z-index: 10; font-size: 1vw; width: 17vw;">
                 <div class="selectBox" onclick="showCheckboxes()">
                     <select>
                         <option>Select crime types</option>
@@ -192,33 +192,32 @@
 
 
             <!-- Year selection -->
-            <div style="left: 705px; top: 10px; position:absolute; z-index: 10">
-                <select id="selectedYear">
+            <div style="left: 44vw; top: 1.75vw; position:absolute;">
+                <select id="selectedYear" style="width: 6vw">
                     <option value='2013'>2013</option>
                     <option value='2014'>2014</option>
                     <option value='2013/2014'>2013/2014</option>
                 </select></div>
 
             <!-- submit button -->
-            <div style="left: 820px; top: 10px; position:absolute;">
+            <div style="left: 51vw; top: 1.75vw; position:absolute;">
                 <button id="submitButton" onclick="changeSession()">Load Diagram</button></div>
-            <br>
-
-        </div>
-
-
-        <div id="barDiagram" style="padding-left: 25px; padding-top: 20px">
-            <p>Please select the borough and crime type for which a diagram shall be shown. You can also choose the year. Please press the button to sumbit.</p>
-        </div>
-        <div id="TableContainer"></div>
-        <div id="WikiLinkHolder"></div>
 		
 		<div class="loader" id="loaderDiagram" style="display:none;">
 		<img src = "loader/gears.gif" style="height: 3vw; width: 3vw;">
 		</div>
 		
 		<div id="ProgressBar" style="display:none;"><progress id="pBar"></progress></div>
-		
+            <br>
+
+        </div>
+
+
+        <div id="barDiagram" style="padding-left: 2.5vw; padding-top: 2vw">
+            <p>Please select the borough and crime type for which a diagram shall be shown. You can also choose the year. Please press the button to sumbit.</p>
+        </div>
+        <div id="TableContainer"></div>
+        <div id="WikiLinkHolder"></div>		
     </section>
 
 
@@ -232,10 +231,10 @@
 		<br><br><b>Map View:</b><br>You can choose a visualisation using the buttons provided and activate/deactivate the Crime Index layer or the Heat map using the controls provided on the right. To get the heat map, select the time period using the sliders and click <b>Heat Map</b>. To get the Cholopleth map of Crime index, click <b>Choropleth Map</b>.
 		<br><br><b>Diagram View:</b><br>Please select the Borough, crime type and the year and click <b>Load Diagram</b>.
 		</p>
-		<table id="t1" style="width: 65vw;"><tr>
+		<table id="t1" style="width: 65vw; font-size:1.1vw"><tr>
 		<td><i><u>Created by:</u><br>Nimrod Gavish, Antonia van Eek, Jeison Londoño <br> Mina Karamesouti, Sangeetha Shankar, Julius Wittkopp
 		<br>University of Muenster, Germany.</i></td>
-		<td><img src="crimePict1.jpg" height=150px width=300px style="margin: auto;"></td></tr></table><br>
+		<td><img src="crimePict1.jpg" style="margin: auto; height: 12vw; width: 25vw;"></td></tr></table><br>
 
 	<center><button id="button1" a href="javascript:void(0)" onclick="document.getElementById('show').style.display='none';document.getElementById('close').style.display='none'">Close</button></center></div>
     <div id="close" class="invisible_overlay"></div>
