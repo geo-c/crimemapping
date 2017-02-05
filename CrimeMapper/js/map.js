@@ -90,7 +90,13 @@ next is for heatmap ONLY
 
 /*Function to build the SPARQL-query for the heatmap*/
 function buildCrimeLocQuery(){
-	var month = document.getElementById('rangeInputMonth').value < 10 ? "0"+document.getElementById('rangeInputMonth').value : document.getElementById('rangeInputMonth').value
+	var monthMin = $( "#rangeInputMonth" ).slider( "values", 0 ) < 10 ? 
+		"0"+$( "#rangeInputMonth" ).slider( "values", 0 ) : 
+		$( "#rangeInputMonth" ).slider( "values", 0 );
+	var monthMax = $( "#rangeInputMonth" ).slider( "values", 1 ) < 10 ? 
+		"0"+$( "#rangeInputMonth" ).slider( "values", 1 ) : 
+		$( "#rangeInputMonth" ).slider( "values", 1 );
+	
 	var query = sqlPrefixes + "\
 		SELECT ?crime ?lat ?lon\n\
 		WHERE { GRAPH <http://course.geoinfo2016.org/G3> {\n\
@@ -99,7 +105,7 @@ function buildCrimeLocQuery(){
 	?crime lode:atTime ?t.\n\
 		?t time:month ?m. \n\
 		?t time:year \""+ rangeYears[$('#rangeInputYear').val()]+ "\"^^xsd:gYear.\n\
-	}FILTER(?m >= \""+ "--0" + $( "#rangeInputMonth" ).slider( "values", 0 ) +"\"^^xsd:gMonth && ?m <=\""+ "--0"+ $( "#rangeInputMonth" ).slider( "values", 1 ) +"\"^^xsd:gMonth)}";
+	}FILTER(?m >= \""+ "--" + monthMin +"\"^^xsd:gMonth && ?m <=\""+ "--"+ monthMax +"\"^^xsd:gMonth)}";
 	console.log(query)
 	return query;
 }
