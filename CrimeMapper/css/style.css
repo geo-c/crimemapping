@@ -147,7 +147,7 @@ li a:hover:not(.active) {
 .TimeWindows{
 	z-index: 3; 
 	position:absolute; 
-	width: 28.7vw; 
+	width: 28.4vw; 
 	height: 10.5vw;
 	left: 13.5vw; 
 	top: 2.5vw;
@@ -163,7 +163,7 @@ li a:hover:not(.active) {
 }
 
 .TimeWindows .timeControl{
-	width: 13.7vw;
+	width: 16.7vw;
 	display: table-cell;
 	vertical-align: bottom;
 	position: absolute;

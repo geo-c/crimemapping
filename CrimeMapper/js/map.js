@@ -37,10 +37,10 @@ Sliders only
 ***/
 
 var rangeMonths = {
-    "1": "January",
-        "2": "February",
-        "3": "March",
-        "4": "April",
+	"1": "January",
+		"2": "February",
+		"3": "March",
+		"4": "April",
 		"5": "May",
 		"6": "June",
 		"7": "July",
@@ -52,34 +52,34 @@ var rangeMonths = {
 };
 
 var rangeYears = {
-    "2013": "2013",
-        "2014": "2014",
+	"2013": "2013",
+		"2014": "2014",
 		"2015": "2015"
 };
 
 $(function () {
 
-    $('#rangeTextMonth').text(rangeMonths[$('#rangeInputMonth').val()]);
+	$('#rangeTextMonth').text(rangeMonths[$('#rangeInputMonth').val()]);
 
-    $('#rangeInputMonth').on('input change', function () {
-        $('#rangeTextMonth').text(rangeMonths[$(this).val()]);
-    });
+	$('#rangeInputMonth').on('input change', function () {
+		$('#rangeTextMonth').text(rangeMonths[$(this).val()]);
+	});
 
 });
 
 $(function () {
 
-    $('#rangeTextYear').text(rangeYears[$('#rangeInputYear').val()]);
+	$('#rangeTextYear').text(rangeYears[$('#rangeInputYear').val()]);
 
-    $('#rangeInputYear').on('input change', function () {
-        $('#rangeTextYear').text(rangeYears[$(this).val()]);
-    });
+	$('#rangeInputYear').on('input change', function () {
+		$('#rangeTextYear').text(rangeYears[$(this).val()]);
+	});
 	
 	$('#rangeChoroplethTextYear').text(rangeYears[$('#rangeChoroplethInputYear').val()]);
 
-    $('#rangeChoroplethInputYear').on('input change', function () {
-        $('#rangeChoroplethTextYear').text(rangeYears[$(this).val()]);
-    });
+	$('#rangeChoroplethInputYear').on('input change', function () {
+		$('#rangeChoroplethTextYear').text(rangeYears[$(this).val()]);
+	});
 
 });
 
@@ -107,13 +107,14 @@ function buildCrimeLocQuery(){
 /*Function to build the SPARQL-query for the Crime Index Rate*/
 function buildCrimeIndexRateQuery(){
 	var query = sqlPrefixes + "\
-	SELECT ?code ?borough ?incomeVal ?populationVal ?crime_count (((?crime_count/?populationVal)*1000) AS ?crimeIndexRate)\n\
+	SELECT ?code ?borough ?year ?incomeVal ?populationVal ?crime_count (((?crime_count/?populationVal)*1000) AS ?crimeIndexRate)\n\
 	WHERE {\n\
 		GRAPH <http://course.geoinfo2016.org/G3> {\n\
 			?borough admingeo:gssCode ?code.\n\
 			?borough dbpedia:income ?income.\n\
 			?income owl:hasValue ?incomeVal.\n\
 			?income dc:date \""+ rangeYears[$('#rangeChoroplethInputYear').val()]+ "\"^^xsd:gYear.\n\
+			?income dc:date ?year.\n\
 			?borough dbpedia:Population ?population.\n\
 			?population owl:hasValue ?populationVal.\n\
 			?population dc:date \""+ rangeYears[$('#rangeChoroplethInputYear').val()]+ "\"^^xsd:gYear.\n\
@@ -134,14 +135,15 @@ function buildCrimeIndexRateQuery(){
 
 /*function needed to to processing on the receives Crime coordinates*/
 function coordinate(x, y) {
-    this.x = parseFloat(x);
-    this.y = y;
+	this.x = parseFloat(x);
+	this.y = y;
 }
 
 /*function needed to to processing on the receives Borough information*/
-function boroughObject(code, name, incomeVal, populationVal, crimeCountVal, crimeIndexRateVal) {
-    this.boroughCode = code;
+function boroughObject(code, name, year, incomeVal, populationVal, crimeCountVal, crimeIndexRateVal) {
+	this.boroughCode = code;
 	this.boroughDBPediaName = name;
+	this.year = year;
 	this.income = incomeVal;
 	this.population = populationVal;
 	this.crimeCount = crimeCountVal;
@@ -161,6 +163,8 @@ function createHeatMap(JSONtext){
 	L.heatLayer(CrimeHeat, {radius: 10})
 		.addTo(heat);
 	map.addLayer(heat);
+	layercontrol.removeLayer(heat);
+	layercontrol.addOverlay(heat, "Heat Map")
 }
 
 /*Replace all ocurrencies*/
@@ -175,6 +179,7 @@ function createCrimeIndexRateMap(JSONtext){
 		for (var key in JSONtext.results.bindings){
 			var boroughCode = JSONtext.results.bindings[key].code.value;
 			var boroughDBPediaName = JSONtext.results.bindings[key].borough.value;
+			var year = JSONtext.results.bindings[key].year.value;
 			var income = parseFloat(JSONtext.results.bindings[key].incomeVal.value);
 			var population = parseInt(JSONtext.results.bindings[key].populationVal.value);
 			var crimeCount = parseInt(JSONtext.results.bindings[key].crime_count.value);
@@ -189,7 +194,7 @@ function createCrimeIndexRateMap(JSONtext){
 				lowestRate = crimeIndexRate;
 			}
 			
-			var borough = new boroughObject(boroughCode, boroughDBPediaName, income, population, crimeCount, crimeIndexRate);
+			var borough = new boroughObject(boroughCode, boroughDBPediaName, year, income, population, crimeCount, crimeIndexRate);
 			
 			var shortName = replaceAll(borough.boroughDBPediaName,"http://dbpedia.org/page/","");
 			shortName = replaceAll(shortName,"London_Borough_of_","");
@@ -199,9 +204,6 @@ function createCrimeIndexRateMap(JSONtext){
 			crimeIndexRateMap[shortName] = borough;
 			//console.log("CIR of " + shortName + ": " + crimeIndexRate)
 		}	
-		
-		map.removeControl(legend);
-		legend.addTo(map);
 		
 		boroughLayer = getBoroughtsLayer();
 		layercontrol.addOverlay(boroughLayer, "Crime Rate")
@@ -214,9 +216,8 @@ document.getElementById('reqHeatmap').onclick = function(){
 	console.log("Heat");
 	var async = true;
 	map.removeLayer(boroughLayer);
-	map.removeControl(legend);
-	//map.addLayer(heat);
-    askForData(buildCrimeLocQuery(), createHeatMap, async);
+	map.removeLayer(heat);
+	askForData(buildCrimeLocQuery(), createHeatMap, async);
   };
 
 document.getElementById('reqChoropleth').onclick = function(){
@@ -267,8 +268,8 @@ function askForData(query, processData, asynchronous) {
 		error: function (ajaxContext) {
 			$("#loader").hide(1);
 		console.log(ajaxContext)
-        alert(ajaxContext.responseText)
-    }
+		alert(ajaxContext.responseText)
+	}
 	/*When request is done (.done) do something with it*/
 	}).done(function(JSONtext) {
 		console.log("done");	
@@ -283,18 +284,18 @@ function askForData(query, processData, asynchronous) {
 
 
 var mbAttr = 'Map data &copy; <a href="http://openstreetmap.org">OpenStreetMap</a> contributors, ' +
-            '<a href="http://creativecommons.org/licenses/by-sa/2.0/">CC-BY-SA</a>, ' +
-            'Imagery © <a href="http://mapbox.com">Mapbox</a>',
-    mbUrl = 'https://api.tiles.mapbox.com/v4/{id}/{z}/{x}/{y}.png?access_token=pk.eyJ1IjoibmdhdmlzaCIsImEiOiJjaXFheHJmc2YwMDdoaHNrcWM4Yjhsa2twIn0.8i1Xxwd1XifUU98dGE9nsQ';
+			'<a href="http://creativecommons.org/licenses/by-sa/2.0/">CC-BY-SA</a>, ' +
+			'Imagery © <a href="http://mapbox.com">Mapbox</a>',
+	mbUrl = 'https://api.tiles.mapbox.com/v4/{id}/{z}/{x}/{y}.png?access_token=pk.eyJ1IjoibmdhdmlzaCIsImEiOiJjaXFheHJmc2YwMDdoaHNrcWM4Yjhsa2twIn0.8i1Xxwd1XifUU98dGE9nsQ';
 
 var grayscale   = L.tileLayer(mbUrl, {id: 'mapbox.light', attribution: mbAttr}),
-    streets  = L.tileLayer(mbUrl, {id: 'mapbox.streets',   attribution: mbAttr}),
-    outdoors = L.tileLayer(mbUrl, {id: 'mapbox.outdoors', attribution: mbAttr}),
-    satellite = L.tileLayer(mbUrl, {id: 'mapbox.satellite', attribution: mbAttr}),
-    dark = L.tileLayer(mbUrl, {id: 'mapbox.dark', attribution: mbAttr}),
-    light = L.tileLayer(mbUrl, {id: 'mapbox.light', attribution: mbAttr}),
-    satellitestreets = L.tileLayer(mbUrl, {id: 'mapbox.streets-satellite', attribution: mbAttr})
-    ;
+	streets  = L.tileLayer(mbUrl, {id: 'mapbox.streets',   attribution: mbAttr}),
+	outdoors = L.tileLayer(mbUrl, {id: 'mapbox.outdoors', attribution: mbAttr}),
+	satellite = L.tileLayer(mbUrl, {id: 'mapbox.satellite', attribution: mbAttr}),
+	dark = L.tileLayer(mbUrl, {id: 'mapbox.dark', attribution: mbAttr}),
+	light = L.tileLayer(mbUrl, {id: 'mapbox.light', attribution: mbAttr}),
+	satellitestreets = L.tileLayer(mbUrl, {id: 'mapbox.streets-satellite', attribution: mbAttr})
+	;
 
 var map = L.map('map', {
 	zoomControl : true,
@@ -322,14 +323,14 @@ function LoadGeoJSON(data) {
 Determine color of borough polygon according to crime rate, (C) color brewer 
 */
 function getColor(crimeIndexRate) {
-    return crimeIndexRate > 782 ? '#b10026' :
-           crimeIndexRate > 105  ? '#e31a1c' :
-           crimeIndexRate > 90  ? '#fc4e2a' :
-           crimeIndexRate > 82  ? '#fd8d3c' :
-           crimeIndexRate > 74   ? '#feb24c' :
-           crimeIndexRate > 62   ? '#fed976' :
-           crimeIndexRate > 52   ? '#FFEDA0' :
-                      '#ffffb2';
+	return crimeIndexRate > 782 ? '#b10026' :
+		   crimeIndexRate > 105  ? '#e31a1c' :
+		   crimeIndexRate > 90  ? '#fc4e2a' :
+		   crimeIndexRate > 82  ? '#fd8d3c' :
+		   crimeIndexRate > 74   ? '#feb24c' :
+		   crimeIndexRate > 62   ? '#fed976' :
+		   crimeIndexRate > 52   ? '#FFEDA0' :
+					  '#ffffb2';
 }
 
 function getColorCrimeRateIndex(crimeIndexRate) {
@@ -353,15 +354,15 @@ function getColorCrimeRateIndex(crimeIndexRate) {
 Set colors for borough layer
 */
 function style(feature) {
-    return {
-        //fillColor: getColor(feature.properties.crime_rate),
+	return {
+		//fillColor: getColor(feature.properties.crime_rate),
 		fillColor: getColorCrimeRateIndex(crimeIndexRateMap[feature.properties.name] ? crimeIndexRateMap[feature.properties.name].crimeIndexRate : 0),
-        weight: 2,
-        opacity: 1,
-        color: 'black',
-        dashArray: '0.1',
-        fillOpacity: 0.6
-    };
+		weight: 2,
+		opacity: 1,
+		color: 'black',
+		dashArray: '0.1',
+		fillOpacity: 0.6
+	};
 }
 
 var boroughs = LoadGeoJSON("data/london_boroughs_crime.geojson"); //Do not move*/
@@ -370,35 +371,35 @@ var boroughs = LoadGeoJSON("data/london_boroughs_crime.geojson"); //Do not move*
 Interactivity functions when hovering
 */
 function highlightFeature(e) {
-    var layer = e.target;
-    info.update(layer.feature.properties);
+	var layer = e.target;
+	info.update(layer.feature.properties);
 
-    layer.setStyle({
-        weight: 5,
-        color: '#666',
-        dashArray: '',
-        fillOpacity: 0.7
-    });
+	layer.setStyle({
+		weight: 5,
+		color: '#666',
+		dashArray: '',
+		fillOpacity: 0.7
+	});
 
-    if (!L.Browser.ie && !L.Browser.opera && !L.Browser.edge) {
-        layer.bringToFront();
-    }
+	if (!L.Browser.ie && !L.Browser.opera && !L.Browser.edge) {
+		layer.bringToFront();
+	}
 }
 function resetHighlight(e) {
-    boroughLayer.resetStyle(e.target);
-    info.update();
+	boroughLayer.resetStyle(e.target);
+	info.update();
 }
 
 function zoomToFeature(e) {
-    map.fitBounds(e.target.getBounds());
+	map.fitBounds(e.target.getBounds());
 }
 
 function onEachFeature(feature, layer) {
-    layer.on({
-        mouseover: highlightFeature,
-        mouseout: resetHighlight,
-        click: zoomToFeature
-    });
+	layer.on({
+		mouseover: highlightFeature,
+		mouseout: resetHighlight,
+		click: zoomToFeature
+	});
 }
 
 boroughLayer = getBoroughtsLayer();
@@ -415,9 +416,9 @@ function getBoroughtsLayer(){
 var info = L.control();
 
 info.onAdd = function (map) {
-    this._div = L.DomUtil.create('div', 'info'); // create a div with a class "info"
-    this.update();
-    return this._div;
+	this._div = L.DomUtil.create('div', 'info'); // create a div with a class "info"
+	this.update();
+	return this._div;
 };
 
 /*Create Legend for choropleth */
@@ -436,7 +437,7 @@ var legend = L.control({position: 'bottomright'});
 		grades[i] + (grades[i + 1] ? '&ndash;' + grades[i + 1] + '<br>' : '+');
 	}
 	
-    return div;
+	return div;
 }; */
 
 function getChoroplethGrades(){
@@ -476,21 +477,21 @@ legend.onAdd = function () {
 		grades[i] + (grades[i + 1] ? '&ndash;' + grades[i + 1] + '<br>' : '+');
 	}
 
-    return div;
+	return div;
 };
 
 
 // method used to update the control based on feature properties passed
 info.update = function (props) {
-    this._div.innerHTML = '<h4>Borough Information</h4>' +  (props ?
-        '<b>' + props.name + '</b><br />' +
+	this._div.innerHTML = '<h4>Borough Information</h4>' +  (props ?
+		'<b>' + props.name + '</b><br />' +
 		(crimeIndexRateMap[props.name]? 
-			'Year: 2014<br />' +
+			'Year: '+ crimeIndexRateMap[props.name].year +'<br />' +
 			'Population: ' + crimeIndexRateMap[props.name].population.toLocaleString() + '<br />' +
 			'Avg. Annual Income: ' + crimeIndexRateMap[props.name].income.toLocaleString() + ' &pound;<br />' +
 			'Crime Rate Per 1,000 Inhabitants: ' + crimeIndexRateMap[props.name].crimeIndexRate.toLocaleString() + '<br />'
 		: '')
-        : 'Hover over a borough');
+		: 'Hover over a borough');
 };
 
 info.addTo(map);
@@ -498,15 +499,14 @@ info.addTo(map);
 /*Finalizing Map */
 
 var baseLayers = {
-    "Grayscale": grayscale,
-    "Streets": streets,
-    "Outdoors": outdoors,
-    "Dark Map": dark
-    };
+	"Grayscale": grayscale,
+	"Streets": streets,
+	"Outdoors": outdoors,
+	"Dark Map": dark
+	};
 
 var overlays = {
-	"Heat Map": heat,
-	"Crime Rate": boroughLayer
+	//"Heat Map": heat
 }; 
  
 var layercontrol = L.control.layers(baseLayers, overlays,{collapsed:false}).addTo(map); 
@@ -522,3 +522,16 @@ L.geoJson(defaultBorough, {
 		fillOpacity: 0
 	}
 }).addTo(map);
+
+map.on('overlayadd', function(eo) {	
+    if (eo.name === 'Crime Rate'){
+        map.removeControl(legend);
+		legend.addTo(map);
+    } 
+});
+	
+map.on('overlayremove', function(eo) {
+	if (eo.name === 'Crime Rate'){
+		map.removeControl(legend);
+	}
+});
