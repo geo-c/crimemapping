@@ -12,6 +12,11 @@ var JSONtext;
 /*vars for parliament query*/
 var sparqlUrl = "http://giv-lodumdata.uni-muenster.de:8282/parliament/sparql?output=JSON&query=";
 
+/*for OCT*/
+var octQueryMap = "http://giv-oct.uni-muenster.de:8080/api/dataset/crimeLocLim?authorization=eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJhcHBfbmFtZSI6IkNyaW1lIE1hcHBlciIsImlhdCI6MTQ4MDY3ODM5Nn0.G8E9xAK7OoXhjpmc2RPd4ZMzqbA-6P38rONMc4H6_Ng"
+var octQueryDiag = "http://giv-oct.uni-muenster.de:8080/api/dataset/CrimeMapperDiagram?authorization=eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJhcHBfbmFtZSI6IkNyaW1lIE1hcHBlciIsImlhdCI6MTQ4MDY3ODM5Nn0.G8E9xAK7OoXhjpmc2RPd4ZMzqbA-6P38rONMc4H6_Ng"
+
+
 /*vocabulary/prefixes*/
 var sqlPrefixes = "\
 PREFIX crime: <http://course.geoinfo2016.org/G3/>\n\
@@ -82,6 +87,33 @@ $(function () {
 	});
 
 });
+
+
+/**
+next is for the OCT to count usage of the app
+**/
+
+function countUsageMap(){
+var countMap = $.getJSON( octQueryMap, function() {
+})
+  .done(function(data) {
+    console.log( "usage Map +1" );
+  })
+  .fail(function() {
+    console.log( "error counting usage of Map" );
+  });
+}
+
+function countUsageDiag(){
+var countDiag = $.getJSON( octQueryDiag, function() {
+})
+  .done(function(data) {
+    console.log( "usage Diagram +1" );
+  })
+  .fail(function() {
+    console.log( "error counting usage of Diagram" );
+  });
+}
 
 
 /**
@@ -221,6 +253,7 @@ function createCrimeIndexRateMap(JSONtext){
 document.getElementById('reqHeatmap').onclick = function(){
 	console.log("Heat");
 	var async = true;
+	countUsageMap();
 	map.removeLayer(boroughLayer);
 	map.removeLayer(heat);
 	askForData(buildCrimeLocQuery(), createHeatMap, async);
@@ -229,6 +262,7 @@ document.getElementById('reqHeatmap').onclick = function(){
 document.getElementById('reqChoropleth').onclick = function(){
 	console.log("Choropleth");
 	var async = false;
+	countUsageMap();
 	map.removeLayer(heat);
 	map.removeLayer(boroughLayer);
 	layercontrol.removeLayer(boroughLayer);
