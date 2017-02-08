@@ -135,9 +135,9 @@ li a:hover:not(.active) {
     clear: left;
     text-align: center;
 	font-size: 1vw;
-	width: 10.1vw;
+	width: 10vw;
 	z-index: 3;
-	height: 10%;
+	height: 5vw;
 }
 
 .informal{
