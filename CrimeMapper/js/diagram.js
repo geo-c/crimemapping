@@ -217,6 +217,18 @@ function generateDiagram(data) {
         },
         size: {
             height: 400
+        },
+        tooltip: {
+            contents: function (d, defaultTitleFormat, defaultValueFormat, color) {
+                var sum = 0;
+                d.forEach(function (e) {
+                    sum += e.value
+                });
+                defaultTitleFormat = function () {
+                    return sum
+                };
+                return c3.chart.internal.fn.getTooltipContent.apply(this, arguments);
+            }
         }
     });
 	document.getElementById("pBar").value = document.getElementById("pBar").value + 1;
