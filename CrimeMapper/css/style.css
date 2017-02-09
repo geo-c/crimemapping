@@ -52,7 +52,7 @@ body{
 	height: 90%;
 	position: absolute;
 	z-index: 2;
-	margin: 5.5% 10%;
+	margin: 5.8% 10%;
 	overflow: hidden;
 	border: 0.1vw solid #555;
 }
@@ -66,14 +66,15 @@ body{
 	overflow: hidden;
 	display: inline-block;
 	background-color: white;
-	border-top: 2vw solid #f1f1f1;
+	border-top: 0.75vw solid #f1f1f1;
 }
 header{
 	z-index:1;
 	width: 90vw;
-	height: 5.5vw;
+	height: 5.2vw;
 	margin: -5.5% 10vw;
 	background-color: #f1f1f1;
+	border: 1px solid #f1f1f1;
 }
 
 nav{
