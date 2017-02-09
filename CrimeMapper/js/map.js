@@ -557,12 +557,43 @@ var layercontrol = L.control.layers(baseLayers, overlays,{collapsed:false}).addT
 
 var defaultBorough = LoadGeoJSON("data/london_boroughs.geojson")
 
-L.geoJson(defaultBorough, {
+function highlightDefaultFeature(e){
+	var layer = e.target;
+	info.update(layer.feature.properties);
+	
+	layer.setStyle({
+		weight: 5,
+		color: '#666',
+		dashArray: '',
+		fillOpacity: 0.7
+	});
+	
+	if (!L.Browser.ie && !L.Browser.opera && !L.Browser.edge) {
+		layer.bringToFront();
+	}
+}
+
+function resetDefaultHighlight(e) {
+	var layer = e.target;
+	defaultBoroughLayer.resetStyle(layer);
+	info.update(layer.feature.properties);
+}
+
+function onEachFeatureDefaultBorouth(feature, layer) {
+	layer.on({
+		mouseover: highlightDefaultFeature,
+		mouseout: resetDefaultHighlight,
+		click: zoomToFeature
+	});
+}
+
+var defaultBoroughLayer = L.geoJson(defaultBorough, {
 	style: {
 		color: '#666',
 		opacity: 1,
 		fillOpacity: 0
-	}
+	},
+	onEachFeature: onEachFeatureDefaultBorouth
 }).addTo(map);
 
 map.on('overlayadd', function(eo) {	
