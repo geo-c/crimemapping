@@ -497,7 +497,9 @@ function getChoroplethColors(length){
 		.domain(d3.range(0, length))
 		.range(d3.schemeYlOrRd[9]); */
 		
-	colors = ["#ffffb2","#FFEDA0","#fed976","#feb24c","#fd8d3c","#fc4e2a","#e31a1c","#b10026"];
+	//colors = ["#ffffb2","#FFEDA0","#fed976","#feb24c","#fd8d3c","#fc4e2a","#e31a1c","#b10026"];
+	
+	colors = ["#fee0d2 ","#fc9272","#fb6a4a","#ef3b2c","#cb181d","#cb181d","#e31a1c","#67000d"];
 	
 	return colors;
 }
