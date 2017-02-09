@@ -576,7 +576,7 @@ function highlightDefaultFeature(e){
 function resetDefaultHighlight(e) {
 	var layer = e.target;
 	defaultBoroughLayer.resetStyle(layer);
-	info.update(layer.feature.properties);
+	info.update();
 }
 
 function onEachFeatureDefaultBorouth(feature, layer) {
