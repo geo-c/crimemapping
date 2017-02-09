@@ -63,14 +63,14 @@
 			" - " + $( "#rangeInputMonth" ).slider( "values", 1 ) );
 	} );
 		
-		var countClicks = 0;
+		var countClicks = -1;
 		function ExpandShrink(){
 			if(countClicks%2 == 0){
-				$("#TimeWindows").show();
+				$("#TimeWindows").toggle("slide");
 				countClicks++;
 			}
 			else{
-				$("#TimeWindows").hide();
+				$("#TimeWindows").toggle("slide");
 				countClicks++;
 			}
 		}
