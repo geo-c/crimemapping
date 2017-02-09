@@ -1,39 +1,44 @@
 html, body {
     overflow:hidden;
     height:100%;
-	width: 100%
+	width: 100%;
+}
+
+body{
+	background-color: #f1f1f1;
 }
 
 .Choropleth {
-  padding: 6px 8px;
-  font: 18px/16px Arial, Helvetica, sans-serif;
+  padding: 0.6vw 0.8vw;
+  font: 1em Arial, Helvetica, sans-serif;
   background: white;
   background: rgba(255,255,255,0.8);
-  box-shadow: 0 0 15px rgba(0,0,0,0.2);
-  border-radius: 5px;
+  box-shadow: 0 0 1.5vw rgba(0,0,0,0.2);
+  border-radius: 0.5em;
 }
 
 
 .legend {
-    
-    line-height: 28px;
+    line-height: 1.75em;
     color: #555;
 }
+
 .legend i {
-    width: 18px;
-    height: 18px;
+    width: 1.5em;
+    height: 1.5em;
     float: left;
-    margin-right: 8px;
+    margin-right: 0.8vw;
     opacity: 0.7;
+	/*border: 0.1em solid black;*/
 }
 
 .info {
-    padding: 6px 18px;
-    font: 18px/16px Arial, Helvetica, sans-serif;
+    padding: 0.6vw 1.8vw;
+    font: 1.25em Arial, Helvetica, sans-serif;
     background: white;
     background: rgba(255,255,255,0.8);
-    box-shadow: 0 0 15px rgba(0,0,0,0.2);
-    border-radius: 5px;
+    box-shadow: 0 0 1.5vw rgba(0,0,0,0.2);
+    border-radius: 0.5em;
 }
 
 
@@ -43,13 +48,13 @@ html, body {
 }
 
 #map {
-  width: 90vw; /* Do not change! */
-  height: 46vw; /* Do not change! */ 
-  position: absolute;
-  z-index: 2;
-	margin: 5vw 10vw;
+	width: 90%;
+	height: 90%;
+	position: absolute;
+	z-index: 2;
+	margin: 5.5% 10%;
 	overflow: hidden;
-	border: 0.1 solid #555;
+	border: 0.1vw solid #555;
 }
 
 #diagramContainer{
@@ -60,14 +65,15 @@ html, body {
 	margin: 5% 10%;
 	overflow: hidden;
 	display: inline-block;
+	background-color: white;
+	border-top: 2vw solid #f1f1f1;
 }
 header{
 	z-index:1;
-	width:90vw;
-	height:5.3vw;
-	margin: -5.5vw 10vw;
+	width: 90vw;
+	height: 5.5vw;
+	margin: -5.5% 10vw;
 	background-color: #f1f1f1;
-	border-top: 0.2vw solid black;
 }
 
 nav{
@@ -78,18 +84,20 @@ ul {
     list-style-type: none;
     margin: 0%;
     padding: 0%;
-    width: 10vw;
+    width: 10%;
     background-color: #f1f1f1;
-    height: 90%;
+	height:100%;
     position: absolute;
-    overflow: auto; 
+    overflow: hidden; 
 	border: none;
+	display: block;
 }
 
 li{
     text-align: center;
-    line-height: 17vw;
-    font-size: 1vw;
+	line-height: 15vw;
+	height: auto;
+    font-size: 1.25vw;
 }
 
 #d{
@@ -109,13 +117,13 @@ li a.active {
     color: white;
     text-transform: uppercase;
     font-weight: bold;
-    font-size: 1.25vw;
+    font-size: 100%;
 }
 
 li a:hover:not(.active) {
     background-color: #555;
     color: white;
-    font-size: 150%;
+    font-size: 125%;
 }
 
 .horizontal{
@@ -129,32 +137,49 @@ li a:hover:not(.active) {
 }
 .topTitle{
     position:relative;
-    padding:1em;
+    padding:0.2em;
     color: white;
     background-color: black;
     clear: left;
     text-align: center;
-	font-size: 1vw;
-	width: 10vw;
+	font-size: 1.25vw;
+	width: 10%;
 	z-index: 3;
-	height: 5vw;
+	height: 10%;
 }
 
 .informal{
     position:absolute;
-    width: 16vw;
-    left: 85vw;
+    width: 16%;
+    left: 85%;
+}
+
+#Expandable{
+	font-size: 150%;
+	z-index: 3; 
+	position:absolute;
+	left: 11%; 
+	top: 20%;
+	text-align: center;
+	border: 0.05vw solid black;
+	background-color: #4CAF50;
+	color: white;
+	box-shadow: 0 1vw 1vw 0 rgba(0, 0, 0, 0.2), 0 1vw 1vw 0 rgba(0, 0, 0, 0.19);
+	display: inline-block;
+}
+
+#Expandable:hover{
+	cursor: pointer;
 }
 
 .TimeWindows{
+	font-size: 85%;
 	z-index: 3; 
-	position:absolute; 
-	width: 28.7vw; 
-	height: 11.5vw;
-	left: 13.5vw; 
-	top: 2.5vw;
+	position:absolute;
+	left: 13.5%; 
+	top: 5%;
 	border: 0.3vw solid #4CAF50;
-	border-radius: 1vw;
+	border-radius: 1em;
 	background-color: rgba(255,255,255,100);
 	box-shadow: 0 1vw 1vw 0 rgba(0, 0, 0, 0.2), 0 1vw 1vw 0 rgba(0, 0, 0, 0.19);
 }
@@ -164,55 +189,38 @@ li a:hover:not(.active) {
 	margin-bottom: 0vw;
 }
 
-.TimeWindows .timeControl{
-	width: 13.7vw;
-	display: table-cell;
-	vertical-align: bottom;
-	position: absolute;
-	top: 2.5vw;
-}
-.timeControl1{
-	left: 0vw;
+#controlTable td{
+	padding: 0.5vw;
 }
 
-.timeControl2{
-	left: 13.5vw;
-    
+.Mapbutton{
+	padding: none;
+	position:fixed;
+    background-color: #4CAF50; /* Green */
+    color: white;
+	text-align: center;
+    display: inline-block;
+	font-size: 100%;
+    border: 0.2vw solid #4CAF50;
+    transition-duration: 0.5s;
 }
 
-.timeControl button{
-	margin: 0;
-    margin-left: 0.55vw;
-    margin-top: 0.7vw;
+.Mapbutton:hover {
+    background-color:#75d689;
+    border: 0.2vw solid #4CAF50;
+    color: black;
 }
 
 #reqHeatmap,#reqChoropleth{
-	padding: 0.4vw 2.08vw;
-	margin-top: 0.7vw;
-	margin-left: 0.75vw;
-	width: 13vw;
-}
-
-.requestButtons{
-	z-index: 10; 
-	position:absolute; 
-	width: 19vw; 
-	height: 9.5vw;
-	left: 33vw; 
-	top: 2.5vw;
-	border: 0.3vw solid #4CAF50;
-	border-radius: 1vw;
-	background-color: rgba(255,255,255,100);
-	box-shadow: 0 1vw 1vw 0 rgba(0, 0, 0, 0.2), 0 1vw 1vw 0 rgba(0, 0, 0, 0.19);
+	width: 90%;
+	position: relative;
 }
 
 #loader{
     z-index:100;
     position:absolute;
-    margin-left: 30vw;
-    margin-top: 18vw;
-    height:20vw;
-    width: 30vw;
+    margin-left: 40%;
+    margin-top: 5%;
     background-size: 100% 100%;
     display: inline-block;
     text-align: center;
@@ -227,11 +235,15 @@ li a:hover:not(.active) {
 	height: 5vw; 
 	width: 5vw; 
 	top: 1.25vw; 
-	left: 59vw;
+	left: 65vw;
     z-index:100;
     position:absolute;
     background-size: 100% 100%;
     display: inline-block;
+}
+
+#div1, #div2, #div3{
+	display: inline;
 }
 
 .button{
@@ -243,7 +255,7 @@ li a:hover:not(.active) {
     text-align: center;
     text-decoration: none;
     display: inline-block;
-    font-size: 1vw;
+    font-size: 100%;
     border: 0.2vw solid #4CAF50;
     transition-duration: 0.5s;
 }
@@ -260,7 +272,7 @@ li a:hover:not(.active) {
 }
 
 #About_button{
-	font-size: 1.3vw;
+	font-size: 100%;
     padding: 0.3vw 0.5vw;
     margin-top: 1vw;
     border:0.05vw solid #93bc9b;
@@ -290,11 +302,11 @@ li a:hover:not(.active) {
   position: absolute;
   width: 80%; 
   height: 93%;
-  top: 5%;
-  left: 15%;
+  top: 4%;
+  left: 10%;
   padding: 1.6vw;
   border: 0.3 solid #4CAF50;
-  border-radius: 2.5vw;
+  border-radius: 2.5em;
   background-color: #f1f1f1;
   z-index: 1002;
   overflow: auto;
@@ -302,67 +314,16 @@ li a:hover:not(.active) {
 
 p#a1{
   font-family: Palatino Linotype;
-  font-size: 2vw;
+  font-size: 100%;
 }
 
 p#a2{
   font-family: Palatino Linotype;
-  font-size: 1.25vw;
+  font-size: 100%;
 }
-
-/******* Dropdown ********/
-/* Dropdown Button */
-.dropbtn {
-    background-color: #4CAF50;
-    color: white;
-    padding: 10vw;
-    font-size: 1vw;
-    border: none;
-    cursor: pointer;
-}
-
-/* Dropdown button on hover & focus */
-.dropbtn:hover, .dropbtn:focus {
-    background-color: #3e8e41;
-}
-
-/* The container <div> - needed to position the dropdown content */
-.dropdown {
-    display: inline-block;
-    z-index: 1;
-    padding: 25vw;
-}
-
-/* Dropdown Content (Hidden by Default) */
-.dropdown-content {
-    display: none;
-    position: fixed;
-    height: 60%;
-    width: 380vw;
-    background-color: #f9f9f9;
-    box-shadow: 0vw 0vw 6vw 6vw rgba(0, 0, 0, 0.38);
-    overflow: auto;
-    z-index: 1;
-    font-size: 0.9vw;
-}
-
-/* Buttons inside the dropdown */
-.dropdown-content button {
-    color: black;
-    padding: 2vw 6vw;
-    text-decoration: none;
-    display: block;
-    width: 100%;
-}
-
-/* Change color of dropdown links on hover */
-.dropdown-content button:hover {background-color: #f1f1f1}
-
-/* Show the dropdown menu (use JS to add this class to the .dropdown-content container when the user clicks on the dropdown button) */
-.show {display:block;}
 
 p{
-	font-size: 1vw;
+	font-size: 100%;
 }
 	
 input[type=range] {
@@ -371,21 +332,21 @@ input[type=range] {
 }
 
 input[type=range]::-webkit-slider-runnable-track {
-    width: 0.30vw;
-    height: 0.5vw;
+    width: 0.30em;
+    height: 0.5em;
     background: #93bc9b;
     border: none;
-    border-radius: 2.5vw;
+    border-radius: 2.5em;
 }
 
 input[type=range]::-webkit-slider-thumb {
     -webkit-appearance: none;
     border: none;
-    height: 1.5vw;
-    width: 1.5vw;
-    border-radius: 25%;
+    height: 1.5em;
+    width: 1.5em;
+    border-radius: 0.5em;
     background: green;
-    margin-top: -0.5vw;
+    margin-top: -0.5em;
 }
 
 input[type=range]::-webkit-slider-thumb:hover {
@@ -397,7 +358,7 @@ input[type=range]::-webkit-slider-thumb:hover {
 	background-color: #4CAF50;
 	padding: 0.1vw 0.2vw;
 	border: none;
-	font-size: 1vw;
+	font-size: 100%;
 	color: white;
 }
 
@@ -410,7 +371,7 @@ input[type=range]::-webkit-slider-thumb:hover {
 	background-color: #4CAF50; 
 	color: #f1f1f1; 
 	padding: 0.5vw 0.5vw; 
-	border-radius: 5vw;
+	border-radius: 5em;
 	transition-duration: 0.4s;
 	border: 0.2vw solid #4CAF50;
 }
@@ -424,7 +385,7 @@ input[type=range]::-webkit-slider-thumb:hover {
 .BoroughInfoTable{
 	border-collapse: collapse;
 	width: 50%;
-	font-size: 1vw;
+	font-size: 100%;
 }
 
 .BoroughInfoTable th, .BoroughInfoTable td{
@@ -442,7 +403,7 @@ input[type=range]::-webkit-slider-thumb:hover {
 #wikilink{
     text-decoration: none;
     color: #3c8d31;
-	font-size: 1vw;
+	font-size: 100%;
 }
 
 #wikilink:hover{
@@ -480,7 +441,7 @@ input[type=range]::-webkit-slider-thumb:hover {
 #ProgressBar{position:absolute;
 	z-index:150;
 	top: 1.65vw; 
-	left: 62vw;
+	left: 68vw;
 }
 
 progress::-webkit-progress-bar {
@@ -501,4 +462,27 @@ progress[value]::-webkit-progress-bar {
 progress[value]::-webkit-progress-value {
   background-color: #4CAF50;
   opacity: 50%;
+}
+
+.ui-slider-handle.ui-corner-all.ui-state-default{
+    border: none;
+    height: 1.5em;
+    width: 1.5em;
+    border-radius: 0.5em;
+    background: green;
+	border: 0.1vw solid white;
+    margin-top: -0.25em;
+}
+
+.ui-slider-horizontal{
+	width: 0.30em;
+    height: 0.5em;
+    background: #93bc9b;
+    border: none;
+    border-radius: 2.5em;
+}
+
+.ui-slider-handle.ui-corner-all.ui-state-default:hover {
+    background: #f1f1f1;
+    border: 0.1vw solid green;
 }
