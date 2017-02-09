@@ -9,6 +9,7 @@ function myFunction() {
 
 // Called when a change is detected in one of the dropdowns/select
 function changeSession() {
+	document.getElementById("crimeTypeCheckboxes").style.display = "none";
 	countUsageDiag();
     var boroughName = document.getElementById('selectedBorough').value;
     selectedCrimeType = [];
