@@ -29,11 +29,13 @@
                 $("#map").hide();
 				$("#TimeWindows").hide();
 				$("#requestButtons").hide();
+				$("#Expandable").hide();
             });
             $("#Mapped").click(function(){
                 $("#map").show();
-				$("#TimeWindows").show();
 				$("#requestButtons").show();
+				$("#TimeWindows").hide();
+				$("#Expandable").show();
             });
         });
 		$(function() {
@@ -60,6 +62,18 @@
 		$( "#amount" ).val( "Month: " + $( "#rangeInputMonth" ).slider( "values", 0 ) +
 			" - " + $( "#rangeInputMonth" ).slider( "values", 1 ) );
 	} );
+		
+		var countClicks = 0;
+		function ExpandShrink(){
+			if(countClicks%2 == 0){
+				$("#TimeWindows").show();
+				countClicks++;
+			}
+			else{
+				$("#TimeWindows").hide();
+				countClicks++;
+			}
+		}
 	</script>
 
 </head>
@@ -68,7 +82,7 @@
 <body>
 
     <div class="topTitle">
-       <p>Crime Map</p>
+       <p>Crime Mapper</p>
     </div>
 
     <nav>
@@ -77,51 +91,51 @@
             <li id="d"><a class="link" id="Diagram">Diagram</a></li>
             <br>
             <br>
-            <footer align="center" style="font-size: 1vw;">
-            Data courtesy of <a href= "https://data.police.uk/"> London Police </a>
+            <footer align="center" style="font-size: 1.25vw;">
+            Data courtesy of <a href= "https://data.police.uk/" target="blank"> London Police </a>
             </footer>
         </ul>
     </nav>
 
     <header>
-
+	<div id="Expandable" onclick="ExpandShrink()">≡</div>
 	<div class="TimeWindows" id="TimeWindows">
-		<p class="TimeWindowsTitle"><b>Choose a timeframe:</b></p> 
-		<div class="timeControl timeControl1">
-			<div class="timeWindowMonth" style="margin-left: 1vw;">
-				<!--<input type="range" id="rangeInputMonth" name="rangeInput" step="1" min="1" max="12">
-				<label id="rangeTextMonth">July</label>-->
-				<input type="text" id="amount" readonly style="border:0;">
-				<div id="rangeInputMonth"></div>
-			</div>
-			<div class="timeWindowYear" style="margin-top: 1vw; margin-left: 1vw;">
+	
+		<p class="TimeWindowsTitle"><b>Choose a timeframe and a visualisation:</b></p>
+		<table id="controlTable"><tr><td>
+			<div class="timeWindowMonth">
+				<input type="text" id="amount" readonly style="border:0;font-size: 100%">
+				<br><br>
+				<div id="rangeInputMonth" style="width: 70%"></div></div>
+			</td></tr>
+			<tr><td><div class="timeWindowYear">
 				<input type="range" id="rangeInputYear" name="rangeInputY" step="1" min="2013" max="2014">
 				<label id="rangeTextYear">2014</label>
-			</div>
-			<button type="button" class="button" id="reqHeatmap">Heat Map</button>
-		</div>
-		<div class="timeControl timeControl2">
-			<div class="choroplethTimeWindowYear" style="margin-top: 2.95vw;margin-left: 1vw;">
+			</div></td>
+			
+		
+		<td><div class="choroplethTimeWindowYear">
 				<input type="range" id="rangeChoroplethInputYear" name="rangeInputY" step="1" min="2013" max="2014">
 				<label id="rangeChoroplethTextYear">2014</label>
-			</div>
-			<button type="button" class="button" id="reqChoropleth" >Crime Rate Map</button>
-		</div>
+			</div></td></tr>
+			<tr><td><button type="button" class="Mapbutton" id="reqHeatmap">Heat Map</button></td>
+			<td><button type="button" class="Mapbutton" id="reqChoropleth" >Crime Rate Map</button></td></tr></table>
 	</div>
 
     <div class="informal">
         <button id="About_button" type="button" class="button" a href="javascript:void(0)" onclick="document.getElementById('show').style.display='block';document.getElementById('close').style.display='block'">About</button>
     </div>
 
-	<div class="loader" id="loader" style="background: #f1f1f1 url('loader/gears.gif') no-repeat center center; display:none;">
-	<h1> Please wait...</h1>
+	<div class="loader" id="loader" style="background: #f1f1f1; display:none; position: absolute;">
+	<h1 style="font-size: 100%;"> Please wait...</h1>
+	<img src = "loader/gears.gif" style="width: 50%;">
     </div>
 
     </header>
 
     <!-- Borough Diagram --->
-    <section id="diagramContainer" >
-        <div style="margin-top: 1.75vw; margin-left: 1vw; font-size: 1vw;">
+    <section id="diagramContainer">
+        <div style="margin-top: 1.75vw; margin-left: 1vw; font-size: 100%; display: inline-block;">
             <!-- Borough selection -->
             <select id="selectedBorough">
                 <option selected="selected">Select a borough</option>
@@ -161,7 +175,7 @@
             </select>
 
             <!-- Crime type selection -->
-            <div class="multiselect" style="left: 26.5vw; top: 1.75vw; z-index: 10; font-size: 1vw; width: 17vw;">
+            <div class="multiselect" style="left: 30vw; top: 1.75vw; z-index: 10; font-size: 100%; width: 17vw;">
                 <div class="selectBox" onclick="showCheckboxes()">
                     <select>
                         <option>Select crime types</option>
@@ -188,15 +202,15 @@
 
 
             <!-- Year selection -->
-            <div style="left: 44vw; top: 1.75vw; position:absolute;">
-                <select id="selectedYear" style="width: 6vw">
+            <div style="left: 47.25vw; top: 1.75vw; position:absolute;">
+                <select id="selectedYear">
                     <option value='2013'>2013</option>
                     <option value='2014'>2014</option>
                     <option value='2013/2014'>2013/2014</option>
                 </select></div>
 
             <!-- submit button -->
-            <div style="left: 51vw; top: 1.75vw; position:absolute;">
+            <div style="left: 56.5vw; top: 1.75vw; position:absolute;">
                 <button id="submitButton" onclick="changeSession()">Load Diagram</button></div>
 		
 		<div class="loader" id="loaderDiagram" style="display:none;">
@@ -205,13 +219,11 @@
 		
 		<div id="ProgressBar" style="display:none;"><progress id="pBar"></progress></div>
             <br>
-
         </div>
-
 
         <div id="barDiagram" style="padding-left: 2.5vw; padding-top: 2vw">
             <p>Please select the borough and crime type for which a diagram shall be shown. You can also choose the year. Please press the button to sumbit.</p>
-        </div>
+        </div><br>
         <div id="TableContainer"></div>
         <div id="WikiLinkHolder"></div>		
     </section>
@@ -221,13 +233,13 @@
 	</section>
 
  <div id="show" class="about_content">
-		<p id="a1"><center><b style="font-size: 2.5vw;">About</b></center></p>
+		<p id="a1"><center><b style="font-size: 150%;">About</b></center></p>
 		<p id="a2"><b>Welcome to Crime Mapper!</b>
-		<br>This application is intended to help Citizens, Tourists, the Police Department, Students and Researchers to get a better overview of the crimes in Greater London. There are two kinds of views, the map view and the diagram view. You can choose between the views using the controls on the left.
-		<br><br><b>Map View:</b><br>You can choose a visualisation using the buttons provided and activate/deactivate the Crime Index layer or the Heat map using the controls provided on the right. To get the heat map, select the time period using the sliders and click <b>Heat Map</b>. To get the Cholopleth map of Crime index, click <b>Choropleth Map</b>.
-		<br><br><b>Diagram View:</b><br>Please select the Borough, crime type and the year and click <b>Load Diagram</b>.
-		</p>
-		<table id="t1" style="width: 65vw; font-size:1.1vw"><tr>
+		<br>This application is intended to help Citizens, Tourists, Students and Researchers to get a better overview of the crimes in Greater London. There are two kinds of views, the map view and the diagram view. You can choose between the views using the controls on the left.
+		<br><br><b>Map View:</b><br>You can choose a time period and visualisation using the buttons provided and activate/deactivate the Crime Index layer or the Heat map using the controls provided on the right. To get the heat map, select the time period using the sliders and click <b>Heat Map</b>. To get the Cholopleth map of Crime index, select the year and click <b>Crime Rate Map</b>.
+		<br><br><b>Diagram View:</b><br>Please select the Borough, crime types and the year and click <b>Load Diagram</b>.
+		</p><br><br>
+		<table id="t1" style="width: 65vw; font-size:100%"><tr>
 		<td><i><u>Created by:</u><br>Nimrod Gavish, Antonia van Eek, Jeison Londoño <br> Mina Karamesouti, Sangeetha Shankar, Julius Wittkopp
 		<br>University of Muenster, Germany.</i></td>
 		<td><img src="crimePict1.jpg" style="margin: auto; height: 12vw; width: 25vw;"></td></tr></table><br>
