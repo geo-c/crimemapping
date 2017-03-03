@@ -12,6 +12,7 @@ function changeSession() {
 	document.getElementById("crimeTypeCheckboxes").style.display = "none";
 	countUsageDiag();
     var boroughName = document.getElementById('selectedBorough').value;
+    //make the crimetype array and reponse array empty
     selectedCrimeType = [];
     pos = 0;
     responseAll.length = 0;
@@ -24,7 +25,7 @@ function changeSession() {
         }
     }console.log(selectedCrimeType);
     var year = document.getElementById('selectedYear').value;
-    // Ensure that a borough name has been selected
+    // Ensure that the selection is valid
     if (boroughName == 'Select a borough') {
         document.getElementById("barDiagram").textContent = 'Please select a borough.';
         document.getElementById("barDiagram").style.color = 'Red';
@@ -32,7 +33,8 @@ function changeSession() {
         document.getElementById("barDiagram").textContent = 'Please select atleast one crime type.';
         document.getElementById("barDiagram").style.color = 'Red';
     } else {
-		document.getElementById("pBar").max = selectedCrimeType.length*3;
+		//initialise and show the progress bar
+	    	document.getElementById("pBar").max = selectedCrimeType.length*3;
 		document.getElementById("pBar").value = "0";
 		$("#loaderDiagram").show(1);
 		$("#ProgressBar").show(1);
@@ -233,6 +235,7 @@ function generateDiagram(data) {
         }
     });
 	document.getElementById("pBar").value = document.getElementById("pBar").value + 1;
+    //hide loader icon and progress bar once the diagram is completely loaded
     if(responseAll[selectedCrimeType.length-1]!=0){
         $("#loaderDiagram").hide(1);
 		$("#ProgressBar").hide(1);
@@ -304,6 +307,7 @@ function putWikiLink(boroughName){
     document.getElementById('WikiLinkHolder').innerHTML=wikiURL;
 }
 
+//to show/hide the crimetype checkboxes list
 var expanded = false;
 function showCheckboxes() {
     var checkboxes = document.getElementById("crimeTypeCheckboxes");
