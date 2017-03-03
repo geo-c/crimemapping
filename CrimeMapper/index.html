@@ -63,6 +63,7 @@
 			" - " + $( "#rangeInputMonth" ).slider( "values", 1 ) );
 	} );
 		
+		//to show/hide the Control windows
 		var countClicks = -1;
 		function ExpandShrink(){
 			if(countClicks%2 == 0){
@@ -224,6 +225,8 @@
         <div id="barDiagram" style="padding-left: 2.5vw; padding-top: 2vw">
             <p>Please select the borough and crime type for which a diagram shall be shown. You can also choose the year. Please press the button to sumbit.</p>
         </div><br>
+	    
+	<!-- Income & population table -->    
         <div id="TableContainer"></div>
         <div id="WikiLinkHolder"></div>		
     </section>
@@ -231,7 +234,7 @@
 
     <section id="map">
 	</section>
-
+ <!-- About window -->
  <div id="show" class="about_content">
 		<p id="a1"><center><b style="font-size: 150%;">About</b></center></p>
 		<p id="a2"><b>Welcome to Crime Mapper!</b>
