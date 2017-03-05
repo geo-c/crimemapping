@@ -62,6 +62,7 @@ var rangeYears = {
 		"2015": "2015"
 };
 
+// Text output for sliders. Shows selected Month/Year
 $(function () {
 
 	$('#rangeTextMonth').text(rangeMonths[$('#rangeInputMonth').val()]);
@@ -91,6 +92,8 @@ $(function () {
 
 /**
 next is for the OCT to count usage of the app
+Each time a Layer is requested, it counts +1 in OCT.
+Due to the amount of requests in total, it is more performant to just have two OCT queries.
 **/
 
 function countUsageMap(){
@@ -117,7 +120,8 @@ var countDiag = $.getJSON( octQueryDiag, function() {
 
 
 /**
-next is for heatmap ONLY
+next is for building the heatmap query.
+Parliament needes a zero "0" in front of numbers smaller than 10.
 **/
 
 /*Function to build the SPARQL-query for the heatmap*/
@@ -129,6 +133,9 @@ function buildCrimeLocQuery(){
 		"0"+$( "#rangeInputMonth" ).slider( "values", 1 ) : 
 		$( "#rangeInputMonth" ).slider( "values", 1 );
 	
+/**
+Dynamic query for the heatmap
+**/
 	var query = sqlPrefixes + "\
 		SELECT ?crime ?lat ?lon\n\
 		WHERE { GRAPH <http://course.geoinfo2016.org/G3> {\n\
@@ -171,12 +178,6 @@ function buildCrimeIndexRateQuery(){
 	return query;
 }
 
-/*function needed to to processing on the receives Crime coordinates*/
-function coordinate(x, y) {
-	this.x = parseFloat(x);
-	this.y = y;
-}
-
 /*function needed to to processing on the receives Borough information*/
 function boroughObject(code, name, year, incomeVal, populationVal, crimeCountVal, crimeIndexRateVal) {
 	this.boroughCode = code;
@@ -186,6 +187,12 @@ function boroughObject(code, name, year, incomeVal, populationVal, crimeCountVal
 	this.population = populationVal;
 	this.crimeCount = crimeCountVal;
 	this.crimeIndexRate = crimeIndexRateVal;
+}
+
+/*For the heatmap, some processing has to be done on the received coordinates from parliament*/
+function coordinate(x, y) {
+	this.x = parseFloat(x);
+	this.y = y;
 }
 
 /*function to create the heatmap layer*/
@@ -249,7 +256,7 @@ function createCrimeIndexRateMap(JSONtext){
 		map.addLayer(boroughLayer);
 }
 
-/*If user presses Imprint Button with ID reqHeatmap, request is started)*/
+/*If user presses the button for the heatmap with (Button ID reqHeatmap), request is started)*/
 document.getElementById('reqHeatmap').onclick = function(){
 	console.log("Heat");
 	var async = true;
@@ -259,6 +266,7 @@ document.getElementById('reqHeatmap').onclick = function(){
 	askForData(buildCrimeLocQuery(), createHeatMap, async);
   };
 
+  /*If user presses the button for the Choropleth Crime Index Rate with (Button ID reqChoropleth), request is started)*/
 document.getElementById('reqChoropleth').onclick = function(){
 	console.log("Choropleth");
 	var async = false;
@@ -320,9 +328,6 @@ function askForData(query, processData, asynchronous) {
   /**
   Leaflet Map properties and functions
   **/
-
-
-
 var mbAttr = 'Map data &copy; <a href="http://openstreetmap.org">OpenStreetMap</a> contributors, ' +
 			'<a href="http://creativecommons.org/licenses/by-sa/2.0/">CC-BY-SA</a>, ' +
 			'Imagery © <a href="http://mapbox.com">Mapbox</a>',
