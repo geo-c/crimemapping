@@ -210,44 +210,46 @@
                     <option value='2013/2014'>2013/2014</option>
                 </select></div>
 
-            <!-- submit button -->
+            <!-- Submit button for loading the diagram -->
             <div style="left: 56.5vw; top: 1.75vw; position:absolute;">
                 <button id="submitButton" onclick="changeSession()">Load Diagram</button></div>
-		
-		<div class="loader" id="loaderDiagram" style="display:none;">
-		<img src = "loader/gears.gif" style="height: 3vw; width: 3vw;">
-		</div>
-		
-		<div id="ProgressBar" style="display:none;"><progress id="pBar"></progress></div>
-            <br>
+
+            <div class="loader" id="loaderDiagram" style="display:none;">
+                <img src = "loader/gears.gif" style="height: 3vw; width: 3vw;">
+		    </div>
+
+            <div id="ProgressBar" style="display:none;"><progress id="pBar"></progress></div><br>
         </div>
 
+        <!-- Div in that the diagram will be rendered -->
         <div id="barDiagram" style="padding-left: 2.5vw; padding-top: 2vw">
             <p>Please select the borough and crime type for which a diagram shall be shown. You can also choose the year. Please press the button to sumbit.</p>
         </div><br>
 	    
-	<!-- Income & population table -->    
+	    <!-- Income & population table -->
         <div id="TableContainer"></div>
         <div id="WikiLinkHolder"></div>		
     </section>
 
+    <!-- Map section -->
+    <section id="map"></section>
 
-    <section id="map">
-	</section>
  <!-- About window -->
- <div id="show" class="about_content">
-		<p id="a1"><center><b style="font-size: 150%;">About</b></center></p>
-		<p id="a2"><b>Welcome to Crime Mapper!</b>
-		<br>This application is intended to help Citizens, Tourists, Students and Researchers to get a better overview of the crimes in Greater London. There are two kinds of views, the map view and the diagram view. You can choose between the views using the controls on the left.
-		<br><br><b>Map View:</b><br>You can choose a time period and visualisation using the buttons provided and activate/deactivate the Crime Index layer or the Heat map using the controls provided on the right. To get the heat map, select the time period using the sliders and click <b>Heat Map</b>. To get the Cholopleth map of Crime index, select the year and click <b>Crime Rate Map</b>.
-		<br><br><b>Diagram View:</b><br>Please select the Borough, crime types and the year and click <b>Load Diagram</b>.
-		</p><br><br>
-		<table id="t1" style="width: 65vw; font-size:100%"><tr>
-		<td><i><u>Created by:</u><br>Nimrod Gavish, Antonia van Eek, Jeison Londoño <br> Mina Karamesouti, Sangeetha Shankar, Julius Wittkopp
-		<br>University of Muenster, Germany.</i></td>
-		<td><img src="crimePict1.jpg" style="margin: auto; height: 12vw; width: 25vw;"></td></tr></table><br>
+    <div id="show" class="about_content">
+        <p id="a1"><center><b style="font-size: 150%;">About</b></center></p>
+        <p id="a2"><b>Welcome to Crime Mapper!</b>
+            <br>This application is intended to help Citizens, Tourists, Students and Researchers to get a better overview of the crimes in Greater London. There are two kinds of views, the map view and the diagram view. You can choose between the views using the controls on the left.
+            <br><br><b>Map View:</b><br>You can choose a time period and visualisation using the buttons provided and activate/deactivate the Crime Index layer or the Heat map using the controls provided on the right. To get the heat map, select the time period using the sliders and click <b>Heat Map</b>. To get the Cholopleth map of Crime index, select the year and click <b>Crime Rate Map</b>.
+            <br><br><b>Diagram View:</b><br>Please select the Borough, crime types and the year and click <b>Load Diagram</b>.
+        </p><br><br>
+        <table id="t1" style="width: 65vw; font-size:100%"><tr>
+            <td><i><u>Created by:</u><br>Nimrod Gavish, Antonia van Eek, Jeison Londoño <br> Mina Karamesouti, Sangeetha Shankar, Julius Wittkopp
+                <br>University of Muenster, Germany.</i></td>
+            <td><img src="crimePict1.jpg" style="margin: auto; height: 12vw; width: 25vw;"></td></tr>
+        </table><br>
 
-	<center><button id="button1" a href="javascript:void(0)" onclick="document.getElementById('show').style.display='none';document.getElementById('close').style.display='none'">Close</button></center></div>
+        <center><button id="button1" a href="javascript:void(0)" onclick="document.getElementById('show').style.display='none';document.getElementById('close').style.display='none'">Close</button></center>
+    </div>
     <div id="close" class="invisible_overlay"></div>
 
 </body>
