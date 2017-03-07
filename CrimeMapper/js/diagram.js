@@ -94,6 +94,7 @@ PREFIX dc: <http://dublincore.org/documents/2012/06/14/dcmi-terms/?v=elements#>\
 // Build SPARQL query for receiving crime data for the selected borough, crime types and year
 function buildDiagramAll(boroughName, year){
     for(var i = 0; i < selectedCrimeType.length; i++) {
+	//increment the progress bar
         document.getElementById("pBar").value = document.getElementById("pBar").value + 1;
         if ( year == "2013" || year == "2014") {
             var query = sqlPrefixes + '\
@@ -133,7 +134,8 @@ function askForDiagramData(query) {
         /*Success*/
         success: function(data){
             //console.log(data);
-			document.getElementById("pBar").value = document.getElementById("pBar").value + 1;
+	    //increment the progress bar
+	    document.getElementById("pBar").value = document.getElementById("pBar").value + 1;
             document.getElementById("barDiagram").style.removeProperty('padding-left');
             document.getElementById("barDiagram").style.removeProperty('color');
 
@@ -261,6 +263,7 @@ function generateDiagram(data) {
         }
     });
 
+	//increment the progress bar
 	document.getElementById("pBar").value = document.getElementById("pBar").value + 1;
 
     //hide loader icon and progress bar once the diagram is completely loaded
