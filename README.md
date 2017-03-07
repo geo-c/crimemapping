@@ -1,4 +1,5 @@
 # Crime Mapping
+This is a web application that visualizes linked open data, retrieved from the [UK Police Data Website] (https://data.police.uk) and the [London Data Store] (https://data.london.gov.uk/). Please follow the instructions in the HTML (under 'About') for available features.  
 
 ## Run Local   
 To run the application locally, clone the library and setup Python Simple HTTP Server.
