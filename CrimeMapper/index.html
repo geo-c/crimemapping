@@ -134,7 +134,7 @@
 
     </header>
 
-    <!-- Borough Diagram --->
+    <!-- Borough Diagram -->
     <section id="diagramContainer">
         <div style="margin-top: 1.75vw; margin-left: 1vw; font-size: 100%; display: inline-block;">
             <!-- Borough selection -->
@@ -213,11 +213,13 @@
             <!-- Submit button for loading the diagram -->
             <div style="left: 56.5vw; top: 1.75vw; position:absolute;">
                 <button id="submitButton" onclick="changeSession()">Load Diagram</button></div>
-
+	
+	    <!-- Loader icon (appears when the 'Submit' button is clicked) -->
             <div class="loader" id="loaderDiagram" style="display:none;">
                 <img src = "loader/gears.gif" style="height: 3vw; width: 3vw;">
 		    </div>
-
+	    
+	    <!-- Progress Bar (appears when the 'Submit' button is clicked) -->
             <div id="ProgressBar" style="display:none;"><progress id="pBar"></progress></div><br>
         </div>
 
