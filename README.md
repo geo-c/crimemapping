@@ -1,5 +1,6 @@
 # Crime Mapping
 
+## Run Local   
 To run the application locally, clone the library and setup Python Simple HTTP Server.
 
 Using Windows Command line, navigate (using 'cd') to directory of files, then type in cmd:
@@ -8,11 +9,11 @@ Using Windows Command line, navigate (using 'cd') to directory of files, then ty
 
 Then navigate with your browser to: http://localhost:8000/
 
-# Setup on Web Server
+## Setup on Web Server
 
 Simply copy contents of the CrimeMapper folder on the web server and access the index.html 
 
-# License 
+## License 
 
 MIT License
 
