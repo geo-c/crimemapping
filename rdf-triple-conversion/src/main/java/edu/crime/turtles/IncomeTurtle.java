@@ -66,21 +66,33 @@ public class IncomeTurtle extends Turtle {
         return turtle;
     }
 
+    /**
+     * Create Income date triple
+     * */
     private String createIncomeDate(String key, String value) {
         String dateTurtle = this.getSyntaxis().get(key);
         return dateTurtle.replace("(YEAR)",value);
     }
 
+    /**
+     * Create Income value triple
+     * */
     private String createIncomeValue(String key, String value) {
         String dateTurtle = this.getSyntaxis().get(key);
         return dateTurtle.replace("(VALUE)",value);
     }
 
+    /**
+     * Create Income currency name triple
+     * */
     private String createIncomeNameCurrencyEN(String key, String value) {
         String dateTurtle = this.getSyntaxis().get(key);
         return dateTurtle.replace("(CURRENCY_NAME)",value);
     }
 
+    /**
+     * Create Income blank node ID
+     * */
     protected String createIDTurtle(String key, String value) {
         String idTurtle = this.getSyntaxis().get(key);
         idTurtle = idTurtle + "b" + value;

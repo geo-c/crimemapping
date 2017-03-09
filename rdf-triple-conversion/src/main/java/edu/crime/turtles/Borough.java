@@ -68,6 +68,9 @@ public class Borough extends Turtle {
         return turtle;
     }
 
+    /**
+     * Create the income blank node for the borough per year
+     * */
     private String createIncomeTurtle(String key, String value) throws RDFTurtleCreatorException {
         IncomeTurtle incomeTurtle = new IncomeTurtle();
         String[] incomeData = new String[4];
@@ -83,6 +86,9 @@ public class Borough extends Turtle {
         return "_:b" + incomeID;
     }
 
+    /**
+     * Create the population blank node for the borough per year
+     * */
     private String createPopulationTurtle(String key, String value) throws RDFTurtleCreatorException {
         PopulationTurtle populationTurtle = new PopulationTurtle();
         String[] populationData = new String[3];
@@ -173,6 +179,9 @@ public class Borough extends Turtle {
         return turtle;
     }
 
+    /**
+     * add all yearly income to the Boruogh triple.
+     * */
     private String addIncomeTurtles(String turtle) {
         for (String incomeTurtle :
                 this.incomeTurtles) {
@@ -183,6 +192,9 @@ public class Borough extends Turtle {
         return turtle;
     }
 
+    /**
+     * add all yearly population to the Boruogh triple.
+     * */
     private String addPopulationTurtles(String turtle) {
         for (String populationTurtle :
                 this.populationTurtles) {

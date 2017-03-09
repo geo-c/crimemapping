@@ -126,6 +126,15 @@ public class Crime extends Turtle {
         return turtle;
     }
 
+    @Override
+    public boolean evaluateRow(String[] rowEntry) throws RDFFormatException {
+        return super.evaluateRow(rowEntry);
+    }
+
+
+    /**
+     * Create the Reported By triple
+     * */
     private String createCrimeReportedBy(String key, String value) throws RDFTurtleCreatorException {
         String reportedByTurtle = this.getSyntaxis().get(key);
         try{
@@ -154,6 +163,9 @@ public class Crime extends Turtle {
         return reportedByTurtle;
     }
 
+    /**
+     * Create the DBPedia borough triple
+     * */
     private String createCrimeDBPediaBorough(String key, String value) {
         String turtle;
         turtle = this.getSyntaxis().get(key);
@@ -161,6 +173,9 @@ public class Crime extends Turtle {
         return turtle;
     }
 
+    /**
+     * Create the crime type triple
+     * */
     private String createCrimeTypeTurtle(String key, String value) {
         if(value == null || "".equals(value.trim())){
             return "crime:NOT_DEFINED";
@@ -178,6 +193,9 @@ public class Crime extends Turtle {
         return crimeTypeTurtle[0];
     }
 
+    /**
+     * Create the time blank node for the crime turtle
+     * */
     private String createTimeTurtle(String key, String value) throws RDFTurtleCreatorException {
         SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd");
         GregorianCalendar calendar = new GregorianCalendar();

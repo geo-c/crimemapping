@@ -19,10 +19,16 @@ public class RDFConverter<T extends Turtle>{
 
     private long MEGA_BYTES_LIMIT_SIZE = 30*1024*1024;
 
+    /**
+     * Constructor receiving the root turtle
+     * */
     public RDFConverter(Class<T> clazz) {
         this.clazz = clazz;
     }
 
+    /**
+     * Path for the CSV file to be converted to RDF Turtles
+     * */
     public void readFiles(String folderLocation) {
         this.folderLocation = folderLocation;
 
@@ -31,14 +37,25 @@ public class RDFConverter<T extends Turtle>{
         files = localDir.listFiles((dir, filename) -> filename.endsWith(".csv"));
     }
 
+    /**
+     * Return the CSV file collection into a folder to be converted to RDF Turtles
+     * */
     public File[] getFiles() {
         return files;
     }
 
+    /**
+     * Spit every entry into several columns, each turtle definition has a column limit restriction
+     * */
     public String[] splitRowEntry(String rowEntry) {
         return rowEntry.split(EXPRESSION_CVS_SPLITTER, -1);
     }
 
+    /**
+     * This method take the CSV file, use a buffer reader to read every entry of the file
+     * and create segmented TTL files, and create an instance of the root Turtle that contains the appropiate syntaxes
+     *
+     * */
     synchronized public void convertCVSToTTL(File csvFile, int indexFile) throws RDFConverterException {
 
         BufferedReader br = null;
@@ -69,6 +86,10 @@ public class RDFConverter<T extends Turtle>{
         }
     }
 
+    /**
+     * Given a series of entries this method create segmented TTL files, once the maximum per file is reach,
+     * the method create a new TTL file until complete the total entries of the CSV file
+     * */
     private void createSegmentedTTLFile(T turtleDefinition, File csvFile, BufferedReader br, int filesCounter, int rowEntryNumber) throws RDFConverterException {
         FileOutputStream fos = null;
         String ttlPath = getTTLFileName(csvFile.getName(), filesCounter);
@@ -123,10 +144,16 @@ public class RDFConverter<T extends Turtle>{
         }
     }
 
+    /**
+     * this method create the new TTL file name given the CSV file name and the segmented file counter
+     * */
     private String getTTLFileName(String csvFileName, int filesCounter) {
         return folderLocation + csvFileName + filesCounter +".ttl";
     }
 
+    /**
+     * Create the TTL head, this is common for all crime turtles
+     * */
     public String createTTLHeader() {
         StringBuffer ttlHeader = new StringBuffer();
         ttlHeader.append("@prefix crime: <http://course.geoinfo2016.org/G3/>.\n");
@@ -156,6 +183,9 @@ public class RDFConverter<T extends Turtle>{
         }
     }
 
+    /**
+     * Create the new instance of the turtle definition object
+     * */
     public T createTurtleDefinition() throws RDFTurtleCreatorException {
         //Class<T> clazz = (Class<T>) (getClass().getTypeParameters()[0].getBounds()[0]);
         //TurtleFactory turtleFactory = TurtleInjector.getInstance().getInjector().getInstance(TurtleFactory.class);
@@ -168,6 +198,9 @@ public class RDFConverter<T extends Turtle>{
         }
     }
 
+    /**
+     * Create all the crime types, this is necessary for every crime TTL file
+     * */
     public String createCrimeTypes() {
         StringBuffer crimeTypes = new StringBuffer();
         crimeTypes.append("crime:TheftFromThePerson rdfs:subClassOf crime:Crime.\n");
@@ -189,6 +222,9 @@ public class RDFConverter<T extends Turtle>{
         return crimeTypes.toString();
     }
 
+    /**
+     * Create the Crime class as a subclass of rdfs:class, necessary once per Crime TTL File
+     * */
     public String createCrimeClasses() {
         StringBuffer crimeClasses =  new StringBuffer();
         crimeClasses.append("crime:Crime rdfs:subClassOf rdfs:Class.");

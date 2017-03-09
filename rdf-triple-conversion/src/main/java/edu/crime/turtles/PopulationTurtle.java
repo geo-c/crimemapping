@@ -62,17 +62,26 @@ public class PopulationTurtle extends Turtle {
         return turtle;
     }
 
+    /**
+     * Create Population blank node ID
+     * */
     protected String createIDTurtle(String key, String value) {
         String idTurtle = this.getSyntaxis().get(key);
         idTurtle = idTurtle + "p" + value;
         return idTurtle;
     }
 
+    /**
+     * Create Population date triple
+     * */
     private String createPopulationDateTriple(String key, String value) {
         String dateTurtle = this.getSyntaxis().get(key);
         return dateTurtle.replace("(YEAR)",value);
     }
 
+    /**
+     * Create Population value triple
+     * */
     private String createPopulationValueTriple(String key, String value) {
         String dateTurtle = this.getSyntaxis().get(key);
         return dateTurtle.replace("(VALUE)",value);

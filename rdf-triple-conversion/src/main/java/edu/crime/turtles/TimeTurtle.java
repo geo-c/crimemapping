@@ -56,6 +56,9 @@ public class TimeTurtle extends Turtle {
         return turtle;
     }
 
+    /**
+     * Create Time value triple
+     * */
     private String createTimeTurtle(String key, String value) {
         String dateTurtle = this.getSyntaxis().get(key);
         dateTurtle = dateTurtle.replace("(MONTH)", value)

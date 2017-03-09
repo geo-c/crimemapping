@@ -178,7 +178,7 @@ function buildCrimeIndexRateQuery(){
 	return query;
 }
 
-/*function needed to to processing on the receives Borough information*/
+/*Borough Object to to processing on the receives Borough information*/
 function boroughObject(code, name, year, incomeVal, populationVal, crimeCountVal, crimeIndexRateVal) {
 	this.boroughCode = code;
 	this.boroughDBPediaName = name;
@@ -217,7 +217,10 @@ function replaceAll(str, find, replace) {
 	return str.replace(new RegExp(find, 'g'), replace);
 }
 
-/*function to create the Crime Index Rate layer*/
+/*function to create the Crime Index Rate layer,
+	iterate the json data result and create new BoroughtObject per json entry,
+	also identifies the highest crime rate in order to define the choropleth max value scale
+*/
 function createCrimeIndexRateMap(JSONtext){
 		crimeIndexRateMap = new Object();
 		
@@ -241,6 +244,7 @@ function createCrimeIndexRateMap(JSONtext){
 			
 			var borough = new boroughObject(boroughCode, boroughDBPediaName, year, income, population, crimeCount, crimeIndexRate);
 			
+			/*transform the borough name to a readable one*/
 			var shortName = replaceAll(borough.boroughDBPediaName,"http://dbpedia.org/page/","");
 			shortName = replaceAll(shortName,"London_Borough_of_","");
 			shortName = replaceAll(shortName,"Royal_Borough_of_","");
@@ -288,9 +292,9 @@ function buildChoroplethQuery(){
 	return query;
 }
 /**
-Function for receiving the data from parliament.
+Abstract function for receiving the data from parliament.
 Function askForData needs a query and safes the received data is JSONtext variable.
-On  .done   the function calls for other functions needing the JSONtext. Such as the heatmap
+On  .done   the function calls for other functions needing the JSONtext. Such as the heatmap or chropleth (crime rate) map
 **/
   
 
@@ -378,6 +382,9 @@ function getColor(crimeIndexRate) {
 					  '#ffffb2';
 }
 
+/**
+Determine color of borough polygon according to highest crime rate
+*/
 function getColorCrimeRateIndex(crimeIndexRate) {
 	
 	grades = getChoroplethGrades();
@@ -485,6 +492,9 @@ var legend = L.control({position: 'bottomright'});
 	return div;
 }; */
 
+/**
+Determine choroplet intervals given the highest crime rate
+*/
 function getChoroplethGrades(){
 	var amountOfBoroughs = 33;
 	var amountOfGrades = 8;
@@ -497,6 +507,10 @@ function getChoroplethGrades(){
 	
 	return grades;
 }
+
+/**
+Create the color scale of borough polygon, it's predefined by a maximum of 8 colors
+*/
 function getChoroplethColors(length){
 	/* return d3.scaleThreshold()
 		.domain(d3.range(0, length))
@@ -509,6 +523,7 @@ function getChoroplethColors(length){
 	return colors;
 }
 
+/*This function add the crime rate leyend to the map*/
 legend.onAdd = function () {
 	var div = L.DomUtil.create('Choropleth', 'Choropleth legend');
 
@@ -528,7 +543,7 @@ legend.onAdd = function () {
 };
 
 
-// method used to update the control based on feature properties passed
+// this function displays the Borough Information popup in the map, once the user hover a borough polygon this method update the appropiate information of the borough hoovered
 info.update = function (props) {
 	this._div.innerHTML = '<h4>Borough Information</h4>' +  (props ?
 		'<b>' + props.name + '</b><br />' +
@@ -562,6 +577,7 @@ var layercontrol = L.control.layers(baseLayers, overlays,{collapsed:false}).addT
 
 var defaultBorough = LoadGeoJSON("data/london_boroughs.geojson")
 
+/*function that high light the borough polygon */
 function highlightDefaultFeature(e){
 	var layer = e.target;
 	info.update(layer.feature.properties);
@@ -578,12 +594,14 @@ function highlightDefaultFeature(e){
 	}
 }
 
+/*function that reset the high light of the borough polygon */
 function resetDefaultHighlight(e) {
 	var layer = e.target;
 	defaultBoroughLayer.resetStyle(layer);
 	info.update();
 }
 
+/*add the mouseover, mouseout and click to the borough polygons */
 function onEachFeatureDefaultBorouth(feature, layer) {
 	layer.on({
 		mouseover: highlightDefaultFeature,
@@ -592,6 +610,7 @@ function onEachFeatureDefaultBorouth(feature, layer) {
 	});
 }
 
+/*This function defines the default borough layer*/
 var defaultBoroughLayer = L.geoJson(defaultBorough, {
 	style: {
 		color: '#666',
@@ -601,6 +620,7 @@ var defaultBoroughLayer = L.geoJson(defaultBorough, {
 	onEachFeature: onEachFeatureDefaultBorouth
 }).addTo(map);
 
+/*This function controls if it's necessart display the chropleth legend over the map*/
 map.on('overlayadd', function(eo) {	
     if (eo.name === 'Crime Rate'){
         map.removeControl(legend);
@@ -608,6 +628,7 @@ map.on('overlayadd', function(eo) {
     } 
 });
 	
+/*This function controls if it's necessary hide the chropleth legend over the map*/
 map.on('overlayremove', function(eo) {
 	if (eo.name === 'Crime Rate'){
 		map.removeControl(legend);
